@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FedePictures</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Quicksand&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -54,6 +55,13 @@
       background: linear-gradient(90deg, var(--rosa), var(--celeste));
       text-align: center;
       padding: 3em 1em;
+      position: relative;
+    }
+
+    .hero img {
+      max-width: 300px;
+      border-radius: 20px;
+      margin-bottom: 1em;
     }
 
     .hero h2 {
@@ -104,6 +112,30 @@
       text-align: center;
     }
 
+    .gallery {
+      background: var(--rosa);
+      padding: 2em 0;
+      text-align: center;
+    }
+
+    .gallery h3 {
+      font-size: 1.8em;
+      margin-bottom: 1em;
+    }
+
+    .gallery-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 1em;
+      padding: 0 1em;
+    }
+
+    .gallery-scroll img {
+      max-height: 200px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
     footer {
       background: var(--rosa);
       text-align: center;
@@ -122,44 +154,55 @@
     </nav>
   </header>
 
-  <section class="hero">
-    <h2>Disegni su misura, per emozioni uniche</h2>
-    <p>Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!</p>
+  <section class="hero" id="hero">
+    <img src="hero-placeholder.jpg" alt="Hero Image">
+    <h2 id="hero-title">Disegni su misura, per emozioni uniche</h2>
+    <p id="hero-text">Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!</p>
   </section>
 
   <section class="section" id="chi">
-    <h3>Chi sono</h3>
-    <p style="max-width: 800px; margin: 0 auto; text-align: center;">
+    <h3 id="bio-title">Chi sono</h3>
+    <p id="bio-text" style="max-width: 800px; margin: 0 auto; text-align: center;">
       Mi chiamo Federica e disegno da quando ero bambina. Il mio percorso artistico è iniziato tra quaderni pieni di schizzi e sogni a colori, ed è cresciuto grazie agli studi alla Scuola Internazionale di Comics di Asti.
       Oggi lavoro nel mondo del 3D, ma la matita è sempre rimasta tra le dita: disegnare è il mio modo di raccontare storie, emozioni e mondi immaginari.
     </p>
   </section>
 
   <section class="section" id="categorie">
-    <h3>Cosa faccio</h3>
+    <h3 id="work-title">Cosa faccio</h3>
     <div class="card-container">
       <div class="card">
         <img src="placeholder.jpg" alt="Ritratti">
-        <h4>Ritratti</h4>
-        <p>Ritratti personalizzati a partire da foto, ideali per regali o ricordi speciali.</p>
+        <h4 id="cat1-title">Ritratti</h4>
+        <p id="cat1-text">Ritratti personalizzati a partire da foto, ideali per regali o ricordi speciali.</p>
       </div>
       <div class="card">
         <img src="placeholder.jpg" alt="Disegni digitali">
-        <h4>Disegni al PC</h4>
-        <p>Illustrazioni realizzate digitalmente, perfette per social, stampe o regali creativi.</p>
+        <h4 id="cat2-title">Disegni al PC</h4>
+        <p id="cat2-text">Illustrazioni realizzate digitalmente, perfette per social, stampe o regali creativi.</p>
       </div>
       <div class="card">
         <img src="placeholder.jpg" alt="Murales">
-        <h4>Disegni sui muri</h4>
-        <p>Decora pareti con illustrazioni artistiche, perfette per camerette o locali.</p>
+        <h4 id="cat3-title">Disegni sui muri</h4>
+        <p id="cat3-text">Decora pareti con illustrazioni artistiche, perfette per camerette o locali.</p>
       </div>
     </div>
   </section>
 
   <section class="contact" id="contatti">
-    <h3>Contattami</h3>
+    <h3 id="contact-title">Contattami</h3>
     <p>Email: fedestanc.3Danimator@libero.it</p>
     <p>Instagram: <a href="https://www.instagram.com/fedepictures90" target="_blank">@fedepictures90</a></p>
+  </section>
+
+  <section class="gallery">
+    <h3>Gallery</h3>
+    <div class="gallery-scroll">
+      <img src="gallery1.jpg" alt="Artwork 1">
+      <img src="gallery2.jpg" alt="Artwork 2">
+      <img src="gallery3.jpg" alt="Artwork 3">
+      <img src="gallery4.jpg" alt="Artwork 4">
+    </div>
   </section>
 
   <footer>
@@ -167,8 +210,47 @@
   </footer>
 
   <script>
+    const translations = {
+      en: {
+        'hero-title': 'Custom drawings for unique emotions',
+        'hero-text': 'Portraits, custom digital illustrations, and wall art made with love and style!',
+        'bio-title': 'About Me',
+        'bio-text': "My name is Federica and I've been drawing since I was a child. My artistic journey began with sketch-filled notebooks and colorful dreams, and grew through my studies at the International School of Comics in Asti. Today I work in the 3D world, but the pencil has always stayed in my hand: drawing is how I tell stories, emotions, and imaginary worlds.",
+        'work-title': 'What I Do',
+        'cat1-title': 'Portraits',
+        'cat1-text': 'Custom portraits from photos, ideal for gifts or special memories.',
+        'cat2-title': 'Digital Drawings',
+        'cat2-text': 'Digitally created illustrations, perfect for social media, prints, or creative gifts.',
+        'cat3-title': 'Wall Drawings',
+        'cat3-text': 'Decorate walls with artistic illustrations, perfect for kids’ rooms or shops.',
+        'contact-title': 'Contact Me'
+      },
+      it: {
+        'hero-title': 'Disegni su misura, per emozioni uniche',
+        'hero-text': 'Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!',
+        'bio-title': 'Chi sono',
+        'bio-text': 'Mi chiamo Federica e disegno da quando ero bambina. Il mio percorso artistico è iniziato tra quaderni pieni di schizzi e sogni a colori, ed è cresciuto grazie agli studi alla Scuola Internazionale di Comics di Asti.\nOggi lavoro nel mondo del 3D, ma la matita è sempre rimasta tra le dita: disegnare è il mio modo di raccontare storie, emozioni e mondi immaginari.',
+        'work-title': 'Cosa faccio',
+        'cat1-title': 'Ritratti',
+        'cat1-text': 'Ritratti personalizzati a partire da foto, ideali per regali o ricordi speciali.',
+        'cat2-title': 'Disegni al PC',
+        'cat2-text': 'Illustrazioni realizzate digitalmente, perfette per social, stampe o regali creativi.',
+        'cat3-title': 'Disegni sui muri',
+        'cat3-text': 'Decora pareti con illustrazioni artistiche, perfette per camerette o locali.',
+        'contact-title': 'Contattami'
+      }
+    };
+
+    let currentLang = 'it';
+
     function toggleLang() {
-      alert("Funzione lingua non ancora implementata. Versione EN in arrivo!");
+      currentLang = currentLang === 'it' ? 'en' : 'it';
+      const texts = translations[currentLang];
+      for (const id in texts) {
+        const el = document.getElementById(id);
+        if (el) el.innerText = texts[id];
+      }
+      document.querySelector('.lang-switcher').innerText = currentLang === 'it' ? 'EN' : 'IT';
     }
   </script>
 </body>
