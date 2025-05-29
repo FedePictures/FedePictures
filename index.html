@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FedePictures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Quicksand&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rosa: #ffc0cb;
+      --celeste: #b2eaff;
+      --viola: #d2b4f2;
+      --scuro: #333;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #fff;
+      color: var(--scuro);
+    }
+
+    header {
+      background-color: var(--celeste);
+      padding: 1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 2em;
+      margin: 0;
+    }
+
+    nav a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: var(--scuro);
+      font-weight: bold;
+    }
+
+    .lang-switcher {
+      background: var(--viola);
+      border: none;
+      color: white;
+      padding: 0.3em 1em;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .hero {
+      background: linear-gradient(90deg, var(--rosa), var(--celeste));
+      text-align: center;
+      padding: 3em 1em;
+    }
+
+    .hero h2 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+
+    .hero p {
+      font-size: 1.2em;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 2em;
+    }
+
+    .section h3 {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 1em;
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: var(--viola);
+      color: white;
+      width: 250px;
+      margin: 1em;
+      padding: 1em;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .card img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    .contact {
+      background: var(--celeste);
+      padding: 2em;
+      text-align: center;
+    }
+
+    footer {
+      background: var(--rosa);
+      text-align: center;
+      padding: 1em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>FedePictures</h1>
+    <nav>
+      <a href="#chi">Chi sono</a>
+      <a href="#categorie">Categorie</a>
+      <a href="#contatti">Contatti</a>
+      <button class="lang-switcher" onclick="toggleLang()">EN</button>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Disegni su misura, per emozioni uniche</h2>
+    <p>Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!</p>
+  </section>
+
+  <section class="section" id="chi">
+    <h3>Chi sono</h3>
+    <p style="max-width: 800px; margin: 0 auto; text-align: center;">
+      Mi chiamo Federica e disegno da quando ero bambina. Il mio percorso artistico è iniziato tra quaderni pieni di schizzi e sogni a colori, ed è cresciuto grazie agli studi alla Scuola Internazionale di Comics di Asti.
+      Oggi lavoro nel mondo del 3D, ma la matita è sempre rimasta tra le dita: disegnare è il mio modo di raccontare storie, emozioni e mondi immaginari.
+    </p>
+  </section>
+
+  <section class="section" id="categorie">
+    <h3>Cosa faccio</h3>
+    <div class="card-container">
+      <div class="card">
+        <img src="placeholder.jpg" alt="Ritratti">
+        <h4>Ritratti</h4>
+        <p>Ritratti personalizzati a partire da foto, ideali per regali o ricordi speciali.</p>
+      </div>
+      <div class="card">
+        <img src="placeholder.jpg" alt="Disegni digitali">
+        <h4>Disegni al PC</h4>
+        <p>Illustrazioni realizzate digitalmente, perfette per social, stampe o regali creativi.</p>
+      </div>
+      <div class="card">
+        <img src="placeholder.jpg" alt="Murales">
+        <h4>Disegni sui muri</h4>
+        <p>Decora pareti con illustrazioni artistiche, perfette per camerette o locali.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contatti">
+    <h3>Contattami</h3>
+    <p>Email: fedestanc.3Danimator@libero.it</p>
+    <p>Instagram: <a href="https://www.instagram.com/fedepictures90" target="_blank">@fedepictures90</a></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 FedePictures. Tutti i diritti riservati.</p>
+  </footer>
+
+  <script>
+    function toggleLang() {
+      alert("Funzione lingua non ancora implementata. Versione EN in arrivo!");
+    }
+  </script>
+</body>
+</html>
