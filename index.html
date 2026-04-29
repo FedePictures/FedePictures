@@ -34,25 +34,35 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Piccola ombra sotto l'header */
     }
 
-   /* --- STILI PER IL LOGO NUOVO --- */
+/* --- NUOVO STILE LOGO IN SOVRAPPOSIZIONE --- */
 .logo-link {
   text-decoration: none;
-  display: flex;
-  align-items: center;
+  display: block; /* Cambiato da flex a block */
+  position: relative; /* Necessario per il posizionamento assoluto del figlio */
 }
 
 .main-logo {
-  height: 60px; /* Altezza del logo. Puoi aumentarla o diminuirla */
-  width: auto;  /* Mantiene le proporzioni */
   display: block;
-  transition: transform 0.3s ease; /* Effetto al passaggio del mouse */
+  
+  /* DIMENSIONI: Qui decidi quanto deve essere grande */
+  height: 120px; /* Alza questo valore per ingrandirlo (prima era 60px) */
+  width: auto;   /* Mantiene le proporzioni */
+
+  /* POSIZIONAMENTO: Lo togliamo dal flusso normale e lo posizioniamo */
+  position: absolute; 
+  top: -10px;    /* Lo sposta leggermente in alto rispetto all'header, opzionale */
+  left: 0;       /* Lo allinea a sinistra */
+
+  /* Z-INDEX: Fondamentale per farlo stare SOPRA a tutto */
+  z-index: 10;   /* Numero alto per stare sopra video, testi, etc. */
+
+  transition: transform 0.3s ease;
 }
 
 .main-logo:hover {
-  transform: scale(1.05); /* Si ingrandisce leggermente */
+  transform: scale(1.05) rotate(-3deg); /* Effetto hover più artistico */
 }
-/* --------------------------------- */
-
+/* ------------------------------------------- */
     nav a {
       margin: 0 1em;
       text-decoration: none;
