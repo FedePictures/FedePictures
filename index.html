@@ -24,45 +24,41 @@
 
     header {
       background-color: var(--celeste);
-      padding: 0.8em 1em; /* Ridotto leggermente il padding per il logo */
+      padding: 0.8em 2em;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Piccola ombra sotto l'header */
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 60px; /* Altezza fissa header */
     }
 
-/* --- NUOVO STILE LOGO IN SOVRAPPOSIZIONE --- */
-.logo-link {
-  text-decoration: none;
-  display: block; /* Cambiato da flex a block */
-  position: relative; /* Necessario per il posizionamento assoluto del figlio */
-}
+    /* --- LOGO IN SOVRAPPOSIZIONE --- */
+    .logo-link {
+      text-decoration: none;
+      display: block;
+      position: relative;
+      width: 150px; 
+    }
 
-.main-logo {
-  display: block;
-  
-  /* DIMENSIONI: Qui decidi quanto deve essere grande */
-  height: 120px; /* Alza questo valore per ingrandirlo (prima era 60px) */
-  width: auto;   /* Mantiene le proporzioni */
+    .main-logo {
+      display: block;
+      height: 130px; /* Logo grande */
+      width: auto;
+      position: absolute;
+      top: -15px; /* Sbordamento superiore */
+      left: 0;
+      z-index: 1010;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
 
-  /* POSIZIONAMENTO: Lo togliamo dal flusso normale e lo posizioniamo */
-  position: absolute; 
-  top: -10px;    /* Lo sposta leggermente in alto rispetto all'header, opzionale */
-  left: 0;       /* Lo allinea a sinistra */
+    .main-logo:hover {
+      transform: scale(1.05) rotate(-3deg);
+    }
 
-  /* Z-INDEX: Fondamentale per farlo stare SOPRA a tutto */
-  z-index: 10;   /* Numero alto per stare sopra video, testi, etc. */
-
-  transition: transform 0.3s ease;
-}
-
-.main-logo:hover {
-  transform: scale(1.05) rotate(-3deg); /* Effetto hover più artistico */
-}
-/* ------------------------------------------- */
     nav a {
       margin: 0 1em;
       text-decoration: none;
@@ -83,16 +79,16 @@
     .hero {
       background: linear-gradient(90deg, var(--rosa), var(--celeste));
       text-align: center;
-      padding: 4em 1em;
+      padding: 6em 1em 4em 1em; /* Più padding sopra per il logo grande */
     }
 
     .video-container {
-      max-width: 700px;
+      max-width: 750px;
       margin: 0 auto 2em auto;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      background: #eee;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      background: #000;
       aspect-ratio: 16 / 9;
     }
 
@@ -102,26 +98,11 @@
       border: none;
     }
 
-    .hero h2 {
-      font-size: 2.2em;
-      margin-bottom: 0.5em;
-    }
+    .hero h2 { font-size: 2.2em; margin-bottom: 0.5em; }
+    .hero p { font-size: 1.2em; max-width: 600px; margin: 0 auto; }
 
-    .hero p {
-      font-size: 1.2em;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .section {
-      padding: 4em 2em;
-    }
-
-    .section h3 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 1.5em;
-    }
+    .section { padding: 4em 2em; }
+    .section h3 { text-align: center; font-size: 2em; margin-bottom: 1.5em; }
 
     .card-container {
       display: flex;
@@ -140,32 +121,17 @@
       transition: transform 0.3s ease;
     }
 
-    .card:hover {
-      transform: translateY(-10px);
-    }
+    .card:hover { transform: translateY(-10px); }
+    .card img { max-width: 80px; margin-bottom: 1em; }
 
-    .card img {
-      max-width: 80px;
-      margin-bottom: 1em;
-    }
-
-    .contact {
-      background: var(--celeste);
-      padding: 3em;
-      text-align: center;
-    }
-
-    .gallery {
-      background: var(--rosa);
-      padding: 3em 0;
-      text-align: center;
-    }
+    /* --- GALLERY & LIGHTBOX --- */
+    .gallery { background: var(--rosa); padding: 3em 0; text-align: center; }
 
     .gallery-scroll {
       display: flex;
       overflow-x: auto;
-      gap: 1em;
-      padding: 1em;
+      gap: 1.5em;
+      padding: 2em;
       scrollbar-width: thin;
     }
 
@@ -173,23 +139,48 @@
       max-height: 250px;
       border-radius: 15px;
       flex-shrink: 0;
+      cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
     }
 
-    footer {
-      background: var(--scuro);
-      color: white;
-      text-align: center;
-      padding: 1.5em;
+    .gallery-scroll img:hover { transform: scale(1.05); }
+
+    /* Lightbox (lo sfondo scuro) */
+    #lightbox {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      cursor: zoom-out;
     }
 
-    footer p { margin: 0; }
+    #lightbox-img {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      transform: scale(0.8);
+      animation: zoomIn 0.3s forwards;
+    }
+
+    @keyframes zoomIn { to { transform: scale(1); } }
+
+    .contact { background: var(--celeste); padding: 3em; text-align: center; }
+    footer { background: var(--scuro); color: white; text-align: center; padding: 1.5em; }
 
     @media (max-width: 768px) {
-      header { flex-direction: column; gap: 15px; padding: 1em; }
+      header { flex-direction: column; height: auto; padding: 1em; }
+      .main-logo { height: 80px; position: relative; top: 0; }
+      .logo-link { width: auto; margin-bottom: 10px; }
       nav { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
       nav a { margin: 0 0.5em; font-size: 0.9em; }
-      .main-logo { height: 50px; } /* Logo leggermente più piccolo su mobile */
     }
   </style>
 </head>
@@ -216,7 +207,6 @@
         allowfullscreen>
       </iframe>
     </div>
-    
     <h2 id="hero-title">Disegni su misura, per emozioni uniche</h2>
     <p id="hero-text">Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!</p>
   </section>
@@ -224,8 +214,7 @@
   <section class="section" id="chi">
     <h3 id="bio-title">Chi sono</h3>
     <p id="bio-text" style="max-width: 800px; margin: 0 auto; text-align: center; line-height: 1.6;">
-      Mi chiamo Federica e disegno da quando ero bambina. Il mio percorso artistico è iniziato tra quaderni pieni di schizzi e sogni a colori, ed è cresciuto grazie agli studi alla Scuola Internazionale di Comics di Asti. 
-      Oggi lavoro nel mondo del 3D, ma la matita è sempre rimasta tra le dita: disegnare è il mio modo di raccontare storie, emozioni e mondi immaginari.
+      Mi chiamo Federica e disegno da quando ero bambina. Il mio percorso artistico è iniziato tra quaderni pieni di schizzi e sogni a colori, ed è cresciuto grazie agli studi alla Scuola Internazionale di Comics di Asti.
     </p>
   </section>
 
@@ -255,15 +244,9 @@
       <div class="card">
         <img src="ico_palline.png" alt="Palline di Natale">
         <h4 id="cat4-title">Palline di Natale</h4>
-        <p id="cat4-text">Decorazioni natalizie dipinte a mano, perfette per rendere unico il tuo albero o per un regalo originale.</p>
+        <p id="cat4-text">Decorazioni natalizie dipinte a mano, perfette per il tuo albero.</p>
       </div>
     </div>
-  </section>
-
-  <section class="contact" id="contatti">
-    <h3 id="contact-title">Contattami</h3>
-    <p>Email: <a href="mailto:fedepictures@libero.it">fedestanc.3Danimator@libero.it</a></p>
-    <p>Instagram: <a href="https://www.instagram.com/fedepictures90" target="_blank">@fedepictures90</a></p>
   </section>
 
   <section class="gallery">
@@ -284,52 +267,53 @@
       <img src="gallery10.jpg" alt="Artwork 10">
       <img src="gallery12.jpg" alt="Artwork 12">
       <img src="gallery14.jpg" alt="Artwork 14">
-     
     </div>
+  </section>
+
+  <section class="contact" id="contatti">
+    <h3 id="contact-title">Contattami</h3>
+    <p>Email: <a href="mailto:fedepictures@libero.it">fedepictures@libero.it</a></p>
+    <p>Instagram: <a href="https://www.instagram.com/fedepictures90" target="_blank">@fedepictures90</a></p>
   </section>
 
   <footer>
     <p>&copy; 2026 FedePictures. Tutti i diritti riservati.</p>
   </footer>
 
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="Ingrandimento">
+  </div>
+
   <script>
+    // GESTIONE LIGHTBOX
+    document.querySelectorAll('.gallery-scroll img').forEach(image => {
+      image.onclick = () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        lightbox.style.display = 'flex';
+        lightboxImg.src = image.src;
+      };
+    });
+
+    // FUNZIONI LINGUA
     const translations = {
       en: {
         'hero-title': 'Custom drawings for unique emotions',
         'hero-text': 'Portraits, custom digital illustrations, and wall art made with love and style!',
         'bio-title': 'About Me',
-        'bio-text': "My name is Federica and I've been drawing since I was a child. My artistic journey began with sketch-filled notebooks and colorful dreams, and grew through my studies at the International School of Comics in Asti. Today I work in the 3D world, but the pencil has always stayed in my hand: drawing is how I tell stories, emotions, and imaginary worlds.",
         'work-title': 'What I Do',
-        'cat1-title': 'Portraits',
-        'cat1-text': 'Custom portraits from photos, ideal for gifts or special memories.',
-        'cat2-title': 'Digital Drawings',
-        'cat2-text': 'Digitally created illustrations, perfect for social media, prints, or creative gifts.',
-        'cat3-title': 'Wall Drawings',
-        'cat3-text': 'Decorate walls with artistic illustrations, perfect for kids’ rooms or shops.',
-        'cat4-title': 'Christmas Baubles',
-        'cat4-text': 'Hand-painted Christmas decorations, perfect to make your tree unique or as an original gift.',
         'contact-title': 'Contact Me'
       },
       it: {
         'hero-title': 'Disegni su misura, per emozioni uniche',
         'hero-text': 'Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!',
         'bio-title': 'Chi sono',
-        'bio-text': 'Mi chiamo Federica e disegno da quando ero bambina. Il mio percorso artistico è iniziato tra quaderni pieni di schizzi e sogni a colori, ed è cresciuto grazie agli studi alla Scuola Internazionale di Comics di Asti. Oggi lavoro nel mondo del 3D, ma la matita è sempre rimasta tra le dita: disegnare è il mio modo di raccontare storie, emozioni e mondi immaginari.',
         'work-title': 'Cosa faccio',
-        'cat1-title': 'Ritratti',
-        'cat1-text': 'Ritratti personalizzati a partire da foto, ideali per regali o ricordi speciali.',
-        'cat2-title': 'Disegni al PC',
-        'cat2-text': 'Illustrazioni realizzate digitalmente, perfette per social, stampe o regali creativi.',
-        'cat3-title': 'Disegni sui muri',
-        'cat3-text': 'Decora pareti con illustrazioni artistiche, perfette per camerette o locales.',
-        'cat4-title': 'Palline di Natale',
-        'cat4-text': 'Decorazioni natalizie dipinte a mano, perfette per rendere unico il tuo albero o per un regalo originale.',
         'contact-title': 'Contattami'
       }
     };
 
     let currentLang = 'it';
-
     function toggleLang() {
       currentLang = currentLang === 'it' ? 'en' : 'it';
       const texts = translations[currentLang];
