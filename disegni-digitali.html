@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FedePictures | Nome Categoria</title>
+  <title>FedePictures | Disegni al PC</title>
   <link rel="icon" href="volpe.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Quicksand&display=swap" rel="stylesheet">
 
@@ -20,7 +20,7 @@
       font-family: 'Quicksand', sans-serif;
       background-color: #fff;
       color: var(--scuro);
-      scroll-behavior: smooth; /* Per uno scorrimento fluido se rientri con un'ancora */
+      scroll-behavior: smooth;
     }
 
     header {
@@ -102,7 +102,6 @@
       margin: 0 auto 2em auto;
     }
 
-    /* Griglia per la galleria specifica */
     .specific-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -117,22 +116,14 @@
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       transition: transform 0.3s ease;
-      cursor: pointer; /* Indichiamo che l'immagine è cliccabile per l'ingrandimento */
+      cursor: pointer;
     }
 
     .specific-gallery img:hover {
       transform: scale(1.03);
     }
 
-    /* Stili per il Lightbox (copiati e adattati dalla home) */
-  <div id="lightbox">
-    <span class="lightbox-arrow" id="prev-btn" onclick="changeImage(-1)">&#10094;</span>
-    <img id="lightbox-img" src="" alt="Ingrandimento">
-    <span class="lightbox-arrow" id="next-btn" onclick="changeImage(1)">&#10095;</span>
-    <div style="position: absolute; width: 100%; height: 100%; z-index: -1;" onclick="closeLightbox()"></div>
-  </div>
-
-  <style>
+    /* === STILI PER IL LIGHTBOX CON FRECCE === */
     #lightbox {
       display: none;
       position: fixed;
@@ -176,52 +167,7 @@
     @keyframes zoomIn {
       to { transform: scale(1); }
     }
-  </style>
 
-  <script>
-    let currentImgIndex = 0;
-    const images = Array.from(document.querySelectorAll('.specific-gallery img'));
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-
-    // Apri il lightbox sulla foto cliccata
-    images.forEach((image, index) => {
-      image.onclick = () => {
-        currentImgIndex = index;
-        openLightbox();
-      };
-    });
-
-    function openLightbox() {
-      lightbox.style.display = 'flex';
-      lightboxImg.src = images[currentImgIndex].src;
-    }
-
-    function closeLightbox() {
-      lightbox.style.display = 'none';
-    }
-
-    // Cambia immagine (+1 per successiva, -1 per precedente)
-    function changeImage(direction) {
-      currentImgIndex += direction;
-      
-      // Se superi l'ultima foto ricomincia dalla prima, se vai sotto la prima vai all'ultima
-      if (currentImgIndex >= images.length) currentImgIndex = 0;
-      if (currentImgIndex < 0) currentImgIndex = images.length - 1;
-      
-      lightboxImg.src = images[currentImgIndex].src;
-    }
-
-    // Comodità: permette di usare le frecce della tastiera del PC e il tasto ESC per chiudere
-    document.addEventListener('keydown', (e) => {
-      if (lightbox.style.display === 'flex') {
-        if (e.key === 'ArrowRight') changeImage(1);
-        if (e.key === 'ArrowLeft') changeImage(-1);
-        if (e.key === 'Escape') closeLightbox();
-      }
-    });
-  </script>
-  
     footer {
       background: var(--scuro);
       color: white;
@@ -266,9 +212,9 @@
   <main class="content-container">
     <h1>Disegni al PC</h1>
     
-  <p class="description">
-    Dai loghi ai vettoriali, fino alle illustrazioni più dettagliate: realizzo grafiche digitali su misura utilizzando i software migliori del settore come <strong>Photoshop</strong>, <strong>Clip Studio Paint</strong> e <strong>Illustrator</strong>. Che tu abbia bisogno di icone personalizzate, grafiche per i social, volantini promozionali o file vettoriali pronti per la stampa, trasformo le tue idee in immagini nitide, moderne e piene di stile.
-  </p>
+    <p class="description">
+      Dai loghi ai vettoriali, fino alle illustrazioni più dettagliate: realizzo grafiche digitali su misura utilizzando i software migliori del settore come <strong>Photoshop</strong>, <strong>Clip Studio Paint</strong> e <strong>Illustrator</strong>. Che tu abbia bisogno di icone personalizzate, grafiche per i social, volantini promozionali o file vettoriali pronti per la stampa, trasformo le tue idee in immagini nitide, moderne e piene di stile.
+    </p>
 
     <div class="specific-gallery">
       <img src="dumbo.jpg" alt="Esempio 1">
@@ -306,24 +252,20 @@
     <p>&copy; 2026 FedePictures. Tutti i diritti riservati.</p>
   </footer>
 
-  <div id="lightbox" onclick="this.style.display='none'">
+  <div id="lightbox">
+    <span class="lightbox-arrow" id="prev-btn" onclick="changeImage(-1)">&#10094;</span>
     <img id="lightbox-img" src="" alt="Ingrandimento">
+    <span class="lightbox-arrow" id="next-btn" onclick="changeImage(1)">&#10095;</span>
+    <div style="position: absolute; width: 100%; height: 100%; left: 0; top: 0; z-index: -1;" onclick="closeLightbox()"></div>
   </div>
 
   <script>
-    // Selezioniamo tutte le immagini all'interno della griglia specifica
-    document.querySelectorAll('.specific-gallery img').forEach(image => {
-      // Al clic su ogni immagine
+    let currentImgIndex = 0;
+    const images = Array.from(document.querySelectorAll('.specific-gallery img'));
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    images.forEach((image, index) => {
       image.onclick = () => {
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
-
-        // Mostriamo il lightbox e impostiamo l'origine dell'immagine ingrandita
-        lightbox.style.display = 'flex';
-        lightboxImg.src = image.src;
-      };
-    });
-  </script>
-
-</body>
-</html>
+        currentImgIndex = index;
+        openLightbox
