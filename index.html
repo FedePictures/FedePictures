@@ -122,24 +122,22 @@
     .card-container {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 1.5em;
-    }
-
-    .card-link {
-      text-decoration: none;
-      color: inherit;
+      flex-wrap: nowrap; /* Cambiato da wrap a nowrap per forzare la riga unica */
+      gap: 1em;          /* Leggermente ridotto per recuperare spazio prezioso */
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .card {
       background: var(--viola);
       color: white;
-      width: 250px;
-      padding: 1.5em;
+      width: 180px;      /* Ridotta la larghezza fissa da 250px a 180px */
+      padding: 1.2em;    /* Ottimizzato il padding interno */
       border-radius: 20px;
       text-align: center;
       transition: transform 0.3s ease;
       cursor: pointer;
+      flex-shrink: 1;    /* Permette alle card di adattarsi se lo schermo è un po' più piccolo */
     }
 
     .card:hover {
