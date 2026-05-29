@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FedePictures | Categoria</title>
+  <title>FedePictures | Nome Categoria</title>
   <link rel="icon" href="volpe.png" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Quicksand&display=swap" rel="stylesheet">
 
@@ -20,6 +20,7 @@
       font-family: 'Quicksand', sans-serif;
       background-color: #fff;
       color: var(--scuro);
+      scroll-behavior: smooth; /* Per uno scorrimento fluido se rientri con un'ancora */
     }
 
     header {
@@ -101,6 +102,7 @@
       margin: 0 auto 2em auto;
     }
 
+    /* Griglia per la galleria specifica */
     .specific-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -115,11 +117,41 @@
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       transition: transform 0.3s ease;
-      cursor: pointer;
+      cursor: pointer; /* Indichiamo che l'immagine è cliccabile per l'ingrandimento */
     }
 
     .specific-gallery img:hover {
       transform: scale(1.03);
+    }
+
+    /* Stili per il Lightbox (copiati e adattati dalla home) */
+    #lightbox {
+      display: none; /* Nascosto di default */
+      position: fixed;
+      z-index: 2000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      cursor: zoom-out; /* Il cursore indica che cliccando si esce */
+    }
+
+    #lightbox-img {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      transform: scale(0.8);
+      animation: zoomIn 0.3s forwards;
+    }
+
+    @keyframes zoomIn {
+      to {
+        transform: scale(1);
+      }
     }
 
     footer {
@@ -164,23 +196,64 @@
   </header>
 
   <main class="content-container">
-    <h1>Nome della Categoria</h1>
+    <h1>Segnalibri</h1>
     
-    <p class="description">
-      Qui puoi inserire un testo descrittivo più approfondito sul servizio specifico, 
-      spiegando alle persone come lavori, i materiali che usi o come richiedere un preventivo.
-    </p>
+  <p class="description">
+    Aggiungi un tocco di poesia e colore alle tue letture! Realizzo <strong>segnalibri in legno unici, dipinti interamente a mano con colori acrilici</strong> di alta qualità e rifiniti nei minimi dettagli. Sono disponibili in due formati, <strong>grandi e piccoli</strong>, per adattarsi a ogni tipo di libro o agenda. Perfetti come gadget personalizzato, bomboniera o come un piccolo pensiero originale e duraturo per chi ama perdersi tra le pagine di una bella storia.
+  </p>
 
     <div class="specific-gallery">
-      <img src="gallery1.jpg" alt="Esempio 1">
-      <img src="gallery2.jpg" alt="Esempio 2">
-      <img src="gallery3.jpg" alt="Esempio 3">
+      <img src="gallery3.jpg" alt"Esempio 1">
+      <img src="gallery4.jpg" alt="Esempio 2">
+      <img src="gallery2.jpg" alt="Esempio 3">
+      <img src="gallery1.jpg" alt="Esempio 4">
     </div>
   </main>
+
+  <section class="contact" style="background: var(--celeste); padding: 3em; text-align: center; margin-top: 4em;">
+    <h2 style="font-size: 2em; margin-bottom: 0.5em;">Richiedi un preventivo</h2>
+    <p style="font-size: 1.1em; max-width: 600px; margin: 0 auto 1.5em auto; line-height: 1.6;">
+      Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! 
+      Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.
+    </p>
+    
+    <p style="font-size: 1.1em; margin: 0.5em 0;">
+      <strong>Email:</strong> 
+      <a href="mailto:fedepictures@libero.it" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
+        fedepictures@libero.it
+      </a>
+    </p>
+
+    <p style="font-size: 1.1em; margin: 0.5em 0;">
+      <strong>Instagram:</strong> 
+      <a href="https://www.instagram.com/fedepictures90" target="_blank" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
+        @fedepictures90
+      </a>
+    </p>
+  </section>
 
   <footer>
     <p>&copy; 2026 FedePictures. Tutti i diritti riservati.</p>
   </footer>
+
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="Ingrandimento">
+  </div>
+
+  <script>
+    // Selezioniamo tutte le immagini all'interno della griglia specifica
+    document.querySelectorAll('.specific-gallery img').forEach(image => {
+      // Al clic su ogni immagine
+      image.onclick = () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        // Mostriamo il lightbox e impostiamo l'origine dell'immagine ingrandita
+        lightbox.style.display = 'flex';
+        lightboxImg.src = image.src;
+      };
+    });
+  </script>
 
 </body>
 </html>
