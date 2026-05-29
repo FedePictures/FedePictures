@@ -155,4 +155,80 @@
     footer {
       background: var(--scuro);
       color: white;
-      text-align:
+      text-align: center;
+      padding: 1.5em;
+      margin-top: 4em;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        height: auto;
+        padding: 1em;
+      }
+      .main-logo {
+        height: 80px;
+        position: relative;
+        top: 0;
+      }
+      .logo-link {
+        width: auto;
+        margin-bottom: 10px;
+      }
+      nav {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo-link">
+      <img src="FedePictures_logo.png" alt="FedePictures Logo" class="main-logo">
+    </a>
+
+    <nav>
+      <a href="index.html#categorie" class="btn-back">← Torna ai servizi</a>
+    </nav>
+  </header>
+
+  <main class="content-container">
+    <h1>Disegni al PC</h1>
+    
+    <p class="description">
+      Dai loghi ai vettoriali, fino alle illustrations più dettagliate: realizzo grafiche digitali su misura utilizzando i software migliori del settore come <strong>Photoshop</strong>, <strong>Clip Studio Paint</strong> e <strong>Illustrator</strong>. Che tu abbia bisogno di icone personalizzate, grafiche per i social, volantini promozionali o file vettoriali pronti per la stampa, trasformo le tue idee in immagini nitide, moderne e piene di stile.
+    </p>
+
+    <div class="specific-gallery">
+      <img src="dumbo.jpg" alt="Esempio 1">
+      <img src="lampade.jpg" alt="Esempio 2">
+      <img src="love tatoo.jpg" alt="Esempio 3">
+      <img src="mystica1.jpg" alt="Esempio 4">
+      <img src="simba.jpg" alt="Esempio 5">
+      <img src="tatoo rolly.png" alt="Esempio 6">
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 FedePictures. Tutti i diritti riservati.</p>
+  </footer>
+
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="Ingrandimento">
+  </div>
+
+  <script>
+    document.querySelectorAll('.specific-gallery img').forEach(image => {
+      image.onclick = () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        lightbox.style.display = 'flex';
+        lightboxImg.src = image.src;
+      };
+    });
+  </script>
+
+</body>
+</html>
