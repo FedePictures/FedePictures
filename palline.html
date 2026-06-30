@@ -191,8 +191,27 @@
     </a>
 
     <nav>
-      <a href="index.html#categorie" class="btn-back">← Torna ai servizi</a>
-    </nav>
+
+<div class="dropdown">
+<button class="dropbtn" onclick="toggleMenu()">
+<span id="explore-label">Esplora ▼</span>
+</button>
+
+<div class="dropdown-content" id="menu">
+<a href="ritratti.html" id="menu-ritratti">Ritratti</a>
+<a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
+<a href="murales.html" id="menu-wall">Disegni sui muri</a>
+<a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
+<a href="palline.html" id="menu-balls">Palline di Natale</a>
+<a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+<a href="contatti.html" id="menu-contact">Contattami</a>
+</div>
+
+</div>
+
+<button class="lang-switcher" onclick="toggleLang()">EN</button>
+
+</nav>
   </header>
 
   <main class="content-container">
