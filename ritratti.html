@@ -59,6 +59,12 @@
       transform: scale(1.05) rotate(-3deg);
     }
 
+    nav {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
     nav a {
       margin: 0 1em;
       text-decoration: none;
@@ -232,9 +238,9 @@
   </header>
 
   <main class="content-container">
-    <h1>Ritratti</h1>
+    <h1 id="title">Ritratti</h1>
     
-   <p class="description">
+   <p class="description" id="description">
     Emozioni e ricordi prendono vita attraverso il disegno: realizzo <strong>ritratti personalizzati fatti a mano</strong> a partire dalle tue foto preferite. Puoi scegliere lo stile che più ami e il supporto perfetto per te: dai classici e dettagliati disegni <strong>su foglio</strong>, ideali da incorniciare, alle opere dipinte <strong>su tela</strong>, pronte da appendere per arredare i tuoi spazi. Un'idea regalo unica e senza tempo, curata in ogni minimo dettaglio.
    </p>
 
@@ -251,8 +257,8 @@
   </main>
 
   <section class="contact" style="background: var(--celeste); padding: 3em; text-align: center; margin-top: 4em;">
-    <h2 style="font-size: 2em; margin-bottom: 0.5em;">Richiedi un preventivo</h2>
-    <p style="font-size: 1.1em; max-width: 600px; margin: 0 auto 1.5em auto; line-height: 1.6;">
+    <h2 id="quote-title" style="font-size: 2em; margin-bottom: 0.5em;">Richiedi un preventivo</h2>
+    <p id="quote-text" style="font-size: 1.1em; max-width: 600px; margin: 0 auto 1.5em auto; line-height: 1.6;">
       Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! 
       Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.
     </p>
@@ -341,20 +347,67 @@ document.getElementById("menu").classList.remove("show");
 }
 });
 
-let currentLang=localStorage.getItem("language")||"it";
+let currentLang=localStorage.getItem('language')||'it';
+
+
+const translations={
+
+it:{
+title:'Ritratti',
+description:'Emozioni e ricordi prendono vita attraverso il disegno: realizzo ritratti personalizzati fatti a mano a partire dalle tue foto preferite. Puoi scegliere lo stile che più ami e il supporto perfetto per te: dai classici e dettagliati disegni su foglio, ideali da incorniciare, alle opere dipinte su tela, pronte da appendere per arredare i tuoi spazi. Un\'idea regalo unica e senza tempo, curata in ogni minimo dettaglio.',
+quoteTitle:'Richiedi un preventivo',
+quoteText:'Hai un\'idea in mente o desideri un\'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.',
+explore:'Esplora ▼'
+},
+
+en:{
+title:'Portraits',
+description:'Emotions and memories come to life through art: I create handmade custom portraits from your favourite photos. You can choose your preferred style and support, from traditional paper drawings to painted canvases ready to decorate your spaces. A timeless and unique gift idea.',
+quoteTitle:'Request a Quote',
+quoteText:'Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation. Tell me about your project and I will reply as soon as possible with details and prices.',
+explore:'Explore ▼'
+}
+
+};
 
 function applyLanguage(){
-document.querySelector(".lang-switcher").innerText=currentLang==="it"?"EN":"IT";
-document.getElementById("explore-label").innerText=currentLang==="it"?"Esplora ▼":"Explore ▼";
+
+document.querySelector('.lang-switcher').innerText=
+currentLang==='it'?'EN':'IT';
+
+document.getElementById('explore-label').innerText=
+translations[currentLang].explore;
+
+document.getElementById('title').innerText=
+translations[currentLang].title;
+
+document.getElementById('description').innerText=
+translations[currentLang].description;
+
+document.getElementById('quote-title').innerText=
+translations[currentLang].quoteTitle;
+
+document.getElementById('quote-text').innerText=
+translations[currentLang].quoteText;
+
 }
 
 function toggleLang(){
-currentLang=currentLang==="it"?"en":"it";
-localStorage.setItem("language",currentLang);
+
+currentLang=currentLang==='it'?'en':'it';
+
+localStorage.setItem(
+'language',
+currentLang
+);
+
 applyLanguage();
+
 }
 
 applyLanguage();
+
+
 </script>
 
 </body>
