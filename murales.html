@@ -59,6 +59,12 @@
       transform: scale(1.05) rotate(-3deg);
     }
 
+    nav {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
     nav a {
       margin: 0 1em;
       text-decoration: none;
@@ -148,7 +154,19 @@
       animation: zoomIn 0.3s forwards;
     }
 
-    @keyframes zoomIn {
+    
+.dropdown{position:relative;}
+.dropbtn{background:var(--viola);color:white;border:none;padding:.6em 1.2em;border-radius:8px;cursor:pointer;font-weight:bold;}
+.dropdown-content{display:none;position:absolute;right:0;background:white;min-width:230px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,.15);overflow:hidden;z-index:3000;}
+.dropdown-content.show{display:block;}
+.dropdown-content a{display:block;padding:12px;text-decoration:none;color:#333;}
+.dropdown-content a:hover{background:#f5f5f5;}
+.lang-switcher{background:var(--viola);border:none;color:white;padding:.5em 1em;border-radius:8px;cursor:pointer;font-weight:bold;margin-left:10px;}
+#prev-btn,#next-btn{position:absolute;top:50%;transform:translateY(-50%);width:60px;height:60px;border:none;border-radius:50%;background:rgba(255,255,255,.2);color:white;font-size:2rem;cursor:pointer;}
+#prev-btn{left:30px;}
+#next-btn{right:30px;}
+
+@keyframes zoomIn {
       to {
         transform: scale(1);
       }
@@ -191,8 +209,32 @@
     </a>
 
     <nav>
-      <a href="index.html#categorie" class="btn-back">← Torna ai servizi</a>
-    </nav>
+
+<div class="dropdown">
+
+<button class="dropbtn" onclick="toggleMenu()">
+
+<span id="explore-label">Esplora ▼</span>
+
+</button>
+
+<div class="dropdown-content" id="menu">
+
+<a href="ritratti.html" id="menu-ritratti">Ritratti</a>
+<a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
+<a href="murales.html" id="menu-wall">Disegni sui muri</a>
+<a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
+<a href="palline.html" id="menu-balls">Palline di Natale</a>
+<a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+<a href="contatti.html" id="menu-contact">Contattami</a>
+
+</div>
+
+</div>
+
+<button class="lang-switcher" onclick="toggleLang()">EN</button>
+
+</nav>
   </header>
 
   <main class="content-container">
@@ -211,8 +253,8 @@
   </main>
 
   <section class="contact" style="background: var(--celeste); padding: 3em; text-align: center; margin-top: 4em;">
-    <h2 style="font-size: 2em; margin-bottom: 0.5em;">Richiedi un preventivo</h2>
-    <p style="font-size: 1.1em; max-width: 600px; margin: 0 auto 1.5em auto; line-height: 1.6;">
+    <h2 id="quote-title" style="font-size: 2em; margin-bottom: 0.5em;">Richiedi un preventivo</h2>
+    <p id="quote-text" style="font-size: 1.1em; max-width: 600px; margin: 0 auto 1.5em auto; line-height: 1.6;">
       Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! 
       Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.
     </p>
@@ -236,24 +278,168 @@
     <p>&copy; © 2026 FedePictures • P. IVA 04962510618.</p>
   </footer>
 
-  <div id="lightbox" onclick="this.style.display='none'">
-    <img id="lightbox-img" src="" alt="Ingrandimento">
-  </div>
+  <div id="lightbox">
+
+<button id="prev-btn">&#10094;</button>
+
+<img id="lightbox-img" src="" alt="Ingrandimento">
+
+<button id="next-btn">&#10095;</button>
+
+</div>
 
   <script>
-    // Selezioniamo tutte le immagini all'interno della griglia specifica
-    document.querySelectorAll('.specific-gallery img').forEach(image => {
-      // Al clic su ogni immagine
-      image.onclick = () => {
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
+const images=document.querySelectorAll(".specific-gallery img");
+const lightbox=document.getElementById("lightbox");
+const lightboxImg=document.getElementById("lightbox-img");
+const nextBtn=document.getElementById("next-btn");
+const prevBtn=document.getElementById("prev-btn");
 
-        // Mostriamo il lightbox e impostiamo l'origine dell'immagine ingrandita
-        lightbox.style.display = 'flex';
-        lightboxImg.src = image.src;
-      };
-    });
-  </script>
+let currentIndex=0;
+
+function showImage(i){
+currentIndex=i;
+lightboxImg.src=images[currentIndex].src;
+}
+
+images.forEach((img,i)=>{
+img.onclick=()=>{
+lightbox.style.display="flex";
+showImage(i);
+};
+});
+
+nextBtn.onclick=()=>{
+currentIndex=(currentIndex+1)%images.length;
+showImage(currentIndex);
+};
+
+prevBtn.onclick=()=>{
+currentIndex=(currentIndex-1+images.length)%images.length;
+showImage(currentIndex);
+};
+
+lightbox.onclick=(e)=>{
+if(e.target===lightbox) lightbox.style.display='none';
+};
+
+let startX=0;
+lightbox.addEventListener('touchstart',e=>{
+startX=e.touches[0].clientX;
+});
+lightbox.addEventListener('touchend',e=>{
+const endX=e.changedTouches[0].clientX;
+if(startX-endX>50) nextBtn.click();
+if(endX-startX>50) prevBtn.click();
+});
+
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("show");
+}
+
+document.addEventListener("click",(e)=>{
+if(!e.target.closest(".dropdown")){
+document.getElementById("menu").classList.remove("show");
+}
+});
+
+let currentLang=localStorage.getItem('language')||'it';
+
+
+const translations={
+
+it:{
+title:'Disegni sui muri',
+description:'Trasforma le tue pareti in opere d'arte uniche! Realizzo decorazioni murali e murales dipinti a mano con colori acrilici di alta qualità, perfetti per camerette, case o locali commerciali. Non mi limito a dipingere il muro: studiamo insieme l'intera ambientazione per far sì che l'illustrazione si integri alla perfezione con l'arredamento, le luci e l'atmosfera della stanza, creando un ambiente magico e totalmente personalizzato.',
+quoteTitle:'Richiedi un preventivo',
+quoteText:'Hai un\'idea in mente o desideri un\'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.',
+explore:'Esplora ▼',
+menuPortraits:'Ritratti',
+menuDigital:'Disegni al PC',
+menuWall:'Disegni sui muri',
+menuBookmarks:'Segnalibri',
+menuBalls:'Palline di Natale',
+menuShirts:'Magliette e accessori',
+menuContact:'Contattami'
+},
+
+en:{
+title:'Wall Art',
+description:'Transform your walls into unique works of art! I create hand-painted wall decorations and murals with high-quality acrylic paints, perfect for children's bedrooms, homes, or commercial spaces. I don't just paint the wall: we work together to design the entire space to ensure the illustration perfectly complements the decor, lighting, and atmosphere of the room, creating a magical and completely personalized atmosphere.',
+quoteTitle:'Request a Quote',
+quoteText:'Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation. Tell me about your project and I will reply as soon as possible with details and prices.',
+explore:'Explore ▼',
+menuPortraits:'Portraits',
+menuDigital:'Digital Drawings',
+menuWall:'Wall Art',
+menuBookmarks:'Bookmarks',
+menuBalls:'Christmas Ornaments',
+menuShirts:'T-shirts & Accessories',
+menuContact:'Contact Me'
+}
+
+};
+
+function applyLanguage(){
+
+document.querySelector('.lang-switcher').innerText=
+currentLang==='it'?'EN':'IT';
+
+document.getElementById('explore-label').innerText=
+translations[currentLang].explore;
+
+document.getElementById('title').innerText=
+translations[currentLang].title;
+
+document.getElementById('description').innerHTML=
+translations[currentLang].description;
+
+document.getElementById('quote-title').innerText=
+translations[currentLang].quoteTitle;
+
+document.getElementById('quote-text').innerText=
+translations[currentLang].quoteText;
+
+document.getElementById('menu-ritratti').innerText=
+translations[currentLang].menuPortraits;
+
+document.getElementById('menu-digital').innerText=
+translations[currentLang].menuDigital;
+
+document.getElementById('menu-wall').innerText=
+translations[currentLang].menuWall;
+
+document.getElementById('menu-bookmarks').innerText=
+translations[currentLang].menuBookmarks;
+
+document.getElementById('menu-balls').innerText=
+translations[currentLang].menuBalls;
+
+document.getElementById('menu-shirts').innerText=
+translations[currentLang].menuShirts;
+
+document.getElementById('menu-contact').innerText=
+translations[currentLang].menuContact;
+
+}
+
+function toggleLang(){
+
+currentLang=currentLang==='it'?'en':'it';
+
+localStorage.setItem(
+'language',
+currentLang
+);
+
+applyLanguage();
+
+}
+
+applyLanguage();
+
+
+</script>
 
 </body>
 </html>
