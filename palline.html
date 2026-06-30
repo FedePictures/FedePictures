@@ -59,9 +59,7 @@
       transform: scale(1.05) rotate(-3deg);
     }
 
-    nav{display:flex;align-items:center;gap:12px;}
-.dropdown{position:relative;}.dropbtn,.lang-switcher{background:var(--viola);color:white;border:none;padding:.6em 1em;border-radius:8px;cursor:pointer;font-weight:bold;}.dropdown-content{display:none;position:absolute;right:0;background:white;min-width:230px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,.15);overflow:hidden;z-index:3000;}.dropdown-content.show{display:block;}.dropdown-content a{display:block;padding:12px;text-decoration:none;color:#333;}#prev-btn,#next-btn{position:absolute;top:50%;transform:translateY(-50%);width:60px;height:60px;border:none;border-radius:50%;background:rgba(255,255,255,.2);color:white;font-size:2rem;}#prev-btn{left:30px;}#next-btn{right:30px;}
-nav a {
+    nav a {
       margin: 0 1em;
       text-decoration: none;
       color: var(--scuro);
@@ -193,18 +191,7 @@ nav a {
     </a>
 
     <nav>
-      <div class="dropdown">
-<button class="dropbtn" onclick="toggleMenu()"><span id="explore-label">Esplora ▼</span></button>
-<div class="dropdown-content" id="menu">
-<a href="ritratti.html" id="menu-ritratti">Ritratti</a>
-<a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
-<a href="murales.html" id="menu-wall">Disegni sui muri</a>
-<a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
-<a href="palline.html" id="menu-balls">Palline di Natale</a>
-<a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
-<a href="contatti.html" id="menu-contact">Contattami</a>
-</div></div>
-<button class="lang-switcher" onclick="toggleLang()">EN</button>
+      <a href="index.html#categorie" class="btn-back">← Torna ai servizi</a>
     </nav>
   </header>
 
@@ -254,30 +241,24 @@ nav a {
     <p>&copy; © 2026 FedePictures • P. IVA 04962510618.</p>
   </footer>
 
-  <div id="lightbox"><button id="prev-btn">&#10094;</button><img id="lightbox-img" src="" alt="Ingrandimento"><button id="next-btn">&#10095;</button></div>
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="Ingrandimento">
+  </div>
 
   <script>
-const images=document.querySelectorAll('.specific-gallery img');
-const lightbox=document.getElementById('lightbox');
-const lightboxImg=document.getElementById('lightbox-img');
-const nextBtn=document.getElementById('next-btn');
-const prevBtn=document.getElementById('prev-btn');
-let currentIndex=0;
-function showImage(i){currentIndex=i;lightboxImg.src=images[i].src;}
-images.forEach((img,i)=>img.onclick=()=>{lightbox.style.display='flex';showImage(i);});
-nextBtn.onclick=()=>showImage(currentIndex=(currentIndex+1)%images.length);
-prevBtn.onclick=()=>showImage(currentIndex=(currentIndex-1+images.length)%images.length);
-lightbox.onclick=e=>{if(e.target===lightbox)lightbox.style.display='none';};
-let sx=0;lightbox.addEventListener('touchstart',e=>sx=e.touches[0].clientX);
-lightbox.addEventListener('touchend',e=>{let ex=e.changedTouches[0].clientX;if(sx-ex>50)nextBtn.click();if(ex-sx>50)prevBtn.click();});
-function toggleMenu(){menu.classList.toggle('show');}
-document.addEventListener('click',e=>{if(!e.target.closest('.dropdown'))menu.classList.remove('show');});
-let currentLang=localStorage.getItem('language')||'it';
-const translations={it:{title:'Palline di Natale',explore:'Esplora ▼'},en:{title:'Christmas Ornaments',explore:'Explore ▼'}};
-function applyLanguage(){document.querySelector('.lang-switcher').innerText=currentLang==='it'?'EN':'IT';document.getElementById('explore-label').innerText=translations[currentLang].explore;document.getElementById('title').innerText=translations[currentLang].title;}
-function toggleLang(){currentLang=currentLang==='it'?'en':'it';localStorage.setItem('language',currentLang);applyLanguage();}
-applyLanguage();
-</script>
+    // Selezioniamo tutte le immagini all'interno della griglia specifica
+    document.querySelectorAll('.specific-gallery img').forEach(image => {
+      // Al clic su ogni immagine
+      image.onclick = () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        // Mostriamo il lightbox e impostiamo l'origine dell'immagine ingrandita
+        lightbox.style.display = 'flex';
+        lightboxImg.src = image.src;
+      };
+    });
+  </script>
 
 </body>
 </html>
