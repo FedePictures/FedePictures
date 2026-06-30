@@ -550,21 +550,49 @@
 let currentLang =
 localStorage.getItem('language') || 'it';
 
-    function toggleLang() {
 
-      currentLang = currentLang === 'it' ? 'en' : 'it';
+function applyLanguage() {
 
-      const texts = translations[currentLang];
+  const texts = translations[currentLang];
 
-      for (const id in texts) {
+  for (const id in texts) {
 
-        const el = document.getElementById(id);
+    const el = document.getElementById(id);
 
-        if (el) {
-          el.innerText = texts[id];
-        }
+    if (el) {
 
-      }
+      el.innerText = texts[id];
+
+    }
+
+  }
+
+  document.querySelector('.lang-switcher').innerText =
+
+    currentLang === 'it'
+      ? 'EN'
+      : 'IT';
+
+}
+
+
+function toggleLang() {
+
+  currentLang = currentLang === 'it'
+    ? 'en'
+    : 'it';
+
+  localStorage.setItem(
+    'language',
+    currentLang
+  );
+
+  applyLanguage();
+
+}
+
+
+applyLanguage();
 
       document.querySelector('.lang-switcher').innerText =
         currentLang === 'it' ? 'EN' : 'IT';
