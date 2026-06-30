@@ -1,325 +1,247 @@
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>FedePictures | Disegni al PC</title>
-
-<link rel="icon" href="volpe.png" type="image/x-icon">
-
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Quicksand&display=swap" rel="stylesheet">
-
-<style>
-
-:root{
-  --rosa:#ffc0cb;
-  --celeste:#b2eaff;
-  --viola:#d2b4f2;
-  --scuro:#333;
-}
-
-body{
-
-  margin:0;
-  font-family:'Quicksand',sans-serif;
-  background:#fff;
-  color:var(--scuro);
-
-}
-
-header{
-
-  background:var(--celeste);
-
-  padding:.8em 2em;
-
-  display:flex;
-
-  justify-content:space-between;
-
-  align-items:center;
-
-  position:sticky;
-
-  top:0;
-
-  z-index:1000;
-
-  box-shadow:0 2px 10px rgba(0,0,0,.1);
-
-  height:60px;
-
-}
-
-.logo-link{
-
-  text-decoration:none;
-
-  display:block;
-
-  position:relative;
-
-  width:150px;
-
-}
-
-.main-logo{
-
-  display:block;
-
-  height:130px;
-
-  width:auto;
-
-  position:absolute;
-
-  top:-15px;
-
-  left:0;
-
-  z-index:1010;
-
-  transition:transform .3s ease;
-
-}
-
-.main-logo:hover{
-
-  transform:scale(1.05) rotate(-3deg);
-
-}
-
-.btn-back{
-
-  background:var(--viola);
-
-  color:white;
-
-  padding:.5em 1.2em;
-
-  border-radius:8px;
-
-  text-decoration:none;
-
-  font-weight:bold;
-
-}
-
-.btn-back:hover{
-
-  background:#be9ae6;
-
-}
-
-.content-container{
-
-  max-width:1100px;
-
-  margin:3em auto;
-
-  padding:0 2em;
-
-  text-align:center;
-
-}
-
-.content-container h1{
-
-  font-size:2.5em;
-
-  margin-bottom:.5em;
-
-}
-
-.description{
-
-  font-size:1.2em;
-
-  line-height:1.6;
-
-  max-width:750px;
-
-  margin:auto auto 2em auto;
-
-}
-
-
-/* GALLERIA */
-
-.specific-gallery{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(auto-fit,minmax(250px,1fr));
-
-  gap:1.5em;
-
-  margin-top:3em;
-
-}
-
-.specific-gallery img{
-
-  width:100%;
-
-  height:250px;
-
-  object-fit:cover;
-
-  display:block;
-
-  border-radius:15px;
-
-  box-shadow:
-  0 4px 10px rgba(0,0,0,.08);
-
-  transition:transform .3s ease;
-
-  cursor:pointer;
-
-}
-
-.specific-gallery img:hover{
-
-  transform:scale(1.03);
-
-}
-
-
-/* LIGHTBOX */
-
-#lightbox{
-
-  display:none;
-
-  position:fixed;
-
-  z-index:2000;
-
-  top:0;
-
-  left:0;
-
-  width:100%;
-
-  height:100%;
-
-  background:rgba(0,0,0,.9);
-
-  justify-content:center;
-
-  align-items:center;
-
-  cursor:zoom-out;
-
-}
-
-#lightbox-img{
-
-  max-width:90%;
-
-  max-height:85%;
-
-  border-radius:10px;
-
-}
-
-footer{
-
-  background:var(--scuro);
-
-  color:white;
-
-  text-align:center;
-
-  padding:1.5em;
-
-  margin-top:4em;
-
-}
-
-@media(max-width:768px){
-
-header{
-
-  flex-direction:column;
-
-  height:auto;
-
-  padding:1em;
-
-}
-
-.main-logo{
-
-  height:80px;
-
-  position:relative;
-
-  top:0;
-
-}
-
-.logo-link{
-
-  width:auto;
-
-  margin-bottom:10px;
-
-}
-
-nav{
-
-  margin-top:10px;
-
-}
-
-.specific-gallery{
-
-  grid-template-columns:1fr;
-
-}
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FedePictures | Disegni al PC</title>
+  <link rel="icon" href="volpe.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Quicksand&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --rosa: #ffc0cb;
+      --celeste: #b2eaff;
+      --viola: #d2b4f2;
+      --scuro: #333;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #fff;
+      color: var(--scuro);
+      scroll-behavior: smooth; /* Per uno scorrimento fluido se rientri con un'ancora */
+    }
+
+    header {
+      background-color: var(--celeste);
+      padding: 0.8em 2em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 60px;
+    }
+
+    .logo-link {
+      text-decoration: none;
+      display: block;
+      position: relative;
+      width: 150px;
+    }
+
+    .main-logo {
+      display: block;
+      height: 130px;
+      width: auto;
+      position: absolute;
+      top: -15px;
+      left: 0;
+      z-index: 1010;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+
+    .main-logo:hover {
+      transform: scale(1.05) rotate(-3deg);
+    }
+
+    nav {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    nav a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: var(--scuro);
+      font-weight: bold;
+    }
+
+    .btn-back {
+      background: var(--viola);
+      border: none;
+      color: white;
+      padding: 0.5em 1.2em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background: #be9ae6;
+    }
+
+    .content-container {
+      max-width: 1000px;
+      margin: 3em auto;
+      padding: 0 2em;
+      text-align: center;
+    }
+
+    .content-container h1 {
+      font-size: 2.5em;
+      color: var(--scuro);
+      margin-bottom: 0.5em;
+    }
+
+    .description {
+      font-size: 1.2em;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: 0 auto 2em auto;
+    }
+
+    /* Griglia per la galleria specifica */
+    .specific-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5em;
+      margin-top: 3em;
+    }
+
+    .specific-gallery img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+      cursor: pointer; /* Indichiamo che l'immagine è cliccabile per l'ingrandimento */
+    }
+
+    .specific-gallery img:hover {
+      transform: scale(1.03);
+    }
+
+    /* Stili per il Lightbox (copiati e adattati dalla home) */
+    #lightbox {
+      display: none; /* Nascosto di default */
+      position: fixed;
+      z-index: 2000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      cursor: zoom-out; /* Il cursore indica che cliccando si esce */
+    }
+
+    #lightbox-img {
+      max-width: 90%;
+      max-height: 85%;
+      border-radius: 10px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      transform: scale(0.8);
+      animation: zoomIn 0.3s forwards;
+    }
+
+    
+.dropdown{position:relative;}
+.dropbtn{background:var(--viola);color:white;border:none;padding:.6em 1.2em;border-radius:8px;cursor:pointer;font-weight:bold;}
+.dropdown-content{display:none;position:absolute;right:0;background:white;min-width:230px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,.15);overflow:hidden;z-index:3000;}
+.dropdown-content.show{display:block;}
+.dropdown-content a{display:block;padding:12px;text-decoration:none;color:#333;}
+.dropdown-content a:hover{background:#f5f5f5;}
+.lang-switcher{background:var(--viola);border:none;color:white;padding:.5em 1em;border-radius:8px;cursor:pointer;font-weight:bold;margin-left:10px;}
+#prev-btn,#next-btn{position:absolute;top:50%;transform:translateY(-50%);width:60px;height:60px;border:none;border-radius:50%;background:rgba(255,255,255,.2);color:white;font-size:2rem;cursor:pointer;}
+#prev-btn{left:30px;}
+#next-btn{right:30px;}
+
+@keyframes zoomIn {
+      to {
+        transform: scale(1);
+      }
+    }
+
+    footer {
+      background: var(--scuro);
+      color: white;
+      text-align: center;
+      padding: 1.5em;
+      margin-top: 4em;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        height: auto;
+        padding: 1em;
+      }
+      .main-logo {
+        height: 80px;
+        position: relative;
+        top: 0;
+      }
+      .logo-link {
+        width: auto;
+        margin-bottom: 10px;
+      }
+      nav {
+        margin-top: 10px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
+  <header>
+    <a href="index.html" class="logo-link">
+      <img src="FedePictures_logo.png" alt="FedePictures Logo" class="main-logo">
+    </a>
 
-<a href="index.html" class="logo-link">
+    <nav>
 
-<img src="FedePictures_logo.png"
-alt="FedePictures Logo"
-class="main-logo">
+<div class="dropdown">
 
-</a>
+<button class="dropbtn" onclick="toggleMenu()">
 
-<nav>
+<span id="explore-label">Esplora ▼</span>
 
-<a href="index.html#categorie"
-class="btn-back">
+</button>
 
-← Torna ai servizi
+<div class="dropdown-content" id="menu">
 
-</a>
+<a href="ritratti.html" id="menu-ritratti">Ritratti</a>
+<a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
+<a href="murales.html" id="menu-wall">Disegni sui muri</a>
+<a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
+<a href="palline.html" id="menu-balls">Palline di Natale</a>
+<a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+<a href="contatti.html" id="menu-contact">Contattami</a>
+
+</div>
+
+</div>
+
+<button class="lang-switcher" onclick="toggleLang()">EN</button>
 
 </nav>
+  </header>
 
-</header>
+  <main class="content-container">
 
-
-<main class="content-container">
-
-<h1>Disegni al PC</h1>
-
-<p class="description">
+	<h1>Disegni al PC</h1>
+    
+  <p class="description">
 
 Dai loghi ai vettoriali, fino alle illustrazioni più dettagliate:
 realizzo grafiche digitali su misura utilizzando software
@@ -342,8 +264,7 @@ nitide e piene di stile.
 
 </p>
 
-
-<div class="specific-gallery">
+  <div class="specific-gallery">
 
 <img src="dumbo.jpg" alt="Disegno 1">
 
@@ -359,104 +280,193 @@ nitide e piene di stile.
 
 </div>
 
-</main>
+  </main>
 
+  <section class="contact" style="background: var(--celeste); padding: 3em; text-align: center; margin-top: 4em;">
+    <h2 id="quote-title" style="font-size: 2em; margin-bottom: 0.5em;">Richiedi un preventivo</h2>
+    <p id="quote-text" style="font-size: 1.1em; max-width: 600px; margin: 0 auto 1.5em auto; line-height: 1.6;">
+      Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! 
+      Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.
+    </p>
+    
+    <p style="font-size: 1.1em; margin: 0.5em 0;">
+      <strong>Email:</strong> 
+      <a href="mailto:fedepictures@libero.it" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
+        fedepictures@libero.it
+      </a>
+    </p>
 
-<section
-style="background:var(--celeste);
-padding:3em;
-text-align:center;
-margin-top:4em;">
+    <p style="font-size: 1.1em; margin: 0.5em 0;">
+      <strong>Instagram:</strong> 
+      <a href="https://www.instagram.com/fedepictures90" target="_blank" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
+        @fedepictures90
+      </a>
+    </p>
+  </section>
 
-<h2>
+  <footer>
+    <p>&copy; © 2026 FedePictures • P. IVA 04962510618.</p>
+  </footer>
 
-Richiedi un preventivo
+  <div id="lightbox">
 
-</h2>
+<button id="prev-btn">&#10094;</button>
 
-<p>
+<img id="lightbox-img" src="" alt="Ingrandimento">
 
-Hai un'idea in mente o desideri
-un'opera personalizzata?
-
-Contattami senza impegno!
-
-</p>
-
-<p>
-
-<strong>Email:</strong>
-
-<a href="mailto:fedepictures@libero.it">
-
-fedepictures@libero.it
-
-</a>
-
-</p>
-
-<p>
-
-<strong>Instagram:</strong>
-
-<a href="https://www.instagram.com/fedepictures90"
-target="_blank">
-
-@fedepictures90
-
-</a>
-
-</p>
-
-</section>
-
-
-<footer>
-
-<p>
-
-© 2026 FedePictures • P. IVA 04962510618
-
-</p>
-
-</footer>
-
-
-<div id="lightbox">
-
-<img id="lightbox-img">
+<button id="next-btn">&#10095;</button>
 
 </div>
 
-<script>
+  <script>
+const images=document.querySelectorAll(".specific-gallery img");
+const lightbox=document.getElementById("lightbox");
+const lightboxImg=document.getElementById("lightbox-img");
+const nextBtn=document.getElementById("next-btn");
+const prevBtn=document.getElementById("prev-btn");
 
-document.querySelectorAll('.specific-gallery img')
+let currentIndex=0;
 
-.forEach(image=>{
+function showImage(i){
+currentIndex=i;
+lightboxImg.src=images[currentIndex].src;
+}
 
-image.onclick=()=>{
-
-const lightbox=
-document.getElementById('lightbox');
-
-const lightboxImg=
-document.getElementById('lightbox-img');
-
-lightbox.style.display='flex';
-
-lightboxImg.src=image.src;
-
+images.forEach((img,i)=>{
+img.onclick=()=>{
+lightbox.style.display="flex";
+showImage(i);
 };
-
 });
 
-document.getElementById('lightbox')
+nextBtn.onclick=()=>{
+currentIndex=(currentIndex+1)%images.length;
+showImage(currentIndex);
+};
 
-.onclick=function(){
+prevBtn.onclick=()=>{
+currentIndex=(currentIndex-1+images.length)%images.length;
+showImage(currentIndex);
+};
 
-this.style.display='none';
+lightbox.onclick=(e)=>{
+if(e.target===lightbox) lightbox.style.display='none';
+};
+
+let startX=0;
+lightbox.addEventListener('touchstart',e=>{
+startX=e.touches[0].clientX;
+});
+lightbox.addEventListener('touchend',e=>{
+const endX=e.changedTouches[0].clientX;
+if(startX-endX>50) nextBtn.click();
+if(endX-startX>50) prevBtn.click();
+});
+
+function toggleMenu(){
+document.getElementById("menu").classList.toggle("show");
+}
+
+document.addEventListener("click",(e)=>{
+if(!e.target.closest(".dropdown")){
+document.getElementById("menu").classList.remove("show");
+}
+});
+
+let currentLang=localStorage.getItem('language')||'it';
+
+
+const translations={
+
+it:{
+title:'Disegni al PC',
+description:'Dai loghi ai vettoriali, fino alle illustrazioni più dettagliate: realizzo grafiche digitali su misura utilizzando software professionali come Photoshop, Clip Studio Paint e Illustrator. Che tu abbia bisogno di icone personalizzate, grafiche per i social, volantini promozionali o file vettoriali pronti per la stampa, trasformo le tue idee in immagini moderne, nitide e piene di stile.',
+quoteText:'Hai un\'idea in mente o desideri un\'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.',
+explore:'Esplora ▼',
+menuPortraits:'Ritratti',
+menuDigital:'Disegni al PC',
+menuWall:'Disegni sui muri',
+menuBookmarks:'Segnalibri',
+menuBalls:'Palline di Natale',
+menuShirts:'Magliette e accessori',
+menuContact:'Contattami'
+},
+
+en:{
+title:'Digital Drawings',
+description:'From logos to vectors to detailed illustrations, I create custom digital graphics using professional software like Photoshop, Clip Studio Paint, and Illustrator. Whether you need custom icons, social media graphics, promotional flyers, or print-ready vector files, I'll transform your ideas into modern, crisp, and stylish images.',
+quoteTitle:'Request a Quote',
+quoteText:'Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation. Tell me about your project and I will reply as soon as possible with details and prices.',
+explore:'Explore ▼',
+menuPortraits:'Portraits',
+menuDigital:'Digital Drawings',
+menuWall:'Wall Art',
+menuBookmarks:'Bookmarks',
+menuBalls:'Christmas Ornaments',
+menuShirts:'T-shirts & Accessories',
+menuContact:'Contact Me'
+}
 
 };
+
+function applyLanguage(){
+
+document.querySelector('.lang-switcher').innerText=
+currentLang==='it'?'EN':'IT';
+
+document.getElementById('explore-label').innerText=
+translations[currentLang].explore;
+
+document.getElementById('title').innerText=
+translations[currentLang].title;
+
+document.getElementById('description').innerHTML=
+translations[currentLang].description;
+
+document.getElementById('quote-title').innerText=
+translations[currentLang].quoteTitle;
+
+document.getElementById('quote-text').innerText=
+translations[currentLang].quoteText;
+
+document.getElementById('menu-ritratti').innerText=
+translations[currentLang].menuPortraits;
+
+document.getElementById('menu-digital').innerText=
+translations[currentLang].menuDigital;
+
+document.getElementById('menu-wall').innerText=
+translations[currentLang].menuWall;
+
+document.getElementById('menu-bookmarks').innerText=
+translations[currentLang].menuBookmarks;
+
+document.getElementById('menu-balls').innerText=
+translations[currentLang].menuBalls;
+
+document.getElementById('menu-shirts').innerText=
+translations[currentLang].menuShirts;
+
+document.getElementById('menu-contact').innerText=
+translations[currentLang].menuContact;
+
+}
+
+function toggleLang(){
+
+currentLang=currentLang==='it'?'en':'it';
+
+localStorage.setItem(
+'language',
+currentLang
+);
+
+applyLanguage();
+
+}
+
+applyLanguage();
+
 
 </script>
 
