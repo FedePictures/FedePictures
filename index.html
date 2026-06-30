@@ -547,7 +547,8 @@
 
     };
 
-let currentLang = 'it';
+let currentLang =
+localStorage.getItem('language') || 'it';
 
     function toggleLang() {
 
