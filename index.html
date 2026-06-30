@@ -207,7 +207,38 @@
       animation: zoomIn 0.3s forwards;
     }
 
-    @keyframes zoomIn {
+    #prev-btn,
+#next-btn{
+
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+width:60px;
+height:60px;
+border:none;
+border-radius:50%;
+background:rgba(255,255,255,.15);
+color:white;
+font-size:2rem;
+cursor:pointer;
+z-index:3001;
+transition:.3s;
+
+}
+
+#prev-btn{left:30px;}
+
+#next-btn{right:30px;}
+
+#prev-btn:hover,
+#next-btn:hover{
+
+background:rgba(255,255,255,.35);
+
+}
+
+
+@keyframes zoomIn {
       to {
         transform: scale(1);
       }
@@ -447,25 +478,128 @@
     <p>&copy; © 2026 FedePictures • P. IVA 04962510618.</p>
   </footer>
 
-  <div id="lightbox" onclick="this.style.display='none'">
-    <img id="lightbox-img" src="" alt="Ingrandimento">
-  </div>
+  <div id="lightbox">
+
+  <button id="prev-btn">&#10094;</button>
+
+  <img id="lightbox-img" src="" alt="Ingrandimento">
+
+  <button id="next-btn">&#10095;</button>
+
+</div>
 
   <script>
 
-    document.querySelectorAll('.gallery-scroll img').forEach(image => {
+    const images =
+document.querySelectorAll('.gallery-scroll img');
 
-      image.onclick = () => {
+const lightbox =
+document.getElementById('lightbox');
 
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightbox-img');
+const lightboxImg =
+document.getElementById('lightbox-img');
 
-        lightbox.style.display = 'flex';
-        lightboxImg.src = image.src;
+const nextBtn =
+document.getElementById('next-btn');
 
-      };
+const prevBtn =
+document.getElementById('prev-btn');
 
-    });
+let currentIndex = 0;
+
+function showImage(index){
+
+currentIndex=index;
+
+lightboxImg.src=
+images[currentIndex].src;
+
+}
+
+images.forEach((img,index)=>{
+
+img.onclick=()=>{
+
+lightbox.style.display='flex';
+
+showImage(index);
+
+};
+
+});
+
+nextBtn.onclick=()=>{
+
+currentIndex++;
+
+if(currentIndex>=images.length){
+
+currentIndex=0;
+
+}
+
+showImage(currentIndex);
+
+};
+
+prevBtn.onclick=()=>{
+
+currentIndex--;
+
+if(currentIndex<0){
+
+currentIndex=images.length-1;
+
+}
+
+showImage(currentIndex);
+
+};
+
+lightbox.onclick=(e)=>{
+
+if(e.target===lightbox){
+
+lightbox.style.display='none';
+
+}
+
+};
+
+document.addEventListener('keydown',e=>{
+
+if(lightbox.style.display==='flex'){
+
+if(e.key==='ArrowRight') nextBtn.click();
+
+if(e.key==='ArrowLeft') prevBtn.click();
+
+if(e.key==='Escape')
+
+lightbox.style.display='none';
+
+}
+
+});
+
+let startX=0;
+
+lightbox.addEventListener('touchstart',e=>{
+
+startX=e.touches[0].clientX;
+
+});
+
+lightbox.addEventListener('touchend',e=>{
+
+const endX=e.changedTouches[0].clientX;
+
+if(startX-endX>50) nextBtn.click();
+
+if(endX-startX>50) prevBtn.click();
+
+});
+
 
     const translations = {
 
@@ -514,8 +648,6 @@
         'hero-title':'Disegni su misura, per emozioni uniche',
         'hero-text':'Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!',
         'bio-title':'Chi sono',
-
-        'bio-text':'Mi chiamo Federica e disegno da quando ero bambina. Il mio percorso artistico è iniziato tra quaderni pieni di schizzi e sogni a colori, ed è cresciuto grazie agli studi alla Scuola Internazionale di Comics di Asti.',
         'work-title':'Cosa faccio',
         'contact-title':'Contattami',
         'gallery-title':'Gallery',
@@ -595,7 +727,6 @@ function toggleLang() {
 
 
 applyLanguage();
-
 
   </script>
 
