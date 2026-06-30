@@ -256,6 +256,16 @@
         margin: 0 0.5em;
         font-size: 0.9em;
       }
+
+      .card-container{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .card{
+        width:85%;
+        max-width:320px;
+      }
     }
   </style>
 </head>
@@ -269,9 +279,9 @@
     </a>
 
     <nav>
-      <a href="#chi">Chi sono</a>
-      <a href="#categorie">Cosa faccio</a>
-      <a href="#contatti">Contatti</a>
+      <a id="nav-about" href="#chi">Chi sono</a>
+      <a id="nav-work" href="#categorie">Cosa faccio</a>
+      <a id="nav-contact" href="#contatti">Contatti</a>
       <button class="lang-switcher" onclick="toggleLang()">EN</button>
     </nav>
 
@@ -352,8 +362,8 @@
       <a href="segnalibri.html" class="card-link">
         <div class="card">
           <img src="ico_segnalibri.png" alt="Segnalibri">
-          <h4>Segnalibri</h4>
-          <p>
+          <h4 id="cat5-title">Segnalibri</h4>
+          <p id="cat5-text">
             Segnalibri illustrati a mano,
             ideali come pensieri unici o gadget personalizzati.
           </p>
@@ -374,8 +384,8 @@
       <a href="magliette.html" class="card-link">
         <div class="card">
           <img src="ico_tshirt.png" alt="Magliette e accessori">
-          <h4>Magliette e accessori</h4>
-          <p>
+          <h4 id="cat6-title">Magliette e accessori</h4>
+          <p id="cat6-text">
             T-shirt, shopper e accessori personalizzati
             con illustrazioni originali.
           </p>
@@ -388,7 +398,7 @@
 
   <section class="gallery">
 
-    <h3>Gallery</h3>
+    <h3 id="gallery-title">Gallery</h3>
 
     <div class="gallery-scroll">
 
@@ -418,14 +428,14 @@
     <h3 id="contact-title">Contattami</h3>
 
     <p>
-      Email:
+      <span id="email-label">Email:</span>
       <a href="mailto:fedepictures@libero.it">
         fedepictures@libero.it
       </a>
     </p>
 
     <p>
-      Instagram:
+      <span id="instagram-label">Instagram:</span>
       <a href="https://www.instagram.com/fedepictures90" target="_blank">
         @fedepictures90
       </a>
@@ -460,22 +470,42 @@
     const translations = {
 
       en: {
-        'hero-title': 'Custom drawings for unique emotions',
-        'hero-text': 'Portraits, custom digital illustrations, and wall art made with love and style!',
-        'bio-title': 'About Me',
-        'work-title': 'What I Do',
-        'contact-title': 'Contact Me'
+        'hero-title':'Custom drawings for unique emotions',
+        'hero-text':'Portraits, custom digital illustrations and wall decorations made with love and style!',
+        'bio-title':'About Me',
+        'work-title':'What I Do',
+        'contact-title':'Contact Me',
+        'gallery-title':'Gallery',
+        'nav-about':'About Me',
+        'nav-work':'What I Do',
+        'nav-contact':'Contact',
+        'cat5-title':'Bookmarks',
+        'cat5-text':'Handmade illustrated bookmarks, perfect as gifts or personalized gadgets.',
+        'cat6-title':'T-shirts and Accessories',
+        'cat6-text':'Custom t-shirts, bags and accessories with original illustrations.',
+        'email-label':'Email:',
+        'instagram-label':'Instagram:'
       },
 
       it: {
-        'hero-title': 'Disegni su misura, per emozioni uniche',
-        'hero-text': 'Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!',
-        'bio-title': 'Chi sono',
-        'work-title': 'Cosa faccio',
-        'contact-title': 'Contattami'
+        'hero-title':'Disegni su misura, per emozioni uniche',
+        'hero-text':'Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!',
+        'bio-title':'Chi sono',
+        'work-title':'Cosa faccio',
+        'contact-title':'Contattami',
+        'gallery-title':'Gallery',
+        'nav-about':'Chi sono',
+        'nav-work':'Cosa faccio',
+        'nav-contact':'Contatti',
+        'cat5-title':'Segnalibri',
+        'cat5-text':'Segnalibri illustrati a mano, ideali come pensieri unici o gadget personalizzati.',
+        'cat6-title':'Magliette e accessori',
+        'cat6-text':'T-shirt, shopper e accessori personalizzati con illustrazioni originali.',
+        'email-label':'Email:',
+        'instagram-label':'Instagram:'
       }
 
-    };
+    }};
 
     let currentLang = 'it';
 
@@ -504,4 +534,3 @@
 
 </body>
 </html>
-```
