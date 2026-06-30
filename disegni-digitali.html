@@ -103,18 +103,31 @@
     }
 
     /* Griglia per la galleria specifica */
-    .specific-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.5em;
-      margin-top: 3em;
+    .specific-gallery{
+
+      display:grid;
+
+      grid-template-columns:
+      repeat(auto-fill,minmax(250px,1fr));
+
+      gap:1.5em;
+
+      align-items:start;
+
     }
 
-    .specific-gallery img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 15px;
+    .specific-gallery img{
+
+      width:100%;
+
+      aspect-ratio:1/1;
+
+      object-fit:cover;
+
+      border-radius:15px;
+
+      display:block;
+   
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       transition: transform 0.3s ease;
       cursor: pointer; /* Indichiamo che l'immagine è cliccabile per l'ingrandimento */
