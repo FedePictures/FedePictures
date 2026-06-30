@@ -220,13 +220,33 @@
 
 <div class="dropdown-content" id="menu">
 
-<a href="ritratti.html">Ritratti</a>
-<a href="disegni-digitali.html">Disegni al PC</a>
-<a href="murales.html">Disegni sui muri</a>
-<a href="segnalibri.html">Segnalibri</a>
-<a href="palline.html">Palline di Natale</a>
-<a href="magliette.html">Magliette e accessori</a>
-<a href="contatti.html">Contattami</a>
+<a href="ritratti.html" id="menu-ritratti">
+Ritratti
+</a>
+
+<a href="disegni-digitali.html" id="menu-digital">
+Disegni al PC
+</a>
+
+<a href="murales.html" id="menu-wall">
+Disegni sui muri
+</a>
+
+<a href="segnalibri.html" id="menu-bookmarks">
+Segnalibri
+</a>
+
+<a href="palline.html" id="menu-balls">
+Palline di Natale
+</a>
+
+<a href="magliette.html" id="menu-shirts">
+Magliette e accessori
+</a>
+
+<a href="contatti.html" id="menu-contact">
+Contattami
+</a>
 
 </div>
 
@@ -353,19 +373,63 @@ let currentLang=localStorage.getItem('language')||'it';
 const translations={
 
 it:{
+
 title:'Ritratti',
-description:'Emozioni e ricordi prendono vita attraverso il disegno: realizzo ritratti personalizzati fatti a mano a partire dalle tue foto preferite. Puoi scegliere lo stile che più ami e il supporto perfetto per te: dai classici e dettagliati disegni su foglio, ideali da incorniciare, alle opere dipinte su tela, pronte da appendere per arredare i tuoi spazi. Un\'idea regalo unica e senza tempo, curata in ogni minimo dettaglio.',
+
+description:
+'Emozioni e ricordi prendono vita attraverso il disegno: realizzo ritratti personalizzati fatti a mano a partire dalle tue foto preferite. Puoi scegliere lo stile che più ami e il supporto perfetto per te: dai classici e dettagliati disegni su foglio, ideali da incorniciare, alle opere dipinte su tela, pronte da appendere per arredare i tuoi spazi. Un\\'idea regalo unica e senza tempo, curata in ogni minimo dettaglio.',
+
 quoteTitle:'Richiedi un preventivo',
-quoteText:'Hai un\'idea in mente o desideri un\'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.',
-explore:'Esplora ▼'
+
+quoteText:
+'Hai un\\'idea in mente o desideri un\\'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.',
+
+explore:'Esplora ▼',
+
+menuPortraits:'Ritratti',
+
+menuDigital:'Disegni al PC',
+
+menuWall:'Disegni sui muri',
+
+menuBookmarks:'Segnalibri',
+
+menuBalls:'Palline di Natale',
+
+menuShirts:'Magliette e accessori',
+
+menuContact:'Contattami'
+
 },
 
 en:{
+
 title:'Portraits',
-description:'Emotions and memories come to life through art: I create handmade custom portraits from your favourite photos. You can choose your preferred style and support, from traditional paper drawings to painted canvases ready to decorate your spaces. A timeless and unique gift idea.',
+
+description:
+'Emotions and memories come to life through art: I create handmade custom portraits from your favourite photos. You can choose your preferred style and support, from traditional paper drawings to painted canvases ready to decorate your spaces. A timeless and unique gift idea.',
+
 quoteTitle:'Request a Quote',
-quoteText:'Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation. Tell me about your project and I will reply as soon as possible with details and prices.',
-explore:'Explore ▼'
+
+quoteText:
+'Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation. Tell me about your project and I will reply as soon as possible with details and prices.',
+
+explore:'Explore ▼',
+
+menuPortraits:'Portraits',
+
+menuDigital:'Digital Drawings',
+
+menuWall:'Wall Art',
+
+menuBookmarks:'Bookmarks',
+
+menuBalls:'Christmas Ornaments',
+
+menuShirts:'T-shirts & Accessories',
+
+menuContact:'Contact Me'
+
 }
 
 };
@@ -373,7 +437,9 @@ explore:'Explore ▼'
 function applyLanguage(){
 
 document.querySelector('.lang-switcher').innerText=
-currentLang==='it'?'EN':'IT';
+currentLang==='it'
+?'EN'
+:'IT';
 
 document.getElementById('explore-label').innerText=
 translations[currentLang].explore;
@@ -389,6 +455,27 @@ translations[currentLang].quoteTitle;
 
 document.getElementById('quote-text').innerText=
 translations[currentLang].quoteText;
+
+document.getElementById('menu-ritratti').innerText=
+translations[currentLang].menuPortraits;
+
+document.getElementById('menu-digital').innerText=
+translations[currentLang].menuDigital;
+
+document.getElementById('menu-wall').innerText=
+translations[currentLang].menuWall;
+
+document.getElementById('menu-bookmarks').innerText=
+translations[currentLang].menuBookmarks;
+
+document.getElementById('menu-balls').innerText=
+translations[currentLang].menuBalls;
+
+document.getElementById('menu-shirts').innerText=
+translations[currentLang].menuShirts;
+
+document.getElementById('menu-contact').innerText=
+translations[currentLang].menuContact;
 
 }
 
