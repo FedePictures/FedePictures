@@ -392,7 +392,7 @@
         </button>
 
         <p class="note" id="form-note">
-          Cliccando su "Invia la richiesta" si aprirà il tuo programma email con il messaggio già compilato.
+          La tua richiesta verrà inviata direttamente. Ti risponderò il prima possibile.
         </p>
       </form>
     </section>
@@ -480,12 +480,8 @@
     document.getElementById("message-label").innerText = t.message;
     document.getElementById("send-btn").innerText = t.send;
     document.getElementById("form-note").innerText = t.note;
-    document.getElementById("form-success").innerText = currentLang === "it"
-      ? "Grazie! La tua richiesta è stata inviata correttamente."
-      : "Thank you! Your request has been sent successfully.";
-    document.getElementById("form-error").innerText = currentLang === "it"
-      ? "Si è verificato un errore. Riprova tra poco."
-      : "Something went wrong. Please try again.";
+    // I messaggi di successo/errore restano vuoti all'apertura della pagina.
+    // Formspree li mostrerà solo quando avverrà un invio o un errore.
 
 
     document.getElementById("menu-ritratti").innerText = t.menuPortraits;
