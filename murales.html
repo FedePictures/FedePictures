@@ -240,7 +240,7 @@
  <main class="content-container">
     <h1 id="title">Disegni sui muri</h1>
     
-    <p class="description">
+    <p class="description" id="description">
       Trasforma le tue pareti in opere d'arte uniche! Realizzo <strong>decorazioni murali e murales dipinti a mano con colori acrilici</strong> di alta qualità, perfetti per camerette, case o locali commerciali. Non mi limito a dipingere il muro: <strong>studiamo insieme l'intera ambientazione</strong> per far sì che l'illustrazione si integri alla perfezione con l'arredamento, le luci e l'atmosfera della stanza, creando un ambiente magico e totalmente personalizzato.
     </p>
 
@@ -382,44 +382,23 @@ menuContact:'Contact Me'
 
 function applyLanguage(){
 
-document.querySelector('.lang-switcher').innerText=
-currentLang==='it'?'EN':'IT';
+const t = translations[currentLang];
 
-document.getElementById('explore-label').innerText=
-translations[currentLang].explore;
+document.querySelector('.lang-switcher').innerText =
+currentLang === 'it' ? 'EN' : 'IT';
 
-document.getElementById('title').innerText=
-translations[currentLang].title;
-
-document.getElementById('description').innerHTML=
-translations[currentLang].description;
-
-document.getElementById('quote-title').innerText=
-translations[currentLang].quoteTitle;
-
-document.getElementById('quote-text').innerText=
-translations[currentLang].quoteText;
-
-document.getElementById('menu-ritratti').innerText=
-translations[currentLang].menuPortraits;
-
-document.getElementById('menu-digital').innerText=
-translations[currentLang].menuDigital;
-
-document.getElementById('menu-wall').innerText=
-translations[currentLang].menuWall;
-
-document.getElementById('menu-bookmarks').innerText=
-translations[currentLang].menuBookmarks;
-
-document.getElementById('menu-balls').innerText=
-translations[currentLang].menuBalls;
-
-document.getElementById('menu-shirts').innerText=
-translations[currentLang].menuShirts;
-
-document.getElementById('menu-contact').innerText=
-translations[currentLang].menuContact;
+document.getElementById('explore-label').innerText = t.explore;
+document.getElementById('title').innerText = t.title;
+document.getElementById('description').innerHTML = t.description;
+document.getElementById('quote-title').innerText = t.quoteTitle;
+document.getElementById('quote-text').innerText = t.quoteText;
+document.getElementById('menu-ritratti').innerText = t.menuPortraits;
+document.getElementById('menu-digital').innerText = t.menuDigital;
+document.getElementById('menu-wall').innerText = t.menuWall;
+document.getElementById('menu-bookmarks').innerText = t.menuBookmarks;
+document.getElementById('menu-balls').innerText = t.menuBalls;
+document.getElementById('menu-shirts').innerText = t.menuShirts;
+document.getElementById('menu-contact').innerText = t.menuContact;
 
 }
 
