@@ -786,6 +786,23 @@ function applyLanguage() {
 }
 
 
+function toggleMenu() {
+
+  document.getElementById('menu').classList.toggle('show');
+
+}
+
+document.addEventListener('click', function(e) {
+
+  if (!e.target.closest('.dropdown')) {
+
+    document.getElementById('menu').classList.remove('show');
+
+  }
+
+});
+
+
 function toggleLang() {
 
   currentLang = currentLang === 'it'
