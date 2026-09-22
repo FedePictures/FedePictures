@@ -59,11 +59,64 @@
       transform: scale(1.05) rotate(-3deg);
     }
 
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     nav a {
       margin: 0 1em;
       text-decoration: none;
       color: var(--scuro);
       font-weight: bold;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropbtn {
+      background: var(--viola);
+      color: white;
+      border: none;
+      padding: .6em 1.2em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: white;
+      min-width: 230px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.15);
+      overflow: hidden;
+      z-index: 3000;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 12px;
+      margin: 0;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .dropdown-content a:hover {
+      background: #f5f5f5;
     }
 
     .lang-switcher {
@@ -288,6 +341,11 @@ background:rgba(255,255,255,.35);
         font-size: 0.9em;
       }
 
+      .dropdown-content {
+        right: 50%;
+        transform: translateX(50%);
+      }
+
       .card-container{
         flex-wrap:wrap;
         justify-content:center;
@@ -310,9 +368,22 @@ background:rgba(255,255,255,.35);
     </a>
 
     <nav>
-      <a id="nav-about" href="#chi">Chi sono</a>
-      <a id="nav-work" href="#categorie">Cosa faccio</a>
-      <a id="nav-contact" href="#contatti">Contatti</a>
+      <div class="dropdown">
+        <button class="dropbtn" onclick="toggleMenu()">
+          <span id="explore-label">Esplora ▼</span>
+        </button>
+
+        <div class="dropdown-content" id="menu">
+          <a href="ritratti.html" id="menu-ritratti">Ritratti</a>
+          <a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
+          <a href="murales.html" id="menu-wall">Disegni sui muri</a>
+          <a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
+          <a href="palline.html" id="menu-balls">Palline di Natale</a>
+          <a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+          <a href="contatti.html" id="menu-contact">Contattami</a>
+        </div>
+      </div>
+
       <button class="lang-switcher" onclick="toggleLang()">EN</button>
     </nav>
 
@@ -475,7 +546,7 @@ background:rgba(255,255,255,.35);
   </section>
 
   <footer>
-    <p>&copy; © 2026 FedePictures • P. IVA 04962510618.</p>
+    <p>&copy; 2026 FedePictures • P. IVA 04962510618.</p>
   </footer>
 
   <div id="lightbox">
@@ -652,9 +723,14 @@ if(endX-startX>50) prevBtn.click();
         'contact-title':'Contattami',
         'gallery-title':'Gallery',
 
-        'nav-about':'Chi sono',
-        'nav-work':'Cosa faccio',
-        'nav-contact':'Contatti',
+        'explore-label':'Esplora ▼',
+        'menu-ritratti':'Ritratti',
+        'menu-digital':'Disegni al PC',
+        'menu-wall':'Disegni sui muri',
+        'menu-bookmarks':'Segnalibri',
+        'menu-balls':'Palline di Natale',
+        'menu-shirts':'Magliette e accessori',
+        'menu-contact':'Contattami',
 
         'cat1-title':'Ritratti',
         'cat1-text':'Ritratti personalizzati a partire da foto, ideali per regali o ricordi speciali.',
