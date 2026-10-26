@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FedePictures | Carrello</title>
+<link rel="icon" href="../volpe.png" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --rosa: #ffc0cb;
+  --celeste: #b2eaff;
+  --viola: #d2b4f2;
+  --scuro: #333;
+  --bordo: #242424;
+  --ombra: 0 4px 14px rgba(0,0,0,.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  color: var(--scuro);
+  background: #fff;
+}
+
+button, a {
+  font: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+.site-header {
+  background: var(--celeste);
+  min-height: 76px;
+  padding: 8px 24px 8px 150px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+}
+
+.logo-link {
+  position: absolute;
+  left: 24px;
+  top: 0;
+  width: 82px;
+  height: 82px;
+  display: flex;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.main-logo {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+  object-position: left top;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,.08));
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-button,
+.lang-switcher {
+  border: 1px solid transparent;
+  background: var(--viola);
+  color: #68427f;
+  padding: 10px 15px;
+  border-radius: 9px;
+  font-size: .85rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.header-button.cart-link {
+  border-color: #9466b6;
+}
+
+.cart-count {
+  display: inline-flex;
+  min-width: 21px;
+  height: 21px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  margin-left: 5px;
+  border-radius: 20px;
+  background: #fff;
+  color: #68427f;
+  font-size: .75rem;
+}
+
+main {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 30px 24px 60px;
+}
+
+.intro {
+  text-align: center;
+  margin: 8px auto 30px;
+}
+
+h1, h2, h3 {
+  font-family: 'Baloo 2', sans-serif;
+}
+
+h1 {
+  font-size: clamp(2rem,4vw,2.7rem);
+  margin: 0 0 4px;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin: 0 0 18px;
+}
+
+.intro p {
+  margin: 0;
+  color: #686078;
+}
+
+.cart-layout {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cart-item {
+  border: 2px solid var(--bordo);
+  border-radius: 18px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 100px minmax(0,1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.item-image {
+  width: 100px;
+  height: 110px;
+  border-radius: 10px;
+  object-fit: contain;
+  background: #faf8fc;
+}
+
+.item-image.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #a08ab2;
+  font-size: 2rem;
+}
+
+.item-title {
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+.item-meta {
+  font-size: .9rem;
+  line-height: 1.5;
+  color: #655d70;
+  overflow-wrap: anywhere;
+}
+
+.item-meta p {
+  margin: 3px 0;
+}
+
+.custom-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 130px;
+  margin-top: 8px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.item-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .9rem;
+}
+
+.quantity-control input {
+  width: 66px;
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 8px;
+}
+
+.line-total {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.remove-button {
+  border: 1px solid #d9b7e9;
+  color: #704b86;
+  background: #fff;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-weight: 700;
+}
+
+.summary {
+  border-radius: 18px;
+  background: linear-gradient(145deg,#fff7fa,#f2faff);
+  padding: 20px;
+  box-shadow: var(--ombra);
+  position: sticky;
+  top: 95px;
+}
+
+.summary h2 {
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0;
+  font-size: .96rem;
+}
+
+.summary-total {
+  border-top: 1px solid #d9cfe0;
+  padding-top: 14px;
+  margin-top: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.notice {
+  font-size: .85rem;
+  line-height: 1.5;
+  color: #625a6c;
+  background: #fff;
+  border: 1px solid #e4d9eb;
+  padding: 12px;
+  border-radius: 10px;
+  margin: 16px 0;
+}
+
+.primary-button,
+.secondary-button {
+  display: block;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-weight: 700;
+}
+
+.primary-button {
+  border: 1px solid #b48bd7;
+  background: var(--viola);
+  color: #4f3264;
+}
+
+.secondary-button {
+  margin-top: 10px;
+  border: 1px solid #aaa;
+  background: #fff;
+  color: #333;
+}
+
+.empty-cart {
+  text-align: center;
+  border: 2px dashed #d7c7e4;
+  border-radius: 18px;
+  padding: 44px 20px;
+}
+
+.empty-cart .symbol {
+  font-size: 2.8rem;
+}
+
+.empty-cart h2 {
+  margin: 8px 0;
+}
+
+.empty-cart p {
+  line-height: 1.5;
+}
+
+.empty-cart a {
+  display: inline-block;
+  margin-top: 8px;
+  background: var(--viola);
+  color: #4f3264;
+  padding: 11px 18px;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.gradient-band {
+  height: 55px;
+  margin: 38px 0 0;
+  background: linear-gradient(110deg,#f7c4d4 0%,#e3d6e8 50%,#b2eaff 100%);
+}
+
+footer {
+  text-align: center;
+  padding: 0 20px 25px;
+  font-size: .85rem;
+  color: #746b7d;
+}
+
+@media(max-width:760px) {
+  .site-header {
+    padding: 8px 10px 8px 94px;
+    gap: 6px;
+    min-height: 65px;
+  }
+
+  .logo-link,
+  .main-logo {
+    width: 68px;
+    height: 68px;
+    left: 10px;
+  }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .header-button,
+  .lang-switcher {
+    padding: 9px 10px;
+    font-size: .72rem;
+  }
+
+  main {
+    padding: 24px 14px 45px;
+  }
+
+  .cart-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summary {
+    position: static;
+  }
+
+  .cart-item {
+    grid-template-columns: 72px minmax(0,1fr);
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .item-image {
+    width: 72px;
+    height: 86px;
+  }
+}
+
+@media(max-width:390px) {
+  .header-button,
+  .lang-switcher {
+    padding: 8px 7px;
+    font-size: .68rem;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+  }
+
+  .item-image {
+    width: 100%;
+    height: 120px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <a class="logo-link" href="../index.html" aria-label="FedePictures - Home">
+    <img class="main-logo" src="../FedePictures_logo.png" alt="Logo FedePictures">
+  </a>
+
+  <div class="header-actions">
+    <a class="header-button cart-link" href="carrello.html">
+      <span id="cart-label">CARRELLO</span>
+      <span class="cart-count" id="cart-count">0</span>
+    </a>
+
+    <a class="header-button" href="index.html#prodotti" id="shop-button">SHOP</a>
+
+    <div class="header-button" style="position:relative;padding:0;background:transparent">
+      <button id="explore-button" style="border:0;background:var(--viola);color:#68427f;border-radius:9px;padding:10px 14px;font-weight:700">
+        ESPLORA ▼
+      </button>
+
+      <nav id="explore-menu" style="display:none;position:absolute;right:0;top:calc(100% + 8px);background:#fff;min-width:210px;border-radius:10px;box-shadow:var(--ombra);overflow:hidden">
+        <a href="../index.html" data-nav="home" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Home</a>
+        <a href="../segnalibri.html" data-nav="bookmarks" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Segnalibri</a>
+        <a href="../palline.html" data-nav="baubles" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Palline di Natale</a>
+        <a href="../magliette.html" data-nav="shirts" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Magliette e accessori</a>
+        <a href="../contatti.html" data-nav="contact" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Contattami</a>
+      </nav>
+    </div>
+
+    <button class="lang-switcher" id="language-toggle" type="button">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <h1 id="page-title">Il tuo carrello</h1>
+    <p id="intro-text">Controlla i prodotti e le personalizzazioni prima di continuare.</p>
+  </section>
+
+  <div id="cart-content"></div>
+
+  <div class="gradient-band" aria-hidden="true"></div>
+</main>
+
+<footer id="footer-note">
+  I prodotti e le quantità vengono conservati in questo browser. Il pagamento online non è ancora attivo.
+</footer>
+
+<script>
+(() => {
+  'use strict';
+
+  const CART_KEY = 'fedepictures_shop_cart_v1';
+  const LANG_KEY = 'fedepictures_shop_language';
+
+  let lang = localStorage.getItem(LANG_KEY) || 'it';
+
+  const $ = id => document.getElementById(id);
+
+  const words = {
+    it: {
+      cart: 'CARRELLO',
+      shop: 'SHOP',
+      explore: 'ESPLORA ▼',
+      lang: 'EN',
+      title: 'Il tuo carrello',
+      intro: 'Controlla i prodotti e le personalizzazioni prima di continuare.',
+      emptyTitle: 'Il carrello è vuoto',
+      emptyText: 'Non hai ancora aggiunto prodotti. Torna allo shop per scegliere le tue creazioni preferite.',
+      backShop: 'Torna allo shop',
+      summary: 'Riepilogo ordine',
+      products: 'Prodotti',
+      total: 'Totale prodotti',
+      pending: 'Prezzo da definire',
+      quantity: 'Quantità',
+      remove: 'Rimuovi',
+      subtotal: 'Subtotale',
+      continue: 'Continua gli acquisti',
+      clear: 'Svuota carrello',
+      notice: 'Il pagamento online e l’invio automatico dell’ordine non sono ancora attivi. Per ora il carrello è salvato soltanto in questo browser.',
+      footer: 'I prodotti e le quantità vengono conservati in questo browser. Il pagamento online non è ancora attivo.',
+      size: 'Dimensione',
+      backText: 'Testo sul retro',
+      shirtSize: 'Taglia',
+      theme: 'Tema richiesto',
+      image: 'Immagine di riferimento',
+      file: 'File caricato',
+      custom: 'Personalizzazione',
+      confirmClear: 'Vuoi davvero svuotare il carrello?',
+      ready: 'Prodotto pronto da consegnare',
+      customProduct: 'Prodotto personalizzato',
+      noPrice: 'Da definire',
+      item: 'prodotto',
+      items: 'prodotti'
+    },
+
+    en: {
+      cart: 'CART',
+      shop: 'SHOP',
+      explore: 'EXPLORE ▼',
+      lang: 'IT',
+      title: 'Your cart',
+      intro: 'Review your products and customizations before continuing.',
+      emptyTitle: 'Your cart is empty',
+      emptyText: 'You have not added any products yet. Return to the shop to choose your favorite creations.',
+      backShop: 'Back to shop',
+      summary: 'Order summary',
+      products: 'Products',
+      total: 'Product total',
+      pending: 'Price to be confirmed',
+      quantity: 'Quantity',
+      remove: 'Remove',
+      subtotal: 'Subtotal',
+      continue: 'Continue shopping',
+      clear: 'Empty cart',
+      notice: 'Online payment and automatic order submission are not active yet. For now, your cart is saved only in this browser.',
+      footer: 'Products and quantities are stored in this browser. Online payment is not active yet.',
+      size: 'Size',
+      backText: 'Text on the back',
+      shirtSize: 'Size',
+      theme: 'Requested theme',
+      image: 'Reference image',
+      file: 'Uploaded file',
+      custom: 'Customization',
+      confirmClear: 'Do you really want to empty the cart?',
+      ready: 'Ready-to-ship product',
+      customProduct: 'Personalized product',
+      noPrice: 'To be confirmed',
+      item: 'item',
+      items: 'items'
+    }
+  };
+
+  const t = key => words[lang][key] || key;
+
+  const euro = value =>
+    new Intl.NumberFormat(
+      lang === 'it' ? 'it-IT' : 'en-GB',
+      { style: 'currency', currency: 'EUR' }
+    ).format(value);
+
+  function readCart() {
+    try {
+      const data = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      return Array.isArray(data) ? data : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeCart(cart) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  }
+
+  function updateHeader() {
+    $('cart-label').textContent = t('cart');
+
+    $('cart-count').textContent = readCart().reduce(
+      (n, item) => n + (Number(item.quantity) || 0),
+      0
+    );
+
+    $('shop-button').textContent = t('shop');
+    $('explore-button').textContent = t('explore');
+    $('language-toggle').textContent = t('lang');
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[ch]);
+  }
+
+  function getName(item) {
+    if (item.type === 'custom') {
+      const names = {
+        bookmark: lang === 'it' ? 'Segnalibro personalizzato' : 'Custom bookmark',
+        bauble: lang === 'it' ? 'Pallina personalizzata' : 'Custom Christmas bauble',
+        shirt: lang === 'it' ? 'Maglietta personalizzata' : 'Custom T-shirt',
+        'mini-canvas': lang === 'it'
+          ? 'Mini tela personalizzata con cavalletto'
+          : 'Custom mini canvas with easel'
+      };
+
+      return names[item.kind] ||
+        item.name ||
+        (lang === 'it' ? 'Prodotto personalizzato' : 'Personalized product');
+    }
+
+    return item.name || item.id || (lang === 'it' ? 'Prodotto' : 'Product');
+  }
+
+  function render() {
+    const cart = readCart();
+
+    updateHeader();
+
+    $('page-title').textContent = t('title');
+    $('intro-text').textContent = t('intro');
+    $('footer-note').textContent = t('footer');
+
+    const root = $('cart-content');
+
+    if (!cart.length) {
+      root.innerHTML = `
+        <section class="empty-cart">
+          <div class="symbol">🛒</div>
+          <h2>${t('emptyTitle')}</h2>
+          <p>${t('emptyText')}</p>
+          <a href="index.html">${t('backShop')}</a>
+        </section>
+      `;
+      return;
+    }
+
+    let total = 0;
+    let pending = false;
+    let count = 0;
+
+    const cards = cart.map((item, index) => {
+      const qty = Math.max(1, Number(item.quantity) || 1);
+      count += qty;
+
+      const price =
+        item.pricePending ||
+        item.unitPrice === null ||
+        item.unitPrice === undefined ||
+        !Number.isFinite(Number(item.unitPrice))
+          ? null
+          : Number(item.unitPrice);
+
+      if (price === null) {
+        pending = true;
+      } else {
+        total += price * qty;
+      }
+
+      let image;
+
+      if (item.type === 'ready' && item.image) {
+        image = `
+          <img class="item-image"
+               src="${escapeHtml(item.image)}"
+               alt="${escapeHtml(getName(item))}"
+               onerror="this.style.display='none'">
+        `;
+      } else if (
+        item.customization &&
+        item.customization.fileData &&
+        item.customization.fileData.startsWith('data:image/')
+      ) {
+        image = `
+          <img class="item-image"
+               src="${item.customization.fileData}"
+               alt="${t('image')}">
+        `;
+      } else {
+        image = `<div class="item-image empty">✦</div>`;
+      }
+
+      const details = [];
+
+      if (item.size) {
+        details.push(`
+          <p><strong>${t('size')}:</strong>
+          ${escapeHtml(item.size)}${price !== null ? ' — ' + euro(price) : ''}</p>
+        `);
+      }
+
+      if (item.shirtSize) {
+        details.push(`
+          <p><strong>${t('shirtSize')}:</strong>
+          ${escapeHtml(item.shirtSize)}</p>
+        `);
+      }
+
+      if (item.backText) {
+        details.push(`
+          <p><strong>${t('backText')}:</strong>
+          ${escapeHtml(item.backText)}</p>
+        `);
+      }
+
+      if (item.type === 'custom' && item.customization) {
+        if (item.customization.theme) {
+          details.push(`
+            <p><strong>${t('theme')}:</strong>
+            ${escapeHtml(item.customization.theme)}</p>
+          `);
+        }
+
+        if (item.customization.fileName) {
+          details.push(`
+            <p><strong>${t('file')}:</strong>
+            ${escapeHtml(item.customization.fileName)}</p>
+          `);
+        }
+      }
+
+      const lineTotal = price === null
+        ? t('noPrice')
+        : euro(price * qty);
+
+      return `
+        <article class="cart-item">
+          ${image}
+
+          <div>
+            <h3 class="item-title">${escapeHtml(getName(item))}</h3>
+
+            <div class="item-meta">
+              ${details.join('')}
+              ${item.type === 'custom'
+                ? `<p><strong>${t('custom')}:</strong> ${t('customProduct')}</p>`
+                : ''}
+            </div>
+
+            <div class="item-bottom">
+              <label class="quantity-control">
+                ${t('quantity')}
+                <input
+                  type="number"
+                  min="1"
+                  max="99"
+                  value="${qty}"
+                  data-qty="${index}"
+                  aria-label="${t('quantity')}">
+              </label>
+
+              <span class="line-total">${lineTotal}</span>
+
+              <button
+                type="button"
+                class="remove-button"
+                data-remove="${index}">
+                ${t('remove')}
+              </button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    root.innerHTML = `
+      <div class="cart-layout">
+        <section>
+          <div class="items">${cards}</div>
+          <button type="button" class="secondary-button" id="clear-cart">
+            ${t('clear')}
+          </button>
+        </section>
+
+        <aside class="summary">
+          <h2>${t('summary')}</h2>
+
+          <div class="summary-row">
+            <span>${t('products')} (${count})</span>
+            <strong>${cart.length}</strong>
+          </div>
+
+          <div class="summary-row summary-total">
+            <span>${t('total')}</span>
+            <strong>${euro(total)}${pending ? ' +' : ''}</strong>
+          </div>
+
+          ${pending
+            ? `<div class="notice">${t('pending')}: ${t('noPrice')}.</div>`
+            : ''}
+
+          <div class="notice">${t('notice')}</div>
+
+          <a class="primary-button" href="index.html">
+            ${t('continue')}
+          </a>
+        </aside>
+      </div>
+    `;
+
+    root.querySelectorAll('[data-qty]').forEach(input => {
+      input.addEventListener('change', () => {
+        const i = Number(input.dataset.qty);
+        const q = Math.min(
+          99,
+          Math.max(1, Math.floor(Number(input.value) || 1))
+        );
+
+        const updated = readCart();
+
+        if (updated[i]) {
+          updated[i].quantity = q;
+        }
+
+        writeCart(updated);
+        render();
+      });
+    });
+
+    root.querySelectorAll('[data-remove]').forEach(button => {
+      button.addEventListener('click', () => {
+        const i = Number(button.dataset.remove);
+        const updated = readCart();
+
+        updated.splice(i, 1);
+        writeCart(updated);
+        render();
+      });
+    });
+
+    $('clear-cart').addEventListener('click', () => {
+      if (confirm(t('confirmClear'))) {
+        writeCart([]);
+        render();
+      }
+    });
+  }
+
+  $('explore-button').addEventListener('click', () => {
+    const menu = $('explore-menu');
+
+    menu.style.display =
+      menu.style.display === 'block' ? 'none' : 'block';
+  });
+
+  $('language-toggle').addEventListener('click', () => {
+    lang = lang === 'it' ? 'en' : 'it';
+
+    localStorage.setItem(LANG_KEY, lang);
+    document.documentElement.lang = lang;
+
+    render();
+
+    document.querySelectorAll('[data-nav]').forEach(a => {
+      const labels = {
+        it: {
+          home: 'Home',
+          bookmarks: 'Segnalibri',
+          baubles: 'Palline di Natale',
+          shirts: 'Magliette e accessori',
+          contact: 'Contattami'
+        },
+        en: {
+          home: 'Home',
+          bookmarks: 'Bookmarks',
+          baubles: 'Christmas baubles',
+          shirts: 'T-shirts & accessories',
+          contact: 'Contact me'
+        }
+      };
+
+      a.textContent = labels[lang][a.dataset.nav];
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (
+      !e.target.closest('#explore-button') &&
+      !e.target.closest('#explore-menu')
+    ) {
+      $('explore-menu').style.display = 'none';
+    }
+  });
+
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll('[data-nav]').forEach(a => {
+    const labels = {
+      it: {
+        home: 'Home',
+        bookmarks: 'Segnalibri',
+        baubles: 'Palline di Natale',
+        shirts: 'Magliette e accessori',
+        contact: 'Contattami'
+      },
+      en: {
+        home: 'Home',
+        bookmarks: 'Bookmarks',
+        baubles: 'Palline di Natale',
+        shirts: 'Magliette e accessori',
+        contact: 'Contattami'
+      }
+    };
+
+    a.textContent = labels[lang][a.dataset.nav];
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
