@@ -463,34 +463,56 @@ footer {
 </head>
 
 <body>
-<header class="site-header">
-  <a href="../index.html" class="logo-link" aria-label="FedePictures - Home">
-    <img src="../FedePictures_logo.png" alt="Logo FedePictures" class="main-logo">
-  </a>
+  <header class="site-header">
 
-  <nav class="header-actions" aria-label="Navigazione principale">
-    <a class="header-button" href="carrello.html">
-      <span id="cart-label">CARRELLO</span>
-      <span class="cart-count" id="cart-count">0</span>
+    <a href="/FedePictures/index.html"
+       class="logo-link"
+       aria-label="FedePictures - Home">
+      <img src="/FedePictures/FedePictures_logo.png"
+           alt="Logo FedePictures"
+           class="main-logo">
     </a>
 
-    <div class="dropdown">
-      <button class="header-button" id="explore-button" type="button" aria-expanded="false">ESPLORA ▼</button>
-      <div class="dropdown-content" id="explore-menu">
-        <a href="../index.html" data-translation="home">Home</a>
-        <a href="../ritratti.html" data-translation="portraits">Ritratti</a>
-        <a href="../disegni-digitali.html" data-translation="digital">Disegni al PC</a>
-        <a href="../murales.html" data-translation="wall">Disegni sui muri</a>
-        <a href="../segnalibri.html" data-translation="bookmarks">Segnalibri</a>
-        <a href="../palline.html" data-translation="balls">Palline di Natale</a>
-        <a href="../magliette.html" data-translation="shirts">Magliette e accessori</a>
-        <a href="../contatti.html" data-translation="contact">Contattami</a>
-      </div>
-    </div>
+    <nav class="header-actions" aria-label="Navigazione principale">
 
-    <button class="lang-switcher" id="language-button" type="button">EN</button>
-  </nav>
-</header>
+      <a class="header-button" href="/FedePictures/carrello.html">
+        <span id="cart-label">CARRELLO</span>
+        <span class="cart-count" id="cart-count">0</span>
+      </a>
+
+      <div class="dropdown">
+        <button
+          class="header-button dropdown-button"
+          id="explore-button"
+          type="button"
+          aria-expanded="false"
+          aria-controls="explore-menu">
+          <span id="explore-label">ESPLORA</span> ▼
+        </button>
+
+        <div class="dropdown-content" id="explore-menu">
+          <a href="/FedePictures/index.html" data-translation="home">Home</a>
+          <a href="/FedePictures/ritratti.html" data-translation="portraits">Ritratti</a>
+          <a href="/FedePictures/disegni-digitali.html" data-translation="digital">Disegni al PC</a>
+          <a href="/FedePictures/murales.html" data-translation="wall">Disegni sui muri</a>
+          <a href="/FedePictures/segnalibri.html" data-translation="bookmarks">Segnalibri</a>
+          <a href="/FedePictures/palline.html" data-translation="balls">Palline di Natale</a>
+          <a href="/FedePictures/magliette.html" data-translation="shirts">Magliette e accessori</a>
+          <a href="/FedePictures/contatti.html" data-translation="contact">Contattami</a>
+          <a href="/FedePictures/shop/index.html" data-translation="shop">Shop</a>
+        </div>
+      </div>
+
+      <button
+        class="header-button lang-switcher"
+        id="language-button"
+        type="button"
+        aria-label="Change language">
+        EN
+      </button>
+
+    </nav>
+  </header>
 
 <main>
   <section class="intro">
