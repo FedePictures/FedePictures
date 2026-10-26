@@ -89,6 +89,19 @@
       font-size: 1em;
     }
 
+    /* Pulsante Shop nella barra di navigazione */
+    .shop-nav-link {
+      display: inline-block;
+      margin: 0 !important;
+      text-decoration: none;
+      line-height: normal;
+      white-space: nowrap;
+    }
+
+    .shop-nav-link:hover {
+      filter: brightness(0.97);
+    }
+
     .dropdown-content {
       display: none;
       position: absolute;
@@ -175,30 +188,27 @@
     .card-container {
       display: flex;
       justify-content: center;
-      flex-wrap: nowrap; /* Cambiato da wrap a nowrap per forzare la riga unica */
-      gap: 1em;          /* Leggermente ridotto per recuperare spazio prezioso */
+      flex-wrap: nowrap;
+      gap: 1em;
       width: 100%;
       box-sizing: border-box;
     }
-   
+
     .card-link {
-
       text-decoration: none;
-
       color: inherit;
-
     }
-   
+
     .card {
       background: var(--viola);
       color: white;
-      width: 180px;      /* Ridotta la larghezza fissa da 250px a 180px */
-      padding: 1.2em;    /* Ottimizzato il padding interno */
+      width: 180px;
+      padding: 1.2em;
       border-radius: 20px;
       text-align: center;
       transition: transform 0.3s ease;
       cursor: pointer;
-      flex-shrink: 1;    /* Permette alle card di adattarsi se lo schermo è un po' più piccolo */
+      flex-shrink: 1;
     }
 
     .card:hover {
@@ -261,37 +271,36 @@
     }
 
     #prev-btn,
-#next-btn{
+    #next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 3001;
+      transition: .3s;
+    }
 
-position:absolute;
-top:50%;
-transform:translateY(-50%);
-width:60px;
-height:60px;
-border:none;
-border-radius:50%;
-background:rgba(255,255,255,.15);
-color:white;
-font-size:2rem;
-cursor:pointer;
-z-index:3001;
-transition:.3s;
+    #prev-btn {
+      left: 30px;
+    }
 
-}
+    #next-btn {
+      right: 30px;
+    }
 
-#prev-btn{left:30px;}
+    #prev-btn:hover,
+    #next-btn:hover {
+      background: rgba(255,255,255,.35);
+    }
 
-#next-btn{right:30px;}
-
-#prev-btn:hover,
-#next-btn:hover{
-
-background:rgba(255,255,255,.35);
-
-}
-
-
-@keyframes zoomIn {
+    @keyframes zoomIn {
       to {
         transform: scale(1);
       }
@@ -311,7 +320,6 @@ background:rgba(255,255,255,.35);
     }
 
     @media (max-width: 768px) {
-
       header {
         flex-direction: column;
         height: auto;
@@ -346,14 +354,14 @@ background:rgba(255,255,255,.35);
         transform: translateX(50%);
       }
 
-      .card-container{
-        flex-wrap:wrap;
-        justify-content:center;
+      .card-container {
+        flex-wrap: wrap;
+        justify-content: center;
       }
 
-      .card{
-        width:85%;
-        max-width:320px;
+      .card {
+        width: 85%;
+        max-width: 320px;
       }
     }
   </style>
@@ -362,12 +370,14 @@ background:rgba(255,255,255,.35);
 <body>
 
   <header>
-
     <a href="#hero" class="logo-link">
       <img src="FedePictures_logo.png" alt="FedePictures Logo" class="main-logo">
     </a>
 
     <nav>
+      <!-- Pulsante Shop: apre la pagina Shop -->
+      <a href="shop/index.html" class="dropbtn shop-nav-link" id="shop-nav-link">Shop</a>
+
       <div class="dropdown">
         <button class="dropbtn" onclick="toggleMenu()">
           <span id="explore-label">Esplora ▼</span>
@@ -386,48 +396,39 @@ background:rgba(255,255,255,.35);
 
       <button class="lang-switcher" onclick="toggleLang()">EN</button>
     </nav>
-
   </header>
 
   <section class="hero" id="hero">
-
     <div class="video-container">
-      <iframe 
-        src="https://www.youtube.com/embed/YE8RM41pZO0" 
+      <iframe
+        src="https://www.youtube.com/embed/YE8RM41pZO0"
         title="FedePictures Video"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen>
       </iframe>
     </div>
 
-    <h2 id="hero-title">
-      Disegni su misura, per emozioni uniche
-    </h2>
+    <h2 id="hero-title">Disegni su misura, per emozioni uniche</h2>
 
     <p id="hero-text">
       Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!
     </p>
-
   </section>
 
   <section class="section" id="chi">
-
     <h3 id="bio-title">Chi sono</h3>
 
     <p id="bio-text" style="max-width: 800px; margin: 0 auto; text-align: center; line-height: 1.6;">
       Disegnare è il mio modo di raccontare storie.
-      Sono Federica, illustratrice e artista digitale. 
+      Sono Federica, illustratrice e artista digitale.
       Creo immagini personalizzate partendo da persone, ricordi, passioni e idee, trasformandole in qualcosa di unico da regalare, conservare o semplicemente sentire proprio.
     </p>
-
   </section>
 
   <section class="section" id="categorie">
-
     <h3 id="work-title">Cosa faccio</h3>
 
     <div class="card-container">
-
       <a href="ritratti.html" class="card-link">
         <div class="card">
           <img src="ico_matita.png" alt="Ritratti">
@@ -493,17 +494,13 @@ background:rgba(255,255,255,.35);
           </p>
         </div>
       </a>
-
     </div>
-
   </section>
 
   <section class="gallery">
-
     <h3 id="gallery-title">Gallery</h3>
 
     <div class="gallery-scroll">
-
       <img src="gallery1.jpg" alt="Artwork 1">
       <img src="gallery13.jpg" alt="Artwork 13">
       <img src="maglietta sailor moon001.png" alt="Artwork 15">
@@ -520,20 +517,15 @@ background:rgba(255,255,255,.35);
       <img src="gallery10.jpg" alt="Artwork 10">
       <img src="gallery12.jpg" alt="Artwork 12">
       <img src="gallery14.jpg" alt="Artwork 14">
-
     </div>
-
   </section>
 
   <section class="contact" id="contatti">
-
     <h3 id="contact-title">Contattami</h3>
 
     <p>
       <span id="email-label">Email:</span>
-      <a href="mailto:fedepictures@libero.it">
-        fedepictures@libero.it
-      </a>
+      <a href="mailto:fedepictures@libero.it">fedepictures@libero.it</a>
     </p>
 
     <p>
@@ -542,7 +534,6 @@ background:rgba(255,255,255,.35);
         @fede.pictures
       </a>
     </p>
-
   </section>
 
   <footer>
@@ -550,289 +541,198 @@ background:rgba(255,255,255,.35);
   </footer>
 
   <div id="lightbox">
-
-  <button id="prev-btn">&#10094;</button>
-
-  <img id="lightbox-img" src="" alt="Ingrandimento">
-
-  <button id="next-btn">&#10095;</button>
-
-</div>
+    <button id="prev-btn">&#10094;</button>
+    <img id="lightbox-img" src="" alt="Ingrandimento">
+    <button id="next-btn">&#10095;</button>
+  </div>
 
   <script>
+    const images = document.querySelectorAll('.gallery-scroll img');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
 
-    const images =
-document.querySelectorAll('.gallery-scroll img');
+    let currentIndex = 0;
 
-const lightbox =
-document.getElementById('lightbox');
+    function showImage(index) {
+      currentIndex = index;
+      lightboxImg.src = images[currentIndex].src;
+    }
 
-const lightboxImg =
-document.getElementById('lightbox-img');
+    images.forEach((img, index) => {
+      img.onclick = () => {
+        lightbox.style.display = 'flex';
+        showImage(index);
+      };
+    });
 
-const nextBtn =
-document.getElementById('next-btn');
+    nextBtn.onclick = () => {
+      currentIndex++;
+      if (currentIndex >= images.length) {
+        currentIndex = 0;
+      }
+      showImage(currentIndex);
+    };
 
-const prevBtn =
-document.getElementById('prev-btn');
+    prevBtn.onclick = () => {
+      currentIndex--;
+      if (currentIndex < 0) {
+        currentIndex = images.length - 1;
+      }
+      showImage(currentIndex);
+    };
 
-let currentIndex = 0;
+    lightbox.onclick = (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = 'none';
+      }
+    };
 
-function showImage(index){
+    document.addEventListener('keydown', e => {
+      if (lightbox.style.display === 'flex') {
+        if (e.key === 'ArrowRight') nextBtn.click();
+        if (e.key === 'ArrowLeft') prevBtn.click();
+        if (e.key === 'Escape') lightbox.style.display = 'none';
+      }
+    });
 
-currentIndex=index;
+    let startX = 0;
 
-lightboxImg.src=
-images[currentIndex].src;
+    lightbox.addEventListener('touchstart', e => {
+      startX = e.touches[0].clientX;
+    });
 
-}
-
-images.forEach((img,index)=>{
-
-img.onclick=()=>{
-
-lightbox.style.display='flex';
-
-showImage(index);
-
-};
-
-});
-
-nextBtn.onclick=()=>{
-
-currentIndex++;
-
-if(currentIndex>=images.length){
-
-currentIndex=0;
-
-}
-
-showImage(currentIndex);
-
-};
-
-prevBtn.onclick=()=>{
-
-currentIndex--;
-
-if(currentIndex<0){
-
-currentIndex=images.length-1;
-
-}
-
-showImage(currentIndex);
-
-};
-
-lightbox.onclick=(e)=>{
-
-if(e.target===lightbox){
-
-lightbox.style.display='none';
-
-}
-
-};
-
-document.addEventListener('keydown',e=>{
-
-if(lightbox.style.display==='flex'){
-
-if(e.key==='ArrowRight') nextBtn.click();
-
-if(e.key==='ArrowLeft') prevBtn.click();
-
-if(e.key==='Escape')
-
-lightbox.style.display='none';
-
-}
-
-});
-
-let startX=0;
-
-lightbox.addEventListener('touchstart',e=>{
-
-startX=e.touches[0].clientX;
-
-});
-
-lightbox.addEventListener('touchend',e=>{
-
-const endX=e.changedTouches[0].clientX;
-
-if(startX-endX>50) nextBtn.click();
-
-if(endX-startX>50) prevBtn.click();
-
-});
-
+    lightbox.addEventListener('touchend', e => {
+      const endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) nextBtn.click();
+      if (endX - startX > 50) prevBtn.click();
+    });
 
     const translations = {
-
       en: {
+        'hero-title': 'Custom drawings for unique emotions',
+        'hero-text': 'Portraits, custom digital illustrations and wall decorations made with love and style!',
+        'bio-title': 'About Me',
+        'work-title': 'What I Do',
+        'contact-title': 'Contact Me',
+        'gallery-title': 'Gallery',
 
-        'hero-title':'Custom drawings for unique emotions',
-        'hero-text':'Portraits, custom digital illustrations and wall decorations made with love and style!',
-        'bio-title':'About Me',
-        'work-title':'What I Do',
-        'contact-title':'Contact Me',
-        'gallery-title':'Gallery',
+        'explore-label': 'Explore ▼',
+        'menu-ritratti': 'Portraits',
+        'menu-digital': 'Digital Drawings',
+        'menu-wall': 'Wall Art',
+        'menu-bookmarks': 'Bookmarks',
+        'menu-balls': 'Christmas Ornaments',
+        'menu-shirts': 'T-shirts and Accessories',
+        'menu-contact': 'Contact Me',
 
-        'explore-label':'Explore ▼',
-        'menu-ritratti':'Portraits',
-        'menu-digital':'Digital Drawings',
-        'menu-wall':'Wall Art',
-        'menu-bookmarks':'Bookmarks',
-        'menu-balls':'Christmas Ornaments',
-        'menu-shirts':'T-shirts and Accessories',
-        'menu-contact':'Contact Me',
+        'nav-about': 'About Me',
 
-        'nav-about':'About Me',
+        'bio-text': 'Drawing is my way of telling stories. I’m Federica, an illustrator and digital artist. I create personalized artwork inspired by people, memories, passions, and ideas, turning them into something unique to gift, cherish, or simply call your own.',
 
-        'bio-text':
-        'Drawing is my way of telling stories. I’m Federica, an illustrator and digital artist. I create personalized artwork inspired by people, memories, passions, and ideas, turning them into something unique to gift, cherish, or simply call your own.',
-       
-        'nav-work':'What I Do',
-        'nav-contact':'Contact',
+        'nav-work': 'What I Do',
+        'nav-contact': 'Contact',
 
-        'cat1-title':'Portraits',
-        'cat1-text':'Custom portraits from photos, perfect as gifts or special memories.',
+        'cat1-title': 'Portraits',
+        'cat1-text': 'Custom portraits from photos, perfect as gifts or special memories.',
 
-        'cat2-title':'Digital Drawings',
-        'cat2-text':'Digital illustrations for social media, prints and creative gifts.',
+        'cat2-title': 'Digital Drawings',
+        'cat2-text': 'Digital illustrations for social media, prints and creative gifts.',
 
-        'cat3-title':'Wall Art',
-        'cat3-text':'Decorate walls with artistic illustrations, perfect for bedrooms or venues.',
+        'cat3-title': 'Wall Art',
+        'cat3-text': 'Decorate walls with artistic illustrations, perfect for bedrooms or venues.',
 
-        'cat4-title':'Christmas Ornaments',
-        'cat4-text':'Hand-painted Christmas decorations, perfect for your tree.',
+        'cat4-title': 'Christmas Ornaments',
+        'cat4-text': 'Hand-painted Christmas decorations, perfect for your tree.',
 
-        'cat5-title':'Bookmarks',
-        'cat5-text':'Handmade illustrated bookmarks, perfect as gifts or personalized gadgets.',
+        'cat5-title': 'Bookmarks',
+        'cat5-text': 'Handmade illustrated bookmarks, perfect as gifts or personalized gadgets.',
 
-        'cat6-title':'T-shirts and Accessories',
-        'cat6-text':'Custom t-shirts, bags and accessories with original illustrations.',
+        'cat6-title': 'T-shirts and Accessories',
+        'cat6-text': 'Custom t-shirts, bags and accessories with original illustrations.',
 
-        'email-label':'Email:',
-        'instagram-label':'Instagram:'
-
+        'email-label': 'Email:',
+        'instagram-label': 'Instagram:'
       },
 
       it: {
+        'hero-title': 'Disegni su misura, per emozioni uniche',
+        'hero-text': 'Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!',
+        'bio-title': 'Chi sono',
+        'work-title': 'Cosa faccio',
+        'contact-title': 'Contattami',
+        'gallery-title': 'Gallery',
 
-        'hero-title':'Disegni su misura, per emozioni uniche',
-        'hero-text':'Ritratti, disegni digitali personalizzati e decorazioni murali realizzati con amore e stile!',
-        'bio-title':'Chi sono',
-        'work-title':'Cosa faccio',
-        'contact-title':'Contattami',
-        'gallery-title':'Gallery',
+        'bio-text': 'Disegnare è il mio modo di raccontare storie. Sono Federica, illustratrice e artista digitale. Creo immagini personalizzate partendo da persone, ricordi, passioni e idee, trasformandole in qualcosa di unico da regalare, conservare o semplicemente sentire proprio.',
 
-        'bio-text':
-        'Disegnare è il mio modo di raccontare storie. Sono Federica, illustratrice e artista digitale. Creo immagini personalizzate partendo da persone, ricordi, passioni e idee, trasformandole in qualcosa di unico da regalare, conservare o semplicemente sentire proprio.',
+        'explore-label': 'Esplora ▼',
+        'menu-ritratti': 'Ritratti',
+        'menu-digital': 'Disegni al PC',
+        'menu-wall': 'Disegni sui muri',
+        'menu-bookmarks': 'Segnalibri',
+        'menu-balls': 'Palline di Natale',
+        'menu-shirts': 'Magliette e accessori',
+        'menu-contact': 'Contattami',
 
-        'explore-label':'Esplora ▼',
-        'menu-ritratti':'Ritratti',
-        'menu-digital':'Disegni al PC',
-        'menu-wall':'Disegni sui muri',
-        'menu-bookmarks':'Segnalibri',
-        'menu-balls':'Palline di Natale',
-        'menu-shirts':'Magliette e accessori',
-        'menu-contact':'Contattami',
+        'cat1-title': 'Ritratti',
+        'cat1-text': 'Ritratti personalizzati a partire da foto, ideali per regali o ricordi speciali.',
 
-        'cat1-title':'Ritratti',
-        'cat1-text':'Ritratti personalizzati a partire da foto, ideali per regali o ricordi speciali.',
+        'cat2-title': 'Disegni al PC',
+        'cat2-text': 'Illustrazioni realizzate digitalmente, perfette per social, stampe o regali creativi.',
 
-        'cat2-title':'Disegni al PC',
-        'cat2-text':'Illustrazioni realizzate digitalmente, perfette per social, stampe o regali creativi.',
+        'cat3-title': 'Disegni sui muri',
+        'cat3-text': 'Decora pareti con illustrazioni artistiche, perfette per camerette o locali.',
 
-        'cat3-title':'Disegni sui muri',
-        'cat3-text':'Decora pareti con illustrazioni artistiche, perfette per camerette o locali.',
+        'cat4-title': 'Palline di Natale',
+        'cat4-text': 'Decorazioni natalizie dipinte a mano, perfette per il tuo albero.',
 
-        'cat4-title':'Palline di Natale',
-        'cat4-text':'Decorazioni natalizie dipinte a mano, perfette per il tuo albero.',
+        'cat5-title': 'Segnalibri',
+        'cat5-text': 'Segnalibri illustrati a mano, ideali come pensieri unici o gadget personalizzati.',
 
-        'cat5-title':'Segnalibri',
-        'cat5-text':'Segnalibri illustrati a mano, ideali come pensieri unici o gadget personalizzati.',
+        'cat6-title': 'Magliette e accessori',
+        'cat6-text': 'T-shirt, shopper e accessori personalizzati con illustrazioni originali.',
 
-        'cat6-title':'Magliette e accessori',
-        'cat6-text':'T-shirt, shopper e accessori personalizzati con illustrazioni originali.',
-
-        'email-label':'Email:',
-        'instagram-label':'Instagram:'
-
+        'email-label': 'Email:',
+        'instagram-label': 'Instagram:'
       }
-
     };
 
-let currentLang =
-localStorage.getItem('language') || 'it';
+    let currentLang = localStorage.getItem('language') || 'it';
 
+    function applyLanguage() {
+      const texts = translations[currentLang];
 
-function applyLanguage() {
+      for (const id in texts) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.innerText = texts[id];
+        }
+      }
 
-  const texts = translations[currentLang];
-
-  for (const id in texts) {
-
-    const el = document.getElementById(id);
-
-    if (el) {
-
-      el.innerText = texts[id];
-
+      document.querySelector('.lang-switcher').innerText =
+        currentLang === 'it' ? 'EN' : 'IT';
     }
 
-  }
+    function toggleMenu() {
+      document.getElementById('menu').classList.toggle('show');
+    }
 
-  document.querySelector('.lang-switcher').innerText =
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.dropdown')) {
+        document.getElementById('menu').classList.remove('show');
+      }
+    });
 
-    currentLang === 'it'
-      ? 'EN'
-      : 'IT';
+    function toggleLang() {
+      currentLang = currentLang === 'it' ? 'en' : 'it';
 
-}
+      localStorage.setItem('language', currentLang);
 
+      applyLanguage();
+    }
 
-function toggleMenu() {
-
-  document.getElementById('menu').classList.toggle('show');
-
-}
-
-document.addEventListener('click', function(e) {
-
-  if (!e.target.closest('.dropdown')) {
-
-    document.getElementById('menu').classList.remove('show');
-
-  }
-
-});
-
-
-function toggleLang() {
-
-  currentLang = currentLang === 'it'
-    ? 'en'
-    : 'it';
-
-  localStorage.setItem(
-    'language',
-    currentLang
-  );
-
-  applyLanguage();
-
-}
-
-
-applyLanguage();
-
+    applyLanguage();
   </script>
 
 </body>
