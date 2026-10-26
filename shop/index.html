@@ -1,3 +1,932 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedePictures | Shop</title>
+<link rel="icon" href="../volpe.png">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --rosa:#ffc0cb;
+  --celeste:#b2eaff;
+  --viola:#d2b4f2;
+  --scuro:#333;
+  --bordo:#242424;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  font-family:'Quicksand',sans-serif;
+  color:var(--scuro);
+  background:#fff;
+}
+button,input,textarea { font:inherit; }
+button { cursor:pointer; }
+
+/* BARRA SUPERIORE E LOGO */
+.site-header {
+  position:sticky;
+  top:0;
+  z-index:1000;
+  width:100%;
+  height:62px;
+  min-height:62px;
+  padding:0 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--celeste);
+  box-shadow:0 2px 10px #00000018;
+}
+.logo-link {
+  display:block;
+  position:relative;
+  flex:0 0 150px;
+  width:150px;
+  height:60px;
+  overflow:visible;
+  text-decoration:none;
+  z-index:1010;
+}
+.main-logo {
+  display:block;
+  width:auto;
+  height:130px;
+  max-width:none;
+  object-fit:contain;
+  position:absolute;
+  top:-15px;
+  left:0;
+  z-index:1010;
+  filter:drop-shadow(0 4px 6px #0000001a);
+  transition:transform .3s ease;
+}
+.main-logo:hover { transform:scale(1.05) rotate(-3deg); }
+
+.header-actions {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
+}
+.header-button,.lang-switcher {
+  border:0;
+  border-radius:9px;
+  background:var(--viola);
+  color:#68427f;
+  padding:9px 13px;
+  font-size:.78rem;
+  font-weight:700;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.header-button:hover,.lang-switcher:hover { background:#c5a0ec; }
+.cart-link { display:flex; align-items:center; gap:7px; }
+.cart-count {
+  display:inline-flex;
+  min-width:20px;
+  height:20px;
+  align-items:center;
+  justify-content:center;
+  padding:0 5px;
+  border-radius:20px;
+  background:white;
+  color:#68427f;
+  font-size:.72rem;
+}
+.dropdown { position:relative; }
+.dropdown-content {
+  display:none;
+  position:absolute;
+  right:0;
+  top:calc(100% + 8px);
+  min-width:220px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 5px 20px #0002;
+  overflow:hidden;
+}
+.dropdown-content.show { display:block; }
+.dropdown-content a {
+  display:block;
+  padding:11px 15px;
+  color:var(--scuro);
+  text-decoration:none;
+  font-weight:600;
+}
+.dropdown-content a:hover { background:#f5f0fa; }
+
+/* TITOLO INTRODUTTIVO */
+main {
+  width:100%;
+  max-width:none;
+  padding:0;
+  margin:0;
+}
+h1,h2,h3 { font-family:'Baloo 2',sans-serif; }
+.intro {
+  text-align:center;
+  margin:0 auto;
+  max-width:900px;
+  padding:30px 18px 25px;
+}
+h1 {
+  font-size:clamp(2rem,3.2vw,2.8rem);
+  line-height:1.15;
+  margin:0 0 10px;
+  font-weight:700;
+}
+.intro p {
+  margin:0;
+  line-height:1.55;
+  font-size:.9rem;
+}
+
+/* PRODOTTI PERSONALIZZABILI */
+.custom-order-section {
+  position:relative;
+  isolation:isolate;
+  padding:0 18px 22px;
+}
+.custom-order-section::before {
+  content:"";
+  position:absolute;
+  z-index:-1;
+  top:40px;
+  right:0;
+  bottom:0;
+  left:0;
+  background:linear-gradient(105deg,#f7c1d2 0%,#e6d7ea 51%,#b2eaff 100%);
+}
+.section-heading {
+  max-width:966px;
+  margin:0 auto 24px;
+  padding:0;
+  font-size:1.45rem;
+  line-height:1.3;
+  font-weight:700;
+}
+.custom-grid {
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:10px;
+  align-items:stretch;
+  width:100%;
+  max-width:966px;
+  margin:0 auto;
+}
+.custom-card {
+  border:2px solid #111;
+  border-radius:26px;
+  padding:10px 8px 9px;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:306px;
+  background:#fff;
+}
+.custom-card h3 {
+  text-align:center;
+  font-size:1.05rem;
+  margin:0 0 6px;
+  line-height:1.2;
+}
+.product-symbol {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:42px;
+  margin:0 auto 5px;
+}
+.product-symbol svg {
+  width:50px;
+  height:42px;
+  stroke:#d8c900;
+  fill:none;
+  stroke-width:1.5;
+}
+.price-options {
+  margin:0 0 8px;
+  display:grid;
+  gap:3px;
+}
+.price-options label {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-size:.76rem;
+  line-height:1.25;
+}
+.price-options input {
+  accent-color:#9c70bf;
+  flex:0 0 auto;
+  margin:0 1px 0 2px;
+}
+.card-description {
+  font-size:.73rem;
+  line-height:1.38;
+  margin:5px 0 7px;
+}
+.back-text-input,.size-input {
+  width:100%;
+  min-width:0;
+  border:1px solid #999;
+  border-radius:8px;
+  padding:7px;
+  margin:0 0 8px;
+  background:#fff;
+  font-size:.75rem;
+}
+.size-field {
+  margin:0 0 7px;
+  font-size:.75rem;
+}
+.size-field label {
+  display:block;
+  margin-bottom:4px;
+}
+.customize-button {
+  display:block;
+  width:100%;
+  min-height:43px;
+  border:1px solid #444;
+  border-radius:11px;
+  padding:6px 5px;
+  background:#fff;
+  color:#111;
+  font-size:.58rem;
+  font-weight:700;
+  line-height:1.35;
+  text-align:center;
+  text-decoration:none;
+}
+.customize-button:hover { background:#f8f2fc; }
+.custom-state {
+  font-size:.66rem;
+  line-height:1.25;
+  margin:5px 0 0;
+  overflow-wrap:anywhere;
+  color:#5e4474;
+}
+.quantity-row {
+  display:flex;
+  align-items:center;
+  gap:4px;
+  margin-top:auto;
+  padding-top:7px;
+  font-size:.64rem;
+}
+.quantity-row label { white-space:nowrap; }
+.quantity-row input {
+  width:38px;
+  min-width:0;
+  padding:5px 2px;
+  border:1px solid #888;
+  border-radius:7px;
+  text-align:center;
+  font-size:.74rem;
+}
+.add-label {
+  line-height:1.15;
+  flex:1;
+}
+.cart-icon-button {
+  border:1px solid #bca7ca;
+  border-radius:7px;
+  background:#eadcf4;
+  color:#5b3c70;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  width:31px;
+  height:29px;
+  padding:3px;
+  flex:0 0 auto;
+}
+.cart-icon-button svg {
+  width:20px;
+  height:20px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.8;
+}
+button:disabled {
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+/* CORNICE ONDULATA */
+.custom-gradient-band {
+  position:absolute;
+  z-index:0;
+  pointer-events:none;
+  top:36px;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(1060px,calc(100% - 4px));
+  margin:0;
+  background:transparent;
+}
+.custom-gradient-band svg {
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+
+/* PRODOTTI IN PRONTA CONSEGNA */
+.ready-section {
+  max-width:1200px;
+  margin:40px auto 0;
+  padding:0;
+}
+.ready-section-heading-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+.ready-section .section-heading {
+  margin:0;
+  font-size:1.45rem;
+}
+.ready-toolbar {
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-end;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.ready-control {
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  min-width:150px;
+}
+.ready-control label {
+  color:#68427f;
+  font-size:.78rem;
+  font-weight:700;
+}
+.ready-control select {
+  min-width:150px;
+  max-width:100%;
+  border:1px solid #9a79b2;
+  border-radius:9px;
+  background:#fff;
+  color:#333;
+  padding:9px 30px 9px 10px;
+  font:600 .85rem 'Quicksand',sans-serif;
+  cursor:pointer;
+}
+.ready-empty {
+  margin:12px 8px 20px;
+  padding:20px;
+  border:1px dashed #c7abd9;
+  border-radius:12px;
+  color:#68427f;
+  text-align:center;
+}
+.ready-grid {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:28px 22px;
+  padding:0 8px;
+}
+.ready-card {
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+}
+.ready-photo {
+  width:100%;
+  aspect-ratio:1/1;
+  border:1px solid #bbb;
+  border-radius:18px;
+  overflow:hidden;
+  background:#fafafa;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+.ready-photo img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.ready-description {
+  font-size:.85rem;
+  line-height:1.4;
+  margin:8px 2px;
+  min-height:2.5em;
+  overflow-wrap:anywhere;
+}
+.ready-buy-row {
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.ready-price {
+  padding:7px 5px;
+  border:1px solid #777;
+  border-radius:7px;
+  font-weight:700;
+  white-space:nowrap;
+}
+.ready-buy-row .add-label { font-size:.75rem; }
+
+/* CONTATTI E PIE' DI PAGINA */
+.contact-band {
+  background:var(--celeste);
+  padding:32px 20px;
+  text-align:center;
+  margin-top:48px;
+}
+.contact-band h2 { margin:0 0 8px; }
+.contact-band p {
+  max-width:680px;
+  line-height:1.6;
+  margin:0 auto 16px;
+}
+.contact-band a {
+  display:inline-block;
+  color:var(--scuro);
+  background:#fff;
+  padding:10px 18px;
+  border-radius:9px;
+  font-weight:700;
+  text-decoration:none;
+}
+footer {
+  background:#333;
+  color:#fff;
+  text-align:center;
+  padding:20px;
+}
+
+/* FINESTRA DI PERSONALIZZAZIONE */
+.modal-backdrop {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  padding:18px;
+  align-items:center;
+  justify-content:center;
+  background:#0008;
+}
+.modal-backdrop.open { display:flex; }
+.modal {
+  width:min(100%,460px);
+  max-height:90vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 15px 45px #0004;
+}
+.modal h2 {
+  margin:0 0 8px;
+  font-size:1.6rem;
+}
+.modal p { line-height:1.5; }
+.modal label {
+  display:block;
+  font-weight:700;
+  margin:14px 0 6px;
+}
+.modal input[type=file] {
+  width:100%;
+  border:1px dashed #9d83b4;
+  border-radius:9px;
+  padding:10px;
+  background:#fbf8ff;
+}
+.modal textarea {
+  width:100%;
+  min-height:100px;
+  padding:10px;
+  border:1px solid #aaa;
+  border-radius:9px;
+  resize:vertical;
+}
+.notice { font-size:.8rem; color:#666; }
+.saved-custom-preview {
+  margin:10px 0 14px;
+  padding:10px;
+  border:1px solid #e2d5ee;
+  border-radius:10px;
+  background:#fbf8ff;
+}
+.saved-custom-preview[hidden] { display:none; }
+.saved-preview-item {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.saved-preview-item img {
+  display:block;
+  width:68px;
+  height:68px;
+  object-fit:contain;
+  border-radius:7px;
+  background:white;
+  border:1px solid #ddd;
+}
+.saved-preview-item p,.saved-theme-preview {
+  margin:0;
+  font-size:.82rem;
+  overflow-wrap:anywhere;
+}
+.remove-saved-button {
+  width:100%;
+  padding:9px 12px;
+  border:1px solid #c58b9b;
+  border-radius:9px;
+  background:#fff7f8;
+  color:#873a50;
+  font-weight:700;
+  cursor:pointer;
+}
+.remove-saved-button:hover { background:#ffe9ee; }
+.or-divider {
+  text-align:center;
+  color:#777;
+  margin:12px 0;
+  font-weight:700;
+}
+.modal-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
+}
+.modal-actions button {
+  padding:10px 18px;
+  border-radius:9px;
+  border:1px solid #8e6aab;
+  font-weight:700;
+}
+.cancel-button { background:white; color:#614879; }
+.confirm-button { background:var(--viola); color:#432657; }
+.form-error { color:#a12828; font-size:.85rem; }
+.toast {
+  position:fixed;
+  z-index:3000;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#333;
+  color:white;
+  padding:12px 18px;
+  border-radius:10px;
+  display:none;
+  max-width:calc(100% - 32px);
+  text-align:center;
+}
+.toast.show { display:block; }
+
+/* RESPONSIVE */
+@media(max-width:1100px) {
+  .custom-grid {
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    max-width:720px;
+  }
+  .custom-gradient-band { display:none; }
+  .custom-order-section::before { top:42px; }
+  .ready-section { max-width:720px; padding:0 12px; }
+  .ready-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+@media(max-width:680px) {
+  .site-header {
+    height:auto;
+    min-height:68px;
+    padding:8px 10px;
+    gap:4px;
+  }
+  .logo-link {
+    flex:0 0 82px;
+    width:82px;
+    height:52px;
+  }
+  .main-logo {
+    height:80px;
+    max-width:88px;
+    top:0;
+  }
+  .main-logo:hover { transform:scale(1.03) rotate(-2deg); }
+  .header-actions { gap:4px; flex-wrap:wrap; }
+  .header-button,.lang-switcher {
+    padding:8px 8px;
+    font-size:.68rem;
+  }
+  .intro { padding:28px 14px 24px; }
+  h1 { font-size:2rem; }
+  .intro p { font-size:.84rem; }
+  .custom-order-section { padding:0 12px 20px; }
+  .section-heading,.ready-section .section-heading { font-size:1.25rem; }
+  .section-heading { margin-bottom:18px; }
+  .custom-grid,.ready-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+  .custom-card {
+    border-radius:24px;
+    padding:11px 9px;
+    min-height:300px;
+  }
+  .custom-card h3 { font-size:1rem; }
+  .price-options label { font-size:.76rem; }
+  .customize-button { font-size:.58rem; }
+  .quantity-row { flex-wrap:wrap; }
+  .ready-section { padding:0 12px; margin-top:32px; }
+  .ready-section-heading-row {
+    align-items:flex-start;
+    flex-direction:column;
+    gap:12px;
+  }
+  .ready-toolbar {
+    width:100%;
+    justify-content:flex-start;
+  }
+  .ready-control { flex:1 1 180px; min-width:0; }
+  .ready-control select { width:100%; min-width:0; }
+  .ready-grid { padding:0; gap:18px 12px; }
+  .modal { padding:20px; }
+}
+@media(max-width:390px) {
+  .custom-grid,.ready-grid { grid-template-columns:1fr; }
+  .custom-card,.ready-card {
+    max-width:380px;
+    width:100%;
+    margin:0 auto;
+  }
+  .header-button,.lang-switcher {
+    padding:7px 6px;
+    font-size:.63rem;
+  }
+  .logo-link { flex-basis:72px; width:72px; }
+  .main-logo { max-width:80px; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <a href="../index.html" class="logo-link" aria-label="FedePictures - Home">
+    <img src="../FedePictures_logo.png" alt="Logo FedePictures" class="main-logo">
+  </a>
+
+  <nav class="header-actions" aria-label="Navigazione principale">
+    <a class="header-button cart-link" href="../carrello.html">
+      <span id="cart-label">CARRELLO</span>
+      <span class="cart-count" id="cart-count">0</span>
+    </a>
+
+    <div class="dropdown">
+      <button class="header-button" id="explore-button" type="button" aria-expanded="false">ESPLORA ▼</button>
+      <div class="dropdown-content" id="explore-menu">
+        <a href="../index.html" id="menu-home">Home</a>
+        <a href="../ritratti.html" id="menu-portraits">Ritratti</a>
+        <a href="../disegni-digitali.html" id="menu-digital">Disegni al PC</a>
+        <a href="../murales.html" id="menu-wall">Disegni sui muri</a>
+        <a href="../segnalibri.html" id="menu-bookmarks">Segnalibri</a>
+        <a href="../palline.html" id="menu-balls">Palline di Natale</a>
+        <a href="../magliette.html" id="menu-shirts">Magliette e accessori</a>
+        <a href="../contatti.html" id="menu-contact">Contattami</a>
+      </div>
+    </div>
+
+    <button class="lang-switcher" id="language-button" type="button">EN</button>
+  </nav>
+</header>
+
+<main>
+  <section class="intro">
+    <h1 id="page-title">Shop FedePictures</h1>
+    <p id="page-intro">Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.</p>
+  </section>
+
+  <section class="custom-order-section" aria-labelledby="custom-heading">
+    <h2 class="section-heading" id="custom-heading">Ordina il tuo prodotto personalizzato</h2>
+
+    <div class="custom-grid">
+
+      <!-- SEGNALIBRO PERSONALIZZATO -->
+      <article class="custom-card" data-kind="bookmark">
+        <h3 id="bookmark-title">Segnalibro</h3>
+        <div class="product-symbol" aria-hidden="true">
+          <svg viewBox="0 0 70 55">
+            <path d="M13 5 Q10 3 9 10 L7 48 Q17 43 24 50 L25 8 Q21 3 13 5Z"/>
+            <path d="M49 7 Q52 2 56 7 L64 45 Q56 42 49 51 L43 13 Q44 8 49 7Z"/>
+          </svg>
+        </div>
+
+        <div class="price-options">
+          <label><input type="radio" name="bookmark-size" value="piccolo" data-price="5"> <span id="bookmark-small">Piccolo 11 cm – 5 €</span></label>
+          <label><input type="radio" name="bookmark-size" value="grande" data-price="10"> <span id="bookmark-large">Grande 20 cm – 10 €</span></label>
+        </div>
+
+        <p class="card-description" id="bookmark-description">Che frase o nome vuoi che scriva sul retro?</p>
+        <input class="back-text-input" id="bookmark-back-text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro del segnalibro">
+
+        <button class="customize-button" type="button" data-customize="bookmark" id="bookmark-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="bookmark-state" aria-live="polite"></p>
+
+        <div class="quantity-row">
+          <label for="bookmark-qty" class="quantity-label">N°</label>
+          <input id="bookmark-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label" id="bookmark-add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button custom-add" type="button" data-add-custom="bookmark" aria-label="Aggiungi segnalibro al carrello" disabled></button>
+        </div>
+      </article>
+
+      <!-- PALLINA PERSONALIZZATA -->
+      <article class="custom-card" data-kind="bauble">
+        <h3 id="bauble-title">Pallina</h3>
+        <div class="product-symbol" aria-hidden="true">
+          <svg viewBox="0 0 70 55">
+            <path d="M31 12 L31 6 L39 6 L39 12"/>
+            <path d="M35 12 C23 12 13 22 13 33 C13 45 23 50 35 50 C47 50 57 45 57 33 C57 22 47 12 35 12Z"/>
+          </svg>
+        </div>
+
+        <div class="price-options">
+          <label><input type="radio" name="bauble-size" value="plastica" data-price="6"> <span id="bauble-small">Plastica 6 €</span></label>
+          <label><input type="radio" name="bauble-size" value="vetro" data-price="8"> <span id="bauble-large">Vetro 8 €</span></label>
+        </div>
+
+        <p class="card-description" id="bauble-description">Che frase o nome vuoi che scriva sul retro?</p>
+        <input class="back-text-input" id="bauble-back-text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro della pallina">
+
+        <button class="customize-button" type="button" data-customize="bauble" id="bauble-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="bauble-state" aria-live="polite"></p>
+
+        <div class="quantity-row">
+          <label for="bauble-qty" class="quantity-label">N°</label>
+          <input id="bauble-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label" id="bauble-add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button custom-add" type="button" data-add-custom="bauble" aria-label="Aggiungi pallina al carrello" disabled></button>
+        </div>
+      </article>
+
+      <!-- MAGLIETTA PERSONALIZZATA -->
+      <article class="custom-card" data-kind="shirt">
+        <h3 id="shirt-title">Maglietta</h3>
+
+        <div class="product-symbol" aria-hidden="true">
+          <svg viewBox="0 0 70 55">
+            <path d="M22 8 L31 3 L39 3 L48 8 L61 16 L53 25 L45 20 L45 49 L25 49 L25 20 L17 25 L9 16Z"/>
+          </svg>
+        </div>
+
+        <div class="size-field">
+          <label id="shirt-size-label" for="shirt-size">Che taglia?</label>
+          <input class="size-input" id="shirt-size" placeholder="Es. M, L, XL">
+        </div>
+
+        <p class="card-description" id="shirt-description">
+          Tutte le magliette sono realizzate solo su una base di colore bianco.
+          Prezzo: 20 €.
+        </p>
+
+        <button class="customize-button" type="button" data-customize="shirt" id="shirt-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="shirt-state" aria-live="polite"></p>
+
+        <div class="quantity-row">
+          <label for="shirt-qty" class="quantity-label">N°</label>
+          <input id="shirt-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label" id="shirt-add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button custom-add" type="button" data-add-custom="shirt" aria-label="Aggiungi maglietta al carrello" disabled></button>
+        </div>
+      </article>
+
+      <!-- MINI TELA PERSONALIZZATA -->
+      <article class="custom-card" data-kind="mini-canvas">
+        <h3 id="canvas-title">Mini tela</h3>
+        <div class="product-symbol" aria-hidden="true">
+          <svg viewBox="0 0 70 55">
+            <path d="M17 8 L50 5 L55 35 L21 39Z"/>
+            <path d="M23 12 L48 10 L51 32 L25 34Z"/>
+            <path d="M27 39 L26 51 L20 54 M45 37 L48 51 L55 54"/>
+          </svg>
+        </div>
+
+        <p class="card-description" id="canvas-description">Mini tela 7 × 7 cm con cavalletto in legno. Prezzo: 8 €.</p>
+
+        <button class="customize-button" type="button" data-customize="mini-canvas" id="canvas-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="mini-canvas-state" aria-live="polite"></p>
+
+        <div class="quantity-row">
+          <label for="mini-canvas-qty" class="quantity-label">N°</label>
+          <input id="mini-canvas-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label" id="mini-canvas-add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button custom-add" type="button" data-add-custom="mini-canvas" aria-label="Aggiungi mini tela al carrello" disabled></button>
+        </div>
+      </article>
+
+      <!-- ALTRE CREAZIONI -->
+      <article class="custom-card">
+        <h3 id="other-title">Altre creazioni</h3>
+        <p class="card-description" id="other-description" style="text-align:center;margin:auto 0">Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.</p>
+        <a class="customize-button" id="contact-button" href="../contatti.html" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;text-decoration:none;color:inherit;margin-top:auto">CONTATTAMI</a>
+      </article>
+
+    </div>
+
+    <div class="custom-gradient-band" aria-hidden="true">
+      <svg viewBox="0 0 1000 360" preserveAspectRatio="none" focusable="false">
+        <path d="M10 22 Q20 2 30 22 T70 22 T110 22 T150 22 T190 22 T230 22 T270 22 T310 22 T350 22 T390 22 T430 22 T470 22 T510 22 T550 22 T590 22 T630 22 T670 22 T710 22 T750 22 T790 22 T830 22 T870 22 T910 22 T950 22 T990 22 Q1010 32 990 52 T990 92 T990 132 T990 172 T990 212 T990 252 T990 292 T990 332 Q980 352 960 332 T920 332 T880 332 T840 332 T800 332 T760 332 T720 332 T680 332 T640 332 T600 332 T560 332 T520 332 T480 332 T440 332 T400 332 T360 332 T320 332 T280 332 T240 332 T200 332 T160 332 T120 332 T80 332 T40 332 T10 332 Q-10 322 10 302 T10 262 T10 222 T10 182 T10 142 T10 102 T10 62 T10 22 Z" fill="none" stroke="#d2b4f2" stroke-width="2.5" vector-effect="non-scaling-stroke"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- PRODOTTI IN PRONTA CONSEGNA -->
+  <section class="ready-section" aria-labelledby="ready-heading">
+    <div class="ready-section-heading-row">
+      <h2 class="section-heading" id="ready-heading">Prodotti in pronta consegna</h2>
+
+      <div class="ready-toolbar" aria-label="Filtri e ordinamento prodotti">
+        <div class="ready-control">
+          <label for="ready-filter" id="ready-filter-label">Filtra</label>
+          <select id="ready-filter">
+            <option value="all" id="filter-all">Tutte le categorie</option>
+            <option value="segnalibri" id="filter-bookmarks">Segnalibri</option>
+            <option value="tele" id="filter-canvases">Tele</option>
+            <option value="palline" id="filter-baubles">Palline</option>
+            <option value="accessori" id="filter-accessories">Accessori</option>
+            <option value="oggettistica" id="filter-objects">Oggettistica</option>
+          </select>
+        </div>
+
+        <div class="ready-control ready-sort-control">
+          <label for="ready-sort" id="ready-sort-label">Ordina per prezzo</label>
+          <select id="ready-sort">
+            <option value="default" id="sort-default">Ordine predefinito</option>
+            <option value="price-asc" id="sort-asc">Dal meno caro al più caro</option>
+            <option value="price-desc" id="sort-desc">Dal più caro al meno caro</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <p class="ready-empty" id="ready-empty" hidden>Nessun prodotto presente in questa categoria al momento.</p>
+    <div class="ready-grid" id="ready-grid"></div>
+  </section>
+</main>
+
+<section class="contact-band">
+  <h2 id="contact-heading">Hai un'idea speciale?</h2>
+  <p id="contact-copy">Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.</p>
+  <a href="../contatti.html" target="_blank" rel="noopener" id="contact-cta">Vai ai contatti</a>
+</section>
+
+<footer>
+  <p>&copy; 2026 FedePictures.</p>
+</footer>
+
+<!-- FINESTRA UPLOAD/PERSONALIZZAZIONE -->
+<div class="modal-backdrop" id="custom-modal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h2 id="modal-title">Personalizza il tuo prodotto</h2>
+    <p id="modal-instructions">Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.</p>
+
+    <form id="custom-form">
+      <label for="reference-file" id="upload-label">Carica un'immagine (un solo file)</label>
+      <input type="file" id="reference-file" accept="image/*">
+      <p class="notice" id="upload-note">Immagine consentita: massimo 3 MB.</p>
+      <p class="notice" id="existing-custom-note"></p>
+
+      <div class="saved-custom-preview" id="saved-custom-preview" hidden></div>
+      <button class="remove-saved-button" type="button" id="remove-saved-custom">Rimuovi immagine/tema</button>
+
+      <div class="or-divider" id="or-label">— oppure —</div>
+
+      <label for="reference-theme" id="theme-label">Scrivi il tema</label>
+      <textarea id="reference-theme" maxlength="600" placeholder="Es. un gatto nello spazio, stile kawaii..."></textarea>
+
+      <p class="form-error" id="modal-error" aria-live="polite"></p>
+
+      <div class="modal-actions">
+        <button class="cancel-button" type="button" id="cancel-custom">Annulla</button>
+        <button class="confirm-button" type="submit" id="confirm-custom">Conferma</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
 'use strict';
 
@@ -12,10 +941,7 @@ const MAX_FILE_BYTES = 3 * 1024 * 1024;
 
 const $ = id => document.getElementById(id);
 
-/* ---------------------------------------------------------
-   LETTURA SICURA DEI DATI SALVATI NEL BROWSER
-   --------------------------------------------------------- */
-
+/* LETTURA SICURA DEI DATI SALVATI NEL BROWSER */
 let lang = 'it';
 
 try {
@@ -30,18 +956,12 @@ try {
 function readCart() {
   try {
     const data = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-
-    if (Array.isArray(data)) {
-      return data;
-    }
+    if (Array.isArray(data)) return data;
 
     localStorage.setItem(CART_KEY, '[]');
     return [];
   } catch (e) {
-    try {
-      localStorage.setItem(CART_KEY, '[]');
-    } catch (ignore) {}
-
+    try { localStorage.setItem(CART_KEY, '[]'); } catch (ignore) {}
     return [];
   }
 }
@@ -49,11 +969,7 @@ function readCart() {
 function readCustomizations() {
   try {
     const data = JSON.parse(localStorage.getItem(CUSTOM_KEY) || '{}');
-
-    if (data && typeof data === 'object' && !Array.isArray(data)) {
-      return data;
-    }
-
+    if (data && typeof data === 'object' && !Array.isArray(data)) return data;
     return {};
   } catch (e) {
     return {};
@@ -65,418 +981,64 @@ let activeKind = null;
 let pendingFileData = null;
 let fileReading = false;
 
-/* ---------------------------------------------------------
-   PRODOTTI IN PRONTA CONSEGNA
-   Le immagini sono nella cartella principale del repository.
-   La pagina shop/index.html deve usare il prefisso ../
-   --------------------------------------------------------- */
-
+/* PRODOTTI IN PRONTA CONSEGNA */
 const readyProducts = [
-  {
-    id: 'dumbo',
-    category: 'tele',
-    image: '../TELAtonda_dumbo.jpg',
-    it: 'Tela Tonda – Dumbo - 15 cm magnetica con gancio adesivo incluso',
-    en: 'Round Canvas – Dumbo - 15 cm, magnetic, adhesive hook included',
-    price: 10
-  },
-  {
-    id: 'famigliareleone',
-    category: 'tele',
-    image: '../TELAtonda_famigliareleone.jpg',
-    it: 'Tela Tonda – Famiglia Simba - 15 cm magnetica con gancio adesivo incluso',
-    en: 'Round Canvas – Simba Family - 15 cm, magnetic, adhesive hook included',
-    price: 10
-  },
-  {
-    id: 'babyminnie',
-    category: 'tele',
-    image: '../TELAtonda_minnie.jpg',
-    it: 'Tela Tonda – Baby Minnie - 15 cm magnetica con gancio adesivo incluso',
-    en: 'Round Canvas – Baby Minnie - 15 cm, magnetic, adhesive hook included',
-    price: 10
-  },
-  {
-    id: 'babymikey',
-    category: 'tele',
-    image: '../TELAtonda_topolino.jpg',
-    it: 'Tela Tonda – Baby Mickey - 15 cm magnetica con gancio adesivo incluso',
-    en: 'Round Canvas – Baby Mickey - 15 cm, magnetic, adhesive hook included',
-    price: 10
-  },
-  {
-    id: 'winnie',
-    category: 'tele',
-    image: '../TELAtonda_winniep.jpg',
-    it: 'Tela Tonda – Winnie - 15 cm magnetica con gancio adesivo incluso',
-    en: 'Round Canvas – Winnie - 15 cm, magnetic, adhesive hook included',
-    price: 10
-  },
-  {
-    id: 'tippete',
-    category: 'tele',
-    image: '../TELAtonda_Tippete.jpg',
-    it: 'Tela Tonda – Tippete - 15 cm magnetica con gancio adesivo incluso',
-    en: 'Round Canvas – Thumper - 15 cm, magnetic, adhesive hook included',
-    price: 10
-  },
-  {
-    id: 'piccprinc',
-    category: 'segnalibri',
-    image: '../segnalibro_piccprinc.jpg',
-    it: 'Segnalibro piccolo – Il Piccolo Principe',
-    en: 'Small bookmark – The Little Prince',
-    price: 5
-  },
-  {
-    id: 'alice',
-    category: 'segnalibri',
-    image: '../segnalibro_alice.jpg',
-    it: 'Segnalibro piccolo – Alice nel Paese delle Meraviglie',
-    en: 'Small bookmark – Alice in Wonderland',
-    price: 5
-  },
-  {
-    id: 'belle',
-    category: 'segnalibri',
-    image: '../segnalibro_belle.jpg',
-    it: 'Segnalibro piccolo – Belle',
-    en: 'Small bookmark – Belle',
-    price: 5
-  },
-  {
-    id: 'creamy',
-    category: 'segnalibri',
-    image: '../segnalibro_Creamy.jpg',
-    it: 'Segnalibro piccolo – Creamy',
-    en: 'Small bookmark – Creamy',
-    price: 5
-  },
-  {
-    id: 'cuorrossi',
-    category: 'segnalibri',
-    image: '../segnalibro_cuorirossi.jpg',
-    it: 'Segnalibro piccolo – Cuori rossi',
-    en: 'Small bookmark – Red hearts',
-    price: 5
-  },
-  {
-    id: 'cuoriviola',
-    category: 'segnalibri',
-    image: '../segnalibro_cuoriviola.jpg',
-    it: 'Segnalibro piccolo – Cuori viola',
-    en: 'Small bookmark – Purple hearts',
-    price: 5
-  },
-  {
-    id: 'fioreviolaegiallo',
-    category: 'segnalibri',
-    image: '../segnalibro_fioreviolaegiallo.jpg',
-    it: 'Segnalibro piccolo – Fiori viola e gialli',
-    en: 'Small bookmark – Purple and yellow flowers',
-    price: 5
-  },
-  {
-    id: 'fioreviolarosa',
-    category: 'segnalibri',
-    image: '../segnalibro_fioreviolarosa.jpg',
-    it: 'Segnalibro piccolo – Fiori rosa e viola',
-    en: 'Small bookmark – Pink and purple flowers',
-    price: 5
-  },
-  {
-    id: 'foglieargento',
-    category: 'segnalibri',
-    image: '../segnalibro_foglieargento.jpg',
-    it: 'Segnalibro piccolo – Foglie argentate',
-    en: 'Small bookmark – Silver leaves',
-    price: 5
-  },
-  {
-    id: 'hobbit',
-    category: 'segnalibri',
-    image: '../segnalibro_hobbit.jpg',
-    it: 'Segnalibro piccolo – Lo Hobbit',
-    en: 'Small bookmark – The Hobbit',
-    price: 5
-  },
-  {
-    id: 'hp',
-    category: 'segnalibri',
-    image: '../segnalibro_hp.jpg',
-    it: 'Segnalibro piccolo – Harry Potter',
-    en: 'Small bookmark – Harry Potter',
-    price: 5
-  },
-  {
-    id: 'hp1',
-    category: 'segnalibri',
-    image: '../segnalibro_hp1.jpg',
-    it: 'Segnalibro piccolo – Harry Potter magia',
-    en: 'Small bookmark – Harry Potter magic',
-    price: 5
-  },
-  {
-    id: 'jacksk',
-    category: 'segnalibri',
-    image: '../segnalibro_jacksk.jpg',
-    it: 'Segnalibro piccolo – Nightmare Before Christmas',
-    en: 'Small bookmark – Nightmare Before Christmas',
-    price: 5
-  },
-  {
-    id: 'luffy',
-    category: 'segnalibri',
-    image: '../segnalibro_Luffy.jpg',
-    it: 'Segnalibro piccolo – Luffy',
-    en: 'Small bookmark – Luffy',
-    price: 5
-  },
-  {
-    id: 'mare',
-    category: 'segnalibri',
-    image: '../segnalibro_mare.jpg',
-    it: 'Segnalibro piccolo – Tema mare',
-    en: 'Small bookmark – Sea theme',
-    price: 5
-  },
-  {
-    id: 'natalebiscotto',
-    category: 'segnalibri',
-    image: '../segnalibro_natalebiscotto.jpg',
-    it: 'Segnalibro piccolo – Natale biscotto',
-    en: 'Small bookmark – Christmas gingerbread',
-    price: 5
-  },
-  {
-    id: 'nataleorso',
-    category: 'segnalibri',
-    image: '../segnalibro_nataleorso.jpg',
-    it: 'Segnalibro piccolo – Natale orso',
-    en: 'Small bookmark – Christmas bear',
-    price: 5
-  },
-  {
-    id: 'nataletazza',
-    category: 'segnalibri',
-    image: '../segnalibro_nataletazza.jpg',
-    it: 'Segnalibro piccolo – Natale tazza',
-    en: 'Small bookmark – Christmas mug',
-    price: 5
-  },
-  {
-    id: 'rapunzel',
-    category: 'segnalibri',
-    image: '../segnalibro_rapunzelpascal.jpg',
-    it: 'Segnalibro piccolo – Rapunzel e Pascal',
-    en: 'Small bookmark – Rapunzel and Pascal',
-    price: 5
-  },
-  {
-    id: 'signorinacaffe',
-    category: 'segnalibri',
-    image: '../segnalibro_signorinacaffè.jpg',
-    it: 'Segnalibro piccolo – Signorina Caffè',
-    en: 'Small bookmark – Miss Coffee',
-    price: 5
-  }
+  {id:'dumbo',category:'tele',image:'../TELAtonda_dumbo.jpg',it:'Tela Tonda – Dumbo - 15 cm magnetica con gancio adesivo incluso',en:'Round Canvas – Dumbo - 15 cm, magnetic, adhesive hook included',price:10},
+  {id:'famigliareleone',category:'tele',image:'../TELAtonda_famigliareleone.jpg',it:'Tela Tonda – Famiglia Simba - 15 cm magnetica con gancio adesivo incluso',en:'Round Canvas – Simba Family - 15 cm, magnetic, adhesive hook included',price:10},
+  {id:'babyminnie',category:'tele',image:'../TELAtonda_minnie.jpg',it:'Tela Tonda – Baby Minnie - 15 cm magnetica con gancio adesivo incluso',en:'Round Canvas – Baby Minnie - 15 cm, magnetic, adhesive hook included',price:10},
+  {id:'babymikey',category:'tele',image:'../TELAtonda_topolino.jpg',it:'Tela Tonda – Baby Mickey - 15 cm magnetica con gancio adesivo incluso',en:'Round Canvas – Baby Mickey - 15 cm, magnetic, adhesive hook included',price:10},
+  {id:'winnie',category:'tele',image:'../TELAtonda_winniep.jpg',it:'Tela Tonda – Winnie - 15 cm magnetica con gancio adesivo incluso',en:'Round Canvas – Winnie - 15 cm, magnetic, adhesive hook included',price:10},
+  {id:'tippete',category:'tele',image:'../TELAtonda_Tippete.jpg',it:'Tela Tonda – Tippete - 15 cm magnetica con gancio adesivo incluso',en:'Round Canvas – Thumper - 15 cm, magnetic, adhesive hook included',price:10},
+
+  {id:'piccprinc',category:'segnalibri',image:'../segnalibro_piccprinc.jpg',it:'Segnalibro piccolo – Il Piccolo Principe',en:'Small bookmark – The Little Prince',price:5},
+  {id:'alice',category:'segnalibri',image:'../segnalibro_alice.jpg',it:'Segnalibro piccolo – Alice nel Paese delle Meraviglie',en:'Small bookmark – Alice in Wonderland',price:5},
+  {id:'belle',category:'segnalibri',image:'../segnalibro_belle.jpg',it:'Segnalibro piccolo – Belle',en:'Small bookmark – Belle',price:5},
+  {id:'creamy',category:'segnalibri',image:'../segnalibro_Creamy.jpg',it:'Segnalibro piccolo – Creamy',en:'Small bookmark – Creamy',price:5},
+  {id:'cuorrossi',category:'segnalibri',image:'../segnalibro_cuorirossi.jpg',it:'Segnalibro piccolo – Cuori rossi',en:'Small bookmark – Red hearts',price:5},
+  {id:'cuoriviola',category:'segnalibri',image:'../segnalibro_cuoriviola.jpg',it:'Segnalibro piccolo – Cuori viola',en:'Small bookmark – Purple hearts',price:5},
+  {id:'fioreviolaegiallo',category:'segnalibri',image:'../segnalibro_fioreviolaegiallo.jpg',it:'Segnalibro piccolo – Fiori viola e gialli',en:'Small bookmark – Purple and yellow flowers',price:5},
+  {id:'fioreviolarosa',category:'segnalibri',image:'../segnalibro_fioreviolarosa.jpg',it:'Segnalibro piccolo – Fiori rosa e viola',en:'Small bookmark – Fiori rosa e viola',price:5},
+  {id:'foglieargento',category:'segnalibri',image:'../segnalibro_foglieargento.jpg',it:'Segnalibro piccolo – Foglie argentate',en:'Small bookmark – Silver leaves',price:5},
+  {id:'hobbit',category:'segnalibri',image:'../segnalibro_hobbit.jpg',it:'Segnalibro piccolo – Lo Hobbit',en:'Small bookmark – The Hobbit',price:5},
+  {id:'hp',category:'segnalibri',image:'../segnalibro_hp.jpg',it:'Segnalibro piccolo – Harry Potter',en:'Small bookmark – Harry Potter',price:5},
+  {id:'hp1',category:'segnalibri',image:'../segnalibro_hp1.jpg',it:'Segnalibro piccolo – Harry Potter magia',en:'Small bookmark – Harry Potter magic',price:5},
+  {id:'jacksk',category:'segnalibri',image:'../segnalibro_jacksk.jpg',it:'Segnalibro piccolo – Nightmare Before Christmas',en:'Small bookmark – Nightmare Before Christmas',price:5},
+  {id:'luffy',category:'segnalibri',image:'../segnalibro_Luffy.jpg',it:'Segnalibro piccolo – Luffy',en:'Small bookmark – Luffy',price:5},
+  {id:'mare',category:'segnalibri',image:'../segnalibro_mare.jpg',it:'Segnalibro piccolo – Tema mare',en:'Small bookmark – Sea theme',price:5},
+  {id:'natalebiscotto',category:'segnalibri',image:'../segnalibro_natalebiscotto.jpg',it:'Segnalibro piccolo – Natale biscotto',en:'Small bookmark – Christmas gingerbread',price:5},
+  {id:'nataleorso',category:'segnalibri',image:'../segnalibro_nataleorso.jpg',it:'Segnalibro piccolo – Natale orso',en:'Small bookmark – Christmas bear',price:5},
+  {id:'nataletazza',category:'segnalibri',image:'../segnalibro_nataletazza.jpg',it:'Segnalibro piccolo – Natale tazza',en:'Small bookmark – Christmas mug',price:5},
+  {id:'rapunzel',category:'segnalibri',image:'../segnalibro_rapunzelpascal.jpg',it:'Segnalibro piccolo – Rapunzel e Pascal',en:'Small bookmark – Rapunzel and Pascal',price:5},
+  {id:'signorinacaffe',category:'segnalibri',image:'../segnalibro_signorinacaffè.jpg',it:'Segnalibro piccolo – Signorina Caffè',en:'Small bookmark – Miss Coffee',price:5}
 ];
 
-/* ---------------------------------------------------------
-   PRODOTTI PERSONALIZZABILI
-   --------------------------------------------------------- */
-
 const products = {
-  bookmark: {
-    name: {it: 'Segnalibro personalizzato', en: 'Custom bookmark'},
-    qty: 'bookmark-qty',
-    state: 'bookmark-state',
-    size: true
-  },
-  bauble: {
-    name: {it: 'Pallina personalizzata', en: 'Custom bauble'},
-    qty: 'bauble-qty',
-    state: 'bauble-state',
-    size: true
-  },
-  shirt: {
-    name: {it: 'Maglietta personalizzata', en: 'Custom T-shirt'},
-    qty: 'shirt-qty',
-    state: 'shirt-state',
-    size: false
-  },
-  'mini-canvas': {
-    name: {
-      it: 'Mini tela personalizzata con cavalletto',
-      en: 'Custom mini canvas with easel'
-    },
-    qty: 'mini-canvas-qty',
-    state: 'mini-canvas-state',
-    size: false
-  }
+  bookmark:{name:{it:'Segnalibro personalizzato',en:'Custom bookmark'},qty:'bookmark-qty',state:'bookmark-state',size:true},
+  bauble:{name:{it:'Pallina personalizzata',en:'Custom bauble'},qty:'bauble-qty',state:'bauble-state',size:true},
+  shirt:{name:{it:'Maglietta personalizzata',en:'Custom T-shirt'},qty:'shirt-qty',state:'shirt-state',size:false},
+  'mini-canvas':{name:{it:'Mini tela personalizzata con cavalletto',en:'Custom mini canvas with easel'},qty:'mini-canvas-qty',state:'mini-canvas-state',size:false}
 };
 
-/* ---------------------------------------------------------
-   TRADUZIONI
-   --------------------------------------------------------- */
-
 const translations = {
-  it: {
-    cart: 'CARRELLO',
-    explore: 'ESPLORA ▼',
-    home: 'Home',
-    portraits: 'Ritratti',
-    digital: 'Disegni al PC',
-    wall: 'Disegni sui muri',
-    bookmarks: 'Segnalibri',
-    balls: 'Palline di Natale',
-    shirts: 'Magliette e accessori',
-    contact: 'Contattami',
-
-    title: 'Shop FedePictures',
-    intro: 'Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.',
-    customHeading: 'Ordina il tuo prodotto personalizzato',
-    readyHeading: 'Prodotti in pronta consegna',
-
-    readyFilter: 'Filtra',
-    allCategories: 'Tutte le categorie',
-    bookmarksCategory: 'Segnalibri',
-    canvasesCategory: 'Tele',
-    baublesCategory: 'Palline',
-    accessoriesCategory: 'Accessori',
-    objectsCategory: 'Oggettistica',
-    sortPrice: 'Ordina per prezzo',
-    sortDefault: 'Ordine predefinito',
-    sortAsc: 'Dal meno caro al più caro',
-    sortDesc: 'Dal più caro al meno caro',
-    emptyCategory: 'Nessun prodotto presente in questa categoria al momento.',
-
-    bookmark: 'Segnalibro',
-    bauble: 'Pallina',
-    shirt: 'Maglietta',
-    canvas: 'Mini tela',
-    other: 'Altre creazioni',
-
-    bookmarkSmall: 'Piccolo 11 cm – 5 €',
-    bookmarkLarge: 'Grande 20 cm – 10 €',
-    baubleSmall: 'Plastica 6 €',
-    baubleLarge: 'Vetro 8 €',
-
-    bookmarkDesc: 'Che frase o nome vuoi che scriva sul retro?',
-    shirtSize: 'Che taglia?',
-    shirtPlaceholder: 'Es. M, L, XL',
-    shirtDesc: 'Tutte le magliette sono realizzate solo su una base di colore bianco. Prezzo: 20 €.',
-    canvasDesc: 'Mini tela 7 × 7 cm con cavalletto in legno. Prezzo: 8 €.',
-    otherDesc: 'Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.',
-
-    customize: 'CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE',
-    contactButton: 'CONTATTAMI',
-    add: 'Aggiungi al carrello',
-    qty: 'N°',
-
-    modalTitle: 'Personalizza il tuo prodotto',
-    instructions: 'Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.',
-    upload: 'Carica un’immagine (un solo file)',
-    uploadNote: 'Immagine consentita: massimo 3 MB.',
-    or: '— oppure —',
-    theme: 'Scrivi il tema',
-    themePlaceholder: 'Es. un gatto nello spazio, stile kawaii...',
-    cancel: 'Annulla',
-    confirm: 'Conferma',
-
-    needOne: 'Carica un’immagine oppure scrivi un tema, non entrambi.',
-    needCustom: 'Prima conferma un’immagine o un tema.',
-    needQty: 'Inserisci una quantità maggiore di zero.',
-    needSize: 'Scegli una dimensione.',
-    needShirtSize: 'Inserisci la taglia della maglietta.',
-    added: 'Prodotto aggiunto al carrello in questo browser.',
-
-    fileLarge: 'Il file supera 3 MB.',
-    fileType: 'Il file deve essere un’immagine.',
-    photo: 'Foto del prodotto',
-
-    contactHeading: 'Hai un’idea speciale?',
-    contactCopy: 'Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.',
-    contactCta: 'Vai ai contatti'
+  it:{
+    cart:'CARRELLO',explore:'ESPLORA ▼',home:'Home',portraits:'Ritratti',digital:'Disegni al PC',wall:'Disegni sui muri',bookmarks:'Segnalibri',balls:'Palline di Natale',shirts:'Magliette e accessori',contact:'Contattami',
+    title:'Shop FedePictures',intro:'Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.',customHeading:'Ordina il tuo prodotto personalizzato',readyHeading:'Prodotti in pronta consegna',
+    readyFilter:'Filtra',allCategories:'Tutte le categorie',bookmarksCategory:'Segnalibri',canvasesCategory:'Tele',baublesCategory:'Palline',accessoriesCategory:'Accessori',objectsCategory:'Oggettistica',sortPrice:'Ordina per prezzo',sortDefault:'Ordine predefinito',sortAsc:'Dal meno caro al più caro',sortDesc:'Dal più caro al meno caro',emptyCategory:'Nessun prodotto presente in questa categoria al momento.',
+    bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 6 €',baubleLarge:'Vetro 8 €',
+    bookmarkDesc:'Che frase o nome vuoi che scriva sul retro?',shirtSize:'Che taglia?',shirtPlaceholder:'Es. M, L, XL',shirtDesc:'Tutte le magliette sono realizzate solo su una base di colore bianco. Prezzo: 20 €.',canvasDesc:'Mini tela 7 × 7 cm con cavalletto in legno. Prezzo: 8 €.',otherDesc:'Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.',
+    customize:'CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE',contactButton:'CONTATTAMI',add:'Aggiungi al carrello',qty:'N°',modalTitle:'Personalizza il tuo prodotto',instructions:'Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.',upload:'Carica un’immagine (un solo file)',uploadNote:'Immagine consentita: massimo 3 MB.',or:'— oppure —',theme:'Scrivi il tema',themePlaceholder:'Es. un gatto nello spazio, stile kawaii...',cancel:'Annulla',confirm:'Conferma',
+    needOne:'Carica un’immagine oppure scrivi un tema, non entrambi.',needCustom:'Prima conferma un’immagine o un tema.',needQty:'Inserisci una quantità maggiore di zero.',needSize:'Scegli una dimensione.',needShirtSize:'Inserisci la taglia della maglietta.',added:'Prodotto aggiunto al carrello in questo browser.',fileLarge:'Il file supera 3 MB.',fileType:'Il file deve essere un’immagine.',photo:'Foto del prodotto',
+    contactHeading:'Hai un’idea speciale?',contactCopy:'Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.',contactCta:'Vai ai contatti'
   },
-
-  en: {
-    cart: 'CART',
-    explore: 'EXPLORE ▼',
-    home: 'Home',
-    portraits: 'Portraits',
-    digital: 'Digital drawings',
-    wall: 'Wall art',
-    bookmarks: 'Bookmarks',
-    balls: 'Christmas baubles',
-    shirts: 'T-shirts & accessories',
-    contact: 'Contact me',
-
-    title: 'FedePictures Shop',
-    intro: 'Handmade creations, ready-to-gift products and personalized ideas made for you.',
-    customHeading: 'Order your personalized product',
-    readyHeading: 'Ready-to-ship products',
-
-    readyFilter: 'Filter',
-    allCategories: 'All categories',
-    bookmarksCategory: 'Bookmarks',
-    canvasesCategory: 'Canvases',
-    baublesCategory: 'Baubles',
-    accessoriesCategory: 'Accessories',
-    objectsCategory: 'Other objects',
-    sortPrice: 'Sort by price',
-    sortDefault: 'Default order',
-    sortAsc: 'Price: low to high',
-    sortDesc: 'Price: high to low',
-    emptyCategory: 'There are currently no products in this category.',
-
-    bookmark: 'Bookmark',
-    bauble: 'Christmas bauble',
-    shirt: 'T-shirt',
-    canvas: 'Mini canvas',
-    other: 'Other creations',
-
-    bookmarkSmall: 'Small 11 cm – €5',
-    bookmarkLarge: 'Large 20 cm – €10',
-    baubleSmall: 'Plastic €6',
-    baubleLarge: 'Glass €8',
-
-    bookmarkDesc: 'What phrase or name would you like on the back?',
-    shirtSize: 'What size?',
-    shirtPlaceholder: 'E.g. M, L, XL',
-    shirtDesc: 'All T-shirts are made on a white base only. Price: €20.',
-    canvasDesc: '7 × 7 cm mini canvas with a wooden easel. Price: €8.',
-    otherDesc: 'For all other creations, contact me and I’ll help bring your idea to life.',
-
-    customize: 'UPLOAD AN IMAGE OR WRITE A THEME; I CAN CHOOSE FOR YOU',
-    contactButton: 'CONTACT ME',
-    add: 'Add to cart',
-    qty: 'Qty',
-
-    modalTitle: 'Personalize your product',
-    instructions: 'Upload one image or write the theme you would like. Fill in only one of the two options.',
-    upload: 'Upload an image (one file only)',
-    uploadNote: 'Image files only. Maximum 3 MB.',
-    or: '— or —',
-    theme: 'Write the theme',
-    themePlaceholder: 'E.g. a cat in space, kawaii style...',
-    cancel: 'Cancel',
-    confirm: 'Confirm',
-
-    needOne: 'Upload an image or write a theme, not both.',
-    needCustom: 'Confirm an image or a theme first.',
-    needQty: 'Enter a quantity greater than zero.',
-    needSize: 'Choose a size.',
-    needShirtSize: 'Enter the T-shirt size.',
-    added: 'Product added to the cart in this browser.',
-
-    fileLarge: 'The file is over 3 MB.',
-    fileType: 'The selected file must be an image.',
-    photo: 'Product photo',
-
-    contactHeading: 'Have a special idea?',
-    contactCopy: 'For special requests or custom creations, tell me what you have in mind.',
-    contactCta: 'Contact me'
+  en:{
+    cart:'CART',explore:'EXPLORE ▼',home:'Home',portraits:'Portraits',digital:'Digital drawings',wall:'Wall art',bookmarks:'Bookmarks',balls:'Christmas baubles',shirts:'T-shirts & accessories',contact:'Contact me',
+    title:'FedePictures Shop',intro:'Handmade creations, ready-to-gift products and personalized ideas made for you.',customHeading:'Order your personalized product',readyHeading:'Ready-to-ship products',
+    readyFilter:'Filter',allCategories:'All categories',bookmarksCategory:'Bookmarks',canvasesCategory:'Canvases',baublesCategory:'Baubles',accessoriesCategory:'Accessories',objectsCategory:'Other objects',sortPrice:'Sort by price',sortDefault:'Default order',sortAsc:'Price: low to high',sortDesc:'Price: high to low',emptyCategory:'There are currently no products in this category.',
+    bookmark:'Bookmark',bauble:'Christmas bauble',shirt:'T-shirt',canvas:'Mini canvas',other:'Other creations',bookmarkSmall:'Small 11 cm – €5',bookmarkLarge:'Large 20 cm – €10',baubleSmall:'Plastic €6',baubleLarge:'Glass €8',
+    bookmarkDesc:'What phrase or name would you like on the back?',shirtSize:'What size?',shirtPlaceholder:'E.g. M, L, XL',shirtDesc:'All T-shirts are made on a white base only. Price: €20.',canvasDesc:'7 × 7 cm mini canvas with a wooden easel. Price: €8.',otherDesc:'For all other creations, contact me and I’ll help bring your idea to life.',
+    customize:'UPLOAD AN IMAGE OR WRITE A THEME; I CAN CHOOSE FOR YOU',contactButton:'CONTACT ME',add:'Add to cart',qty:'Qty',modalTitle:'Personalize your product',instructions:'Upload one image or write the theme you would like. Fill in only one of the two options.',upload:'Upload an image (one file only)',uploadNote:'Image files only. Maximum 3 MB.',or:'— or —',theme:'Write the theme',themePlaceholder:'E.g. a cat in space, kawaii style...',cancel:'Cancel',confirm:'Confirm',
+    needOne:'Upload an image or write a theme, not both.',needCustom:'Confirm an image or a theme first.',needQty:'Enter a quantity greater than zero.',needSize:'Choose a size.',needShirtSize:'Enter the T-shirt size.',added:'Product added to the cart in this browser.',fileLarge:'The file is over 3 MB.',fileType:'The selected file must be an image.',photo:'Product photo',
+    contactHeading:'Have a special idea?',contactCopy:'For special requests or custom creations, tell me what you have in mind.',contactCta:'Contact me'
   }
 };
 
@@ -485,10 +1047,7 @@ function t(key) {
   return dictionary[key] || translations.it[key] || key;
 }
 
-/* ---------------------------------------------------------
-   UTILITÀ CARRELLO
-   --------------------------------------------------------- */
-
+/* UTILITÀ CARRELLO */
 function writeCart(cart) {
   try {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
@@ -505,24 +1064,18 @@ function writeCart(cart) {
 function updateCartCount() {
   const count = $('cart-count');
   if (!count) return;
-
   count.textContent = readCart().reduce(
-    (total, item) => total + (Number(item.quantity) || 0),
-    0
+    (total, item) => total + (Number(item.quantity) || 0), 0
   );
 }
 
 function toast(message) {
   const element = $('toast');
   if (!element) return;
-
   element.textContent = message;
   element.classList.add('show');
-
   clearTimeout(toast.timer);
-  toast.timer = setTimeout(() => {
-    element.classList.remove('show');
-  }, 3500);
+  toast.timer = setTimeout(() => element.classList.remove('show'), 3500);
 }
 
 function cartIcon() {
@@ -536,24 +1089,15 @@ document.querySelectorAll('.cart-icon-button').forEach(button => {
   button.innerHTML = cartIcon();
 });
 
-/* ---------------------------------------------------------
-   PERSONALIZZAZIONI
-   --------------------------------------------------------- */
-
+/* PERSONALIZZAZIONI */
 function getSize(kind) {
-  const radio = document.querySelector(
-    'input[name="' + kind + '-size"]:checked'
-  );
-
-  return radio
-    ? { value: radio.value, price: Number(radio.dataset.price) }
-    : null;
+  const radio = document.querySelector('input[name="' + kind + '-size"]:checked');
+  return radio ? {value:radio.value,price:Number(radio.dataset.price)} : null;
 }
 
 function quantity(kind) {
   const field = $(products[kind].qty);
   if (!field || field.value.trim() === '') return 0;
-
   const number = Number(field.value);
   return Number.isFinite(number) ? number : 0;
 }
@@ -564,7 +1108,6 @@ function customizationReady(kind) {
 
   const hasTheme = typeof customization.theme === 'string' &&
     customization.theme.trim().length > 0;
-
   const hasImage = typeof customization.fileData === 'string' &&
     customization.fileData.startsWith('data:image/');
 
@@ -574,7 +1117,6 @@ function customizationReady(kind) {
 function updateCustomButton(kind) {
   const product = products[kind];
   const button = document.querySelector('[data-add-custom="' + kind + '"]');
-
   if (!product || !button) return;
 
   const qty = quantity(kind);
@@ -583,7 +1125,6 @@ function updateCustomButton(kind) {
   const shirtOk = kind !== 'shirt' ||
     Boolean($('shirt-size') && $('shirt-size').value.trim());
   const customOk = customizationReady(kind);
-
   const enabled = qtyOk && sizeOk && shirtOk && customOk;
 
   button.disabled = !enabled;
@@ -639,7 +1180,7 @@ function renderSavedPreview(kind) {
     caption.textContent = (lang === 'it' ? 'Immagine già salvata: ' : 'Saved image: ') +
       (customization.fileName || 'immagine');
 
-    row.append(image, caption);
+    row.append(image,caption);
     box.appendChild(row);
   } else {
     const theme = document.createElement('p');
@@ -650,10 +1191,7 @@ function renderSavedPreview(kind) {
   }
 }
 
-/* ---------------------------------------------------------
-   FINESTRA DI UPLOAD
-   --------------------------------------------------------- */
-
+/* FINESTRA DI UPLOAD */
 function openModal(kind) {
   if (!products[kind]) return;
 
@@ -678,9 +1216,7 @@ function openModal(kind) {
     $('reference-theme').value = existing.theme;
   }
 
-  $('modal-title').textContent = t('modalTitle') + ': ' +
-    products[kind].name[lang];
-
+  $('modal-title').textContent = t('modalTitle') + ': ' + products[kind].name[lang];
   $('modal-instructions').textContent = t('instructions');
   $('upload-label').textContent = t('upload');
   $('upload-note').textContent = t('uploadNote');
@@ -691,7 +1227,6 @@ function openModal(kind) {
   $('confirm-custom').textContent = t('confirm');
 
   renderSavedPreview(kind);
-
   $('custom-modal').classList.add('open');
 }
 
@@ -702,22 +1237,20 @@ function closeModal() {
   fileReading = false;
 }
 
-/* Delega del click: i pulsanti restano attivi anche se il DOM cambia. */
+/* Il click delegato mantiene funzionanti tutti i pulsanti di personalizzazione */
 document.addEventListener('click', event => {
   const button = event.target.closest('[data-customize]');
   if (!button) return;
-
   event.preventDefault();
   openModal(button.dataset.customize);
 });
 
 $('cancel-custom').addEventListener('click', closeModal);
-
 $('custom-modal').addEventListener('click', event => {
   if (event.target === $('custom-modal')) closeModal();
 });
 
-/* Caricamento immagine */
+/* CARICAMENTO IMMAGINE */
 $('reference-file').addEventListener('change', () => {
   const file = $('reference-file').files[0];
 
@@ -748,11 +1281,10 @@ $('reference-file').addEventListener('change', () => {
 
   reader.onload = () => {
     pendingFileData = {
-      name: file.name,
-      type: file.type,
-      data: reader.result
+      name:file.name,
+      type:file.type,
+      data:reader.result
     };
-
     fileReading = false;
     $('confirm-custom').disabled = false;
   };
@@ -768,7 +1300,7 @@ $('reference-file').addEventListener('change', () => {
   reader.readAsDataURL(file);
 });
 
-/* Se si digita un tema, si cancella l'eventuale file appena scelto. */
+/* Se si digita un tema, si cancella l'eventuale file appena scelto */
 $('reference-theme').addEventListener('input', () => {
   $('modal-error').textContent = '';
 
@@ -780,12 +1312,11 @@ $('reference-theme').addEventListener('input', () => {
   }
 });
 
-/* Rimuovi personalizzazione salvata o nuova selezione */
+/* RIMOZIONE PERSONALIZZAZIONE */
 $('remove-saved-custom').addEventListener('click', () => {
   if (!activeKind) return;
 
   delete saved[activeKind];
-
   $('reference-file').value = '';
   $('reference-theme').value = '';
   pendingFileData = null;
@@ -803,10 +1334,9 @@ $('remove-saved-custom').addEventListener('click', () => {
   updateCustomButton(activeKind);
 });
 
-/* Conferma tema o immagine */
+/* CONFERMA PERSONALIZZAZIONE */
 $('custom-form').addEventListener('submit', event => {
   event.preventDefault();
-
   if (!activeKind) return;
 
   if (fileReading) {
@@ -826,17 +1356,17 @@ $('custom-form').addEventListener('submit', event => {
 
   if (pendingFileData) {
     saved[kind] = {
-      theme: '',
-      fileName: pendingFileData.name,
-      fileType: pendingFileData.type,
-      fileData: pendingFileData.data
+      theme:'',
+      fileName:pendingFileData.name,
+      fileType:pendingFileData.type,
+      fileData:pendingFileData.data
     };
   } else if (theme) {
     saved[kind] = {
-      theme: theme,
-      fileName: '',
-      fileType: '',
-      fileData: ''
+      theme:theme,
+      fileName:'',
+      fileType:'',
+      fileData:''
     };
   } else if (!customizationReady(kind)) {
     $('modal-error').textContent = t('needOne');
@@ -844,7 +1374,7 @@ $('custom-form').addEventListener('submit', event => {
   }
 
   try {
-    localStorage.setItem(CUSTOM_KEY, JSON.stringify(saved));
+    localStorage.setItem(CUSTOM_KEY,JSON.stringify(saved));
   } catch (error) {
     $('modal-error').textContent = lang === 'it'
       ? 'Immagine troppo grande per la memoria del browser. Prova un file più piccolo.'
@@ -857,10 +1387,7 @@ $('custom-form').addEventListener('submit', event => {
   updateCustomButton(kind);
 });
 
-/* ---------------------------------------------------------
-   AGGIUNTA PRODOTTI PERSONALIZZATI AL CARRELLO
-   --------------------------------------------------------- */
-
+/* AGGIUNTA PRODOTTI PERSONALIZZATI AL CARRELLO */
 document.querySelectorAll('[data-add-custom]').forEach(button => {
   button.addEventListener('click', () => {
     const kind = button.dataset.addCustom;
@@ -892,7 +1419,7 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
       return;
     }
 
-    /* Prezzi prodotti personalizzati */
+    /* Prezzi prodotti personalizzati: maglietta 20 €, mini tela 8 € */
     const price = size
       ? size.price
       : kind === 'shirt'
@@ -904,23 +1431,23 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
     const customization = saved[kind];
 
     const item = {
-      id: 'custom-' + kind + '-' + Date.now(),
-      type: 'custom',
-      kind: kind,
-      name: products[kind].name[lang],
-      quantity: qty,
-      unitPrice: price,
-      pricePending: price === null,
-      size: size ? size.value : '',
-      shirtSize: kind === 'shirt' ? $('shirt-size').value.trim() : '',
-      backText: (kind === 'bookmark' || kind === 'bauble')
+      id:'custom-' + kind + '-' + Date.now(),
+      type:'custom',
+      kind:kind,
+      name:products[kind].name[lang],
+      quantity:qty,
+      unitPrice:price,
+      pricePending:price === null,
+      size:size ? size.value : '',
+      shirtSize:kind === 'shirt' ? $('shirt-size').value.trim() : '',
+      backText:(kind === 'bookmark' || kind === 'bauble')
         ? $(kind + '-back-text').value.trim()
         : '',
-      customization: {
-        theme: customization.theme || '',
-        fileName: customization.fileName || '',
-        fileType: customization.fileType || '',
-        fileData: customization.fileData || ''
+      customization:{
+        theme:customization.theme || '',
+        fileName:customization.fileName || '',
+        fileType:customization.fileType || '',
+        fileData:customization.fileData || ''
       }
     };
 
@@ -928,11 +1455,11 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
     const cart = readCart();
     cart.push(item);
 
-    /* Pulisci la personalizzazione temporanea per l'ordine successivo. */
+    /* Pulisce la personalizzazione temporanea dopo l'aggiunta */
     delete saved[kind];
 
     try {
-      localStorage.setItem(CUSTOM_KEY, JSON.stringify(saved));
+      localStorage.setItem(CUSTOM_KEY,JSON.stringify(saved));
     } catch (error) {
       saved[kind] = oldCustomization;
       toast(lang === 'it'
@@ -953,7 +1480,6 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
         document.querySelectorAll('input[name="' + kind + '-size"]').forEach(radio => {
           radio.checked = false;
         });
-
         $(kind + '-back-text').value = '';
       }
 
@@ -962,9 +1488,8 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
       toast(t('added'));
     } else {
       saved[kind] = oldCustomization;
-
       try {
-        localStorage.setItem(CUSTOM_KEY, JSON.stringify(saved));
+        localStorage.setItem(CUSTOM_KEY,JSON.stringify(saved));
       } catch (e) {}
 
       showSavedCustomization(kind);
@@ -973,14 +1498,10 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
   });
 });
 
-/* ---------------------------------------------------------
-   RENDER DEI PRODOTTI IN PRONTA CONSEGNA
-   --------------------------------------------------------- */
-
+/* RENDER PRODOTTI IN PRONTA CONSEGNA */
 function renderReadyProducts() {
   const grid = $('ready-grid');
   const empty = $('ready-empty');
-
   if (!grid || !empty) return;
 
   grid.innerHTML = '';
@@ -989,19 +1510,13 @@ function renderReadyProducts() {
   const sort = $('ready-sort') ? $('ready-sort').value : 'default';
 
   const filtered = readyProducts
-    .map((product, index) => ({ product, index }))
-    .filter(entry => {
-      return filter === 'all' || entry.product.category === filter;
-    });
+    .map((product,index) => ({product,index}))
+    .filter(entry => filter === 'all' || entry.product.category === filter);
 
   if (sort === 'price-asc') {
-    filtered.sort((a, b) =>
-      a.product.price - b.product.price || a.index - b.index
-    );
+    filtered.sort((a,b) => a.product.price - b.product.price || a.index - b.index);
   } else if (sort === 'price-desc') {
-    filtered.sort((a, b) =>
-      b.product.price - a.product.price || a.index - b.index
-    );
+    filtered.sort((a,b) => b.product.price - a.product.price || a.index - b.index);
   }
 
   empty.hidden = filtered.length > 0;
@@ -1015,7 +1530,7 @@ function renderReadyProducts() {
     const photo = document.createElement('button');
     photo.type = 'button';
     photo.className = 'ready-photo';
-    photo.setAttribute('aria-label', t('photo') + ': ' + product[lang]);
+    photo.setAttribute('aria-label',t('photo') + ': ' + product[lang]);
 
     const image = document.createElement('img');
     image.src = product.image;
@@ -1045,11 +1560,10 @@ function renderReadyProducts() {
       const largeImage = document.createElement('img');
       largeImage.src = product.image;
       largeImage.alt = product[lang];
-      largeImage.style.cssText =
-        'max-width:95vw;max-height:90vh;object-fit:contain';
+      largeImage.style.cssText = 'max-width:95vw;max-height:90vh;object-fit:contain';
 
       overlay.appendChild(largeImage);
-      overlay.addEventListener('click', () => overlay.remove());
+      overlay.addEventListener('click',() => overlay.remove());
       document.body.appendChild(overlay);
     });
 
@@ -1064,7 +1578,7 @@ function renderReadyProducts() {
     price.className = 'ready-price';
     price.textContent = new Intl.NumberFormat(
       lang === 'it' ? 'it-IT' : 'en-GB',
-      { style: 'currency', currency: 'EUR' }
+      {style:'currency',currency:'EUR'}
     ).format(product.price);
 
     const label = document.createElement('span');
@@ -1075,110 +1589,99 @@ function renderReadyProducts() {
     add.className = 'cart-icon-button';
     add.type = 'button';
     add.innerHTML = cartIcon();
-    add.setAttribute('aria-label', t('add'));
+    add.setAttribute('aria-label',t('add'));
 
-    add.addEventListener('click', () => {
+    add.addEventListener('click',() => {
       const cart = readCart();
-
       cart.push({
-        id: product.id,
-        type: 'ready',
-        name: product[lang],
-        image: product.image,
-        quantity: 1,
-        unitPrice: product.price
+        id:product.id,
+        type:'ready',
+        name:product[lang],
+        image:product.image,
+        quantity:1,
+        unitPrice:product.price
       });
 
-      if (writeCart(cart)) {
-        toast(t('added'));
-      }
+      if (writeCart(cart)) toast(t('added'));
     });
 
-    row.append(price, label, add);
-    card.append(photo, description, row);
+    row.append(price,label,add);
+    card.append(photo,description,row);
     grid.appendChild(card);
   });
 }
 
-/* ---------------------------------------------------------
-   TRADUZIONE PAGINA
-   --------------------------------------------------------- */
-
+/* TRADUZIONE PAGINA */
 function applyLanguage() {
   document.documentElement.lang = lang;
 
   const map = {
-    'cart-label': 'cart',
-    'explore-button': 'explore',
-    'menu-home': 'home',
-    'menu-portraits': 'portraits',
-    'menu-digital': 'digital',
-    'menu-wall': 'wall',
-    'menu-bookmarks': 'bookmarks',
-    'menu-balls': 'balls',
-    'menu-shirts': 'shirts',
-    'menu-contact': 'contact',
+    'cart-label':'cart',
+    'explore-button':'explore',
+    'menu-home':'home',
+    'menu-portraits':'portraits',
+    'menu-digital':'digital',
+    'menu-wall':'wall',
+    'menu-bookmarks':'bookmarks',
+    'menu-balls':'balls',
+    'menu-shirts':'shirts',
+    'menu-contact':'contact',
 
-    'page-title': 'title',
-    'page-intro': 'intro',
-    'custom-heading': 'customHeading',
-    'ready-heading': 'readyHeading',
+    'page-title':'title',
+    'page-intro':'intro',
+    'custom-heading':'customHeading',
+    'ready-heading':'readyHeading',
 
-    'bookmark-title': 'bookmark',
-    'bauble-title': 'bauble',
-    'shirt-title': 'shirt',
-    'canvas-title': 'canvas',
-    'other-title': 'other',
+    'bookmark-title':'bookmark',
+    'bauble-title':'bauble',
+    'shirt-title':'shirt',
+    'canvas-title':'canvas',
+    'other-title':'other',
 
-    'bookmark-small': 'bookmarkSmall',
-    'bookmark-large': 'bookmarkLarge',
-    'bauble-small': 'baubleSmall',
-    'bauble-large': 'baubleLarge',
+    'bookmark-small':'bookmarkSmall',
+    'bookmark-large':'bookmarkLarge',
+    'bauble-small':'baubleSmall',
+    'bauble-large':'baubleLarge',
 
-    'bookmark-description': 'bookmarkDesc',
-    'bauble-description': 'bookmarkDesc',
-    'shirt-size-label': 'shirtSize',
-    'shirt-description': 'shirtDesc',
-    'canvas-description': 'canvasDesc',
-    'other-description': 'otherDesc',
+    'bookmark-description':'bookmarkDesc',
+    'bauble-description':'bookmarkDesc',
+    'shirt-size-label':'shirtSize',
+    'shirt-description':'shirtDesc',
+    'canvas-description':'canvasDesc',
+    'other-description':'otherDesc',
 
-    'contact-button': 'contactButton',
-    'contact-heading': 'contactHeading',
-    'contact-copy': 'contactCopy',
-    'contact-cta': 'contactCta'
+    'contact-button':'contactButton',
+    'contact-heading':'contactHeading',
+    'contact-copy':'contactCopy',
+    'contact-cta':'contactCta'
   };
 
-  Object.entries(map).forEach(([id, key]) => {
+  Object.entries(map).forEach(([id,key]) => {
     const element = $(id);
     if (element) element.textContent = t(key);
   });
 
   const readyMap = {
-    'ready-filter-label': 'readyFilter',
-    'filter-all': 'allCategories',
-    'filter-bookmarks': 'bookmarksCategory',
-    'filter-canvases': 'canvasesCategory',
-    'filter-baubles': 'baublesCategory',
-    'filter-accessories': 'accessoriesCategory',
-    'filter-objects': 'objectsCategory',
-    'ready-sort-label': 'sortPrice',
-    'sort-default': 'sortDefault',
-    'sort-asc': 'sortAsc',
-    'sort-desc': 'sortDesc'
+    'ready-filter-label':'readyFilter',
+    'filter-all':'allCategories',
+    'filter-bookmarks':'bookmarksCategory',
+    'filter-canvases':'canvasesCategory',
+    'filter-baubles':'baublesCategory',
+    'filter-accessories':'accessoriesCategory',
+    'filter-objects':'objectsCategory',
+    'ready-sort-label':'sortPrice',
+    'sort-default':'sortDefault',
+    'sort-asc':'sortAsc',
+    'sort-desc':'sortDesc'
   };
 
-  Object.entries(readyMap).forEach(([id, key]) => {
+  Object.entries(readyMap).forEach(([id,key]) => {
     const element = $(id);
     if (element) element.textContent = t(key);
   });
 
-  if ($('shirt-size')) {
-    $('shirt-size').placeholder = t('shirtPlaceholder');
-  }
-
-  if ($('reference-theme')) {
-    $('reference-theme').placeholder = t('themePlaceholder');
-  }
+  if ($('shirt-size')) $('shirt-size').placeholder = t('shirtPlaceholder');
+  if ($('reference-theme')) $('reference-theme').placeholder = t('themePlaceholder');
 
   if ($('language-button')) {
     $('language-button').textContent = lang === 'it' ? 'EN' : 'IT';
@@ -1197,10 +1700,8 @@ function applyLanguage() {
   });
 
   document.querySelectorAll('[data-add-custom]').forEach(button => {
-    button.setAttribute(
-      'aria-label',
-      lang === 'it' ? 'Aggiungi al carrello' : 'Add to cart'
-    );
+    button.setAttribute('aria-label',
+      lang === 'it' ? 'Aggiungi al carrello' : 'Add to cart');
   });
 
   Object.keys(products).forEach(kind => {
@@ -1211,37 +1712,30 @@ function applyLanguage() {
   renderReadyProducts();
 }
 
-/* ---------------------------------------------------------
-   EVENTI FILTRI, MENU, LINGUA E CAMPI
-   --------------------------------------------------------- */
-
+/* EVENTI FILTRI, MENU, LINGUA E CAMPI */
 if ($('ready-filter')) {
-  $('ready-filter').addEventListener('change', renderReadyProducts);
+  $('ready-filter').addEventListener('change',renderReadyProducts);
 }
-
 if ($('ready-sort')) {
-  $('ready-sort').addEventListener('change', renderReadyProducts);
+  $('ready-sort').addEventListener('change',renderReadyProducts);
 }
 
 if ($('language-button')) {
-  $('language-button').addEventListener('click', () => {
+  $('language-button').addEventListener('click',() => {
     lang = lang === 'it' ? 'en' : 'it';
-
     try {
-      localStorage.setItem(LANG_KEY, lang);
+      localStorage.setItem(LANG_KEY,lang);
     } catch (e) {}
-
     applyLanguage();
   });
 }
 
 if ($('explore-button')) {
-  $('explore-button').addEventListener('click', () => {
+  $('explore-button').addEventListener('click',() => {
     const menu = $('explore-menu');
     if (!menu) return;
 
     menu.classList.toggle('show');
-
     $('explore-button').setAttribute(
       'aria-expanded',
       menu.classList.contains('show') ? 'true' : 'false'
@@ -1249,39 +1743,34 @@ if ($('explore-button')) {
   });
 }
 
-document.addEventListener('click', event => {
+document.addEventListener('click',event => {
   if (!event.target.closest('.dropdown')) {
     const menu = $('explore-menu');
     if (menu) menu.classList.remove('show');
 
     if ($('explore-button')) {
-      $('explore-button').setAttribute('aria-expanded', 'false');
+      $('explore-button').setAttribute('aria-expanded','false');
     }
   }
 });
 
-document.addEventListener('input', event => {
+document.addEventListener('input',event => {
   if (event.target.matches('.quantity-row input, .size-input, .back-text-input')) {
     Object.keys(products).forEach(updateCustomButton);
   }
 });
 
-document.addEventListener('change', event => {
+document.addEventListener('change',event => {
   if (event.target.matches('.quantity-row input, .size-input, input[type="radio"][name$="-size"]')) {
     Object.keys(products).forEach(updateCustomButton);
   }
 });
 
-/* ---------------------------------------------------------
-   AVVIO PAGINA
-   Carica i prodotti pronti prima delle traduzioni così la
-   griglia non resta vuota se un testo dà un errore.
-   --------------------------------------------------------- */
-
+/* AVVIO PAGINA */
 try {
   updateCartCount();
 } catch (e) {
-  console.error('Errore aggiornamento carrello:', e);
+  console.error('Errore aggiornamento carrello:',e);
 }
 
 Object.keys(products).forEach(kind => {
@@ -1289,28 +1778,29 @@ Object.keys(products).forEach(kind => {
     showSavedCustomization(kind);
     updateCustomButton(kind);
   } catch (e) {
-    console.warn('Personalizzazione ignorata temporaneamente:', kind, e);
+    console.warn('Personalizzazione ignorata temporaneamente:',kind,e);
   }
 });
 
-/* Primo rendering indipendente della griglia */
+/* Primo rendering della griglia */
 try {
   renderReadyProducts();
 } catch (e) {
-  console.error('Errore nel rendering dei prodotti pronti:', e);
+  console.error('Errore nel rendering dei prodotti pronti:',e);
 }
 
-/* Poi applica lingua e testi */
+/* Applica la lingua dopo il primo rendering */
 try {
   applyLanguage();
 } catch (e) {
-  console.error('Errore nell’applicazione della lingua:', e);
-
-  /* Un errore di traduzione non deve nascondere i prodotti pronti. */
+  console.error('Errore nell’applicazione della lingua:',e);
   try {
     renderReadyProducts();
   } catch (renderError) {
-    console.error('Impossibile mostrare la griglia prodotti:', renderError);
+    console.error('Impossibile mostrare la griglia prodotti:',renderError);
   }
 }
 </script>
+
+</body>
+</html>
