@@ -2,9 +2,9 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FedePictures | Carrello</title>
-<link rel="icon" href="../volpe.png" type="image/x-icon">
+<link rel="icon" href="https://fedepictures.github.io/FedePictures/volpe.png">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -17,13 +17,8 @@
   --ombra: 0 4px 14px rgba(0,0,0,.08);
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -32,15 +27,10 @@ body {
   background: #fff;
 }
 
-button, a {
-  font: inherit;
-  -webkit-tap-highlight-color: transparent;
-}
+button, input, textarea { font: inherit; }
+button { cursor: pointer; -webkit-tap-highlight-color: transparent; }
 
-button {
-  cursor: pointer;
-}
-
+/* BARRA SUPERIORE */
 .site-header {
   background: var(--celeste);
   min-height: 76px;
@@ -59,19 +49,25 @@ button {
   position: absolute;
   left: 24px;
   top: 0;
-  width: 82px;
-  height: 82px;
+  width: 110px;
+  height: 95px;
   display: flex;
   align-items: flex-start;
   z-index: 2;
+  overflow: visible;
 }
 
 .main-logo {
-  width: 82px;
-  height: 82px;
+  width: 110px;
+  height: 95px;
   object-fit: contain;
   object-position: left top;
   filter: drop-shadow(0 3px 5px rgba(0,0,0,.08));
+  transition: transform .3s ease;
+}
+
+.main-logo:hover {
+  transform: scale(1.05) rotate(-3deg);
 }
 
 .header-actions {
@@ -80,8 +76,7 @@ button {
   gap: 10px;
 }
 
-.header-button,
-.lang-switcher {
+.header-button, .lang-switcher {
   border: 1px solid transparent;
   background: var(--viola);
   color: #68427f;
@@ -93,9 +88,11 @@ button {
   white-space: nowrap;
 }
 
-.header-button.cart-link {
-  border-color: #9466b6;
+.header-button:hover, .lang-switcher:hover {
+  background: #c5a0ec;
 }
+
+.cart-link { border-color: #9466b6; }
 
 .cart-count {
   display: inline-flex;
@@ -111,20 +108,40 @@ button {
   font-size: .75rem;
 }
 
+/* MENU ESPLORA */
+.dropdown { position: relative; }
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  min-width: 210px;
+  border-radius: 10px;
+  box-shadow: var(--ombra);
+  overflow: hidden;
+}
+
+.dropdown-menu.show { display: block; }
+
+.dropdown-menu a {
+  display: block;
+  padding: 11px 14px;
+  text-decoration: none;
+  color: #333;
+}
+
+.dropdown-menu a:hover { background: #f5effa; }
+
+/* PAGINA CARRELLO */
 main {
   max-width: 1050px;
   margin: 0 auto;
   padding: 30px 24px 60px;
 }
 
-.intro {
-  text-align: center;
-  margin: 8px auto 30px;
-}
-
-h1, h2, h3 {
-  font-family: 'Baloo 2', sans-serif;
-}
+h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
 
 h1 {
   font-size: clamp(2rem,4vw,2.7rem);
@@ -134,6 +151,11 @@ h1 {
 h2 {
   font-size: 1.6rem;
   margin: 0 0 18px;
+}
+
+.intro {
+  text-align: center;
+  margin: 8px auto 30px;
 }
 
 .intro p {
@@ -194,18 +216,7 @@ h2 {
   overflow-wrap: anywhere;
 }
 
-.item-meta p {
-  margin: 3px 0;
-}
-
-.custom-preview {
-  display: block;
-  max-width: 100%;
-  max-height: 130px;
-  margin-top: 8px;
-  border-radius: 8px;
-  object-fit: contain;
-}
+.item-meta p { margin: 3px 0; }
 
 .item-bottom {
   display: flex;
@@ -244,6 +255,9 @@ h2 {
   font-weight: 700;
 }
 
+.remove-button:hover { background: #f8f1fc; }
+
+/* RIEPILOGO */
 .summary {
   border-radius: 18px;
   background: linear-gradient(145deg,#fff7fa,#f2faff);
@@ -285,8 +299,7 @@ h2 {
   margin: 16px 0;
 }
 
-.primary-button,
-.secondary-button {
+.primary-button, .secondary-button {
   display: block;
   width: 100%;
   text-align: center;
@@ -294,6 +307,7 @@ h2 {
   border-radius: 10px;
   padding: 12px 14px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .primary-button {
@@ -302,6 +316,8 @@ h2 {
   color: #4f3264;
 }
 
+.primary-button:hover { background: #c5a0ec; }
+
 .secondary-button {
   margin-top: 10px;
   border: 1px solid #aaa;
@@ -309,6 +325,9 @@ h2 {
   color: #333;
 }
 
+.secondary-button:hover { background: #f7f7f7; }
+
+/* CARRELLO VUOTO */
 .empty-cart {
   text-align: center;
   border: 2px dashed #d7c7e4;
@@ -316,17 +335,9 @@ h2 {
   padding: 44px 20px;
 }
 
-.empty-cart .symbol {
-  font-size: 2.8rem;
-}
-
-.empty-cart h2 {
-  margin: 8px 0;
-}
-
-.empty-cart p {
-  line-height: 1.5;
-}
+.empty-cart .symbol { font-size: 2.8rem; }
+.empty-cart h2 { margin: 8px 0; }
+.empty-cart p { line-height: 1.5; }
 
 .empty-cart a {
   display: inline-block;
@@ -352,6 +363,153 @@ footer {
   color: #746b7d;
 }
 
+/* CHECKOUT */
+.checkout-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  padding: 16px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(30,20,35,.62);
+}
+
+.checkout-backdrop.open { display: flex; }
+
+.checkout-modal {
+  position: relative;
+  width: min(100%,680px);
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 18px 60px #0004;
+}
+
+.checkout-modal h2 { margin: 0 0 8px; }
+
+.checkout-lead {
+  margin: 0 0 18px;
+  line-height: 1.5;
+  color: #625a6c;
+}
+
+.checkout-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 12px;
+}
+
+.checkout-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.checkout-field.full { grid-column: 1/-1; }
+
+.checkout-field label, .payment-heading {
+  font-weight: 700;
+  font-size: .9rem;
+}
+
+.checkout-field input, .checkout-field textarea {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #b9afc1;
+  border-radius: 8px;
+  padding: 10px;
+  font: inherit;
+  color: #333;
+  background: #fff;
+}
+
+.checkout-field textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+
+.payment-options {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 12px;
+  border: 1px solid #cbb6dc;
+  border-radius: 10px;
+  background: #fdfaff;
+  cursor: pointer;
+}
+
+.payment-option:has(input:checked) {
+  border-color: #8e61b0;
+  background: #f4eafb;
+}
+
+.payment-option input {
+  margin-top: 4px;
+  accent-color: #9167b3;
+}
+
+.payment-option strong {
+  display: block;
+  margin-bottom: 3px;
+}
+
+.payment-option small {
+  display: block;
+  font-size: .78rem;
+  line-height: 1.4;
+  color: #625a6c;
+}
+
+.checkout-order-summary, .payment-info, .checkout-warning {
+  padding: 12px;
+  margin: 14px 0;
+  border: 1px solid #e4d9eb;
+  border-radius: 10px;
+  background: #fbf8ff;
+  font-size: .88rem;
+  line-height: 1.5;
+}
+
+.checkout-warning {
+  background: #fff8e9;
+  border-color: #ecd6a7;
+}
+
+.checkout-order-summary ul {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.checkout-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.checkout-modal-actions button {
+  width: auto;
+  min-width: 130px;
+}
+
+.checkout-modal-actions .secondary-button { margin-top: 0; }
+.checkout-error { color: #a12828; min-height: 1.2em; font-size: .86rem; }
+.payment-info a { color: #68427f; font-weight: 700; }
+
+/* VISUALIZZAZIONE SU CELLULARE */
 @media(max-width:760px) {
   .site-header {
     padding: 8px 10px 8px 94px;
@@ -359,34 +517,31 @@ footer {
     min-height: 65px;
   }
 
-  .logo-link,
-  .main-logo {
-    width: 68px;
-    height: 68px;
+  .logo-link {
     left: 10px;
+    width: 72px;
+    height: 72px;
+  }
+
+  .main-logo {
+    width: 72px;
+    height: 72px;
   }
 
   .header-actions {
     gap: 6px;
+    flex-wrap: wrap;
   }
 
-  .header-button,
-  .lang-switcher {
+  .header-button, .lang-switcher {
     padding: 9px 10px;
     font-size: .72rem;
   }
 
-  main {
-    padding: 24px 14px 45px;
-  }
+  main { padding: 24px 14px 45px; }
 
-  .cart-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .summary {
-    position: static;
-  }
+  .cart-layout { grid-template-columns: 1fr; }
+  .summary { position: static; }
 
   .cart-item {
     grid-template-columns: 72px minmax(0,1fr);
@@ -400,16 +555,20 @@ footer {
   }
 }
 
+@media(max-width:520px) {
+  .checkout-modal { padding: 18px; }
+  .checkout-form-grid, .payment-options { grid-template-columns: 1fr; }
+  .checkout-modal-actions { flex-direction: column-reverse; }
+  .checkout-modal-actions button { width: 100%; }
+}
+
 @media(max-width:390px) {
-  .header-button,
-  .lang-switcher {
+  .header-button, .lang-switcher {
     padding: 8px 7px;
     font-size: .68rem;
   }
 
-  .cart-item {
-    grid-template-columns: 1fr;
-  }
+  .cart-item { grid-template-columns: 1fr; }
 
   .item-image {
     width: 100%;
@@ -422,29 +581,40 @@ footer {
 <body>
 
 <header class="site-header">
-  <a class="logo-link" href="../index.html" aria-label="FedePictures - Home">
-    <img class="main-logo" src="../FedePictures_logo.png" alt="Logo FedePictures">
+  <a class="logo-link"
+     href="https://fedepictures.github.io/FedePictures/index.html"
+     aria-label="FedePictures - Home">
+    <img class="main-logo"
+         id="site-logo"
+         src="https://fedepictures.github.io/FedePictures/FedePictures_logo.png"
+         alt="Logo FedePictures"
+         onerror="logoFallback(this)">
   </a>
 
   <div class="header-actions">
-    <a class="header-button cart-link" href="carrello.html">
+    <a class="header-button cart-link"
+       href="https://fedepictures.github.io/FedePictures/carrello.html">
       <span id="cart-label">CARRELLO</span>
       <span class="cart-count" id="cart-count">0</span>
     </a>
 
-    <a class="header-button" href="index.html#prodotti" id="shop-button">SHOP</a>
+    <!-- SHOP: collegamento diretto alla pagina shop -->
+    <a class="header-button"
+       href="https://fedepictures.github.io/FedePictures/shop/index.html"
+       id="shop-button">SHOP</a>
 
-    <div class="header-button" style="position:relative;padding:0;background:transparent">
-      <button id="explore-button" style="border:0;background:var(--viola);color:#68427f;border-radius:9px;padding:10px 14px;font-weight:700">
-        ESPLORA ▼
-      </button>
+    <div class="dropdown">
+      <button class="header-button"
+              id="explore-button"
+              type="button"
+              aria-expanded="false">ESPLORA ▼</button>
 
-      <nav id="explore-menu" style="display:none;position:absolute;right:0;top:calc(100% + 8px);background:#fff;min-width:210px;border-radius:10px;box-shadow:var(--ombra);overflow:hidden">
-        <a href="../index.html" data-nav="home" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Home</a>
-        <a href="../segnalibri.html" data-nav="bookmarks" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Segnalibri</a>
-        <a href="../palline.html" data-nav="baubles" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Palline di Natale</a>
-        <a href="../magliette.html" data-nav="shirts" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Magliette e accessori</a>
-        <a href="../contatti.html" data-nav="contact" style="display:block;padding:11px 14px;text-decoration:none;color:#333">Contattami</a>
+      <nav class="dropdown-menu" id="explore-menu">
+        <a href="https://fedepictures.github.io/FedePictures/index.html" data-nav="home">Home</a>
+        <a href="https://fedepictures.github.io/FedePictures/segnalibri.html" data-nav="bookmarks">Segnalibri</a>
+        <a href="https://fedepictures.github.io/FedePictures/palline.html" data-nav="baubles">Palline di Natale</a>
+        <a href="https://fedepictures.github.io/FedePictures/magliette.html" data-nav="shirts">Magliette e accessori</a>
+        <a href="https://fedepictures.github.io/FedePictures/contatti.html" data-nav="contact">Contattami</a>
       </nav>
     </div>
 
@@ -459,22 +629,160 @@ footer {
   </section>
 
   <div id="cart-content"></div>
-
   <div class="gradient-band" aria-hidden="true"></div>
 </main>
 
 <footer id="footer-note">
-  I prodotti e le quantità vengono conservati in questo browser. Il pagamento online non è ancora attivo.
+  Spedizione: 5,00 €. I dati del carrello sono salvati in questo browser.
 </footer>
 
+<!-- FINESTRA CHECKOUT -->
+<div class="checkout-backdrop"
+     id="checkout-modal"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="checkout-title">
+
+  <section class="checkout-modal">
+    <h2 id="checkout-title">Completa l’ordine</h2>
+
+    <p class="checkout-lead" id="checkout-intro">
+      Inserisci i tuoi dati per preparare la richiesta d’ordine.
+    </p>
+
+    <div class="checkout-order-summary" id="checkout-order-summary"></div>
+    <div class="checkout-warning" id="checkout-pending-warning" hidden></div>
+
+    <form id="checkout-form">
+      <div class="checkout-form-grid">
+        <div class="checkout-field">
+          <label for="customer-name" id="customer-name-label">Nome e cognome *</label>
+          <input id="customer-name" name="customerName" autocomplete="name" required maxlength="120">
+        </div>
+
+        <div class="checkout-field">
+          <label for="customer-email" id="customer-email-label">Email *</label>
+          <input id="customer-email" name="customerEmail" type="email" autocomplete="email" required maxlength="180">
+        </div>
+
+        <div class="checkout-field">
+          <label for="customer-phone" id="customer-phone-label">Telefono (facoltativo)</label>
+          <input id="customer-phone" name="customerPhone" type="tel" autocomplete="tel" maxlength="50">
+        </div>
+
+        <div class="checkout-field">
+          <label for="customer-address" id="customer-address-label">Indirizzo di spedizione *</label>
+          <input id="customer-address" name="customerAddress" autocomplete="street-address" required maxlength="180">
+        </div>
+
+        <div class="checkout-field">
+          <label for="customer-postcode" id="customer-postcode-label">CAP *</label>
+          <input id="customer-postcode" name="customerPostcode" autocomplete="postal-code" required maxlength="20">
+        </div>
+
+        <div class="checkout-field">
+          <label for="customer-city" id="customer-city-label">Città e provincia *</label>
+          <input id="customer-city" name="customerCity" autocomplete="address-level2" required maxlength="120">
+        </div>
+
+        <div class="checkout-field full">
+          <label for="customer-notes" id="customer-notes-label">Note per l’ordine (facoltative)</label>
+          <textarea id="customer-notes" name="customerNotes" maxlength="1200"></textarea>
+        </div>
+      </div>
+
+      <p class="payment-heading" id="payment-heading">Metodo di pagamento preferito</p>
+
+      <div class="payment-options">
+        <label class="payment-option">
+          <input type="radio" name="payment-method" value="paypal" required>
+          <span>
+            <strong id="paypal-option-title">PayPal</strong>
+            <small id="paypal-option-copy">Dopo la conferma dell’ordine potrai pagare tramite il link PayPal configurato.</small>
+          </span>
+        </label>
+
+        <label class="payment-option">
+          <input type="radio" name="payment-method" value="bank" required>
+          <span>
+            <strong id="bank-option-title">Bonifico bancario</strong>
+            <small id="bank-option-copy">Le coordinate bancarie saranno mostrate qui dopo averle configurate.</small>
+          </span>
+        </label>
+      </div>
+
+      <div class="payment-info" id="payment-method-info">
+        Seleziona un metodo di pagamento.
+      </div>
+
+      <p id="paypal-link-wrap" hidden>
+        <a id="paypal-payment-link" href="#" target="_blank" rel="noopener">Apri PayPal</a>
+      </p>
+
+      <p class="checkout-warning" id="checkout-email-warning">
+        Questo passaggio prepara una bozza email. La richiesta verrà inviata solo quando premi Invia nel tuo programma di posta. Le immagini di riferimento non sono allegate automaticamente.
+      </p>
+
+      <p class="checkout-error" id="checkout-error" aria-live="polite"></p>
+
+      <div class="checkout-modal-actions">
+        <button type="button" class="secondary-button" id="checkout-cancel">Annulla</button>
+        <button type="submit" class="primary-button" id="checkout-submit">Prepara email ordine</button>
+      </div>
+    </form>
+  </section>
+</div>
+
 <script>
+/* PROVA A TROVARE IL LOGO ANCHE SE IL NOME DEL FILE È DIVERSO */
+function logoFallback(img) {
+  const alternatives = [
+    'https://fedepictures.github.io/FedePictures/FedePictures%20logo.png',
+    'https://fedepictures.github.io/FedePictures/FedePictures-logo.png',
+    'https://fedepictures.github.io/FedePictures/logo.png'
+  ];
+
+  const index = Number(img.dataset.fallbackIndex || 0);
+
+  if (index < alternatives.length) {
+    img.dataset.fallbackIndex = String(index + 1);
+    img.src = alternatives[index];
+  } else {
+    img.style.display = 'none';
+  }
+}
+
 (() => {
   'use strict';
 
   const CART_KEY = 'fedepictures_shop_cart_v1';
   const LANG_KEY = 'fedepictures_shop_language';
+  const SHIPPING_COST = 5;
+  const SITE_URL = 'https://fedepictures.github.io/FedePictures/';
+
+  /*
+   * CONFIGURAZIONE PAGAMENTI
+   *
+   * Inserisci qui il tuo link PayPal.Me e i dati bancari.
+   * Il checkout attuale prepara la richiesta d'ordine via email.
+   */
+
+  const PAYMENT_CONFIG = {
+    orderEmail: 'federicastancato@hotmail.com',
+
+    /* Esempio: 'https://paypal.me/tuonome'
+       Sostituiscilo con il tuo link vero, oppure lascialo vuoto. */
+    paypalMeUrl: '',
+
+    /* Inserisci i dati reali del conto destinato a ricevere i bonifici. */
+    bankBeneficiary: '',
+    bankIban: '',
+    bankBic: ''
+  };
 
   let lang = localStorage.getItem(LANG_KEY) || 'it';
+  let checkoutSummaryText = '';
+  let checkoutPending = false;
 
   const $ = id => document.getElementById(id);
 
@@ -491,28 +799,61 @@ footer {
       backShop: 'Torna allo shop',
       summary: 'Riepilogo ordine',
       products: 'Prodotti',
-      total: 'Totale prodotti',
+      subtotal: 'Subtotale prodotti',
+      shipping: 'Spedizione',
+      grandTotal: 'Totale ordine',
       pending: 'Prezzo da definire',
       quantity: 'Quantità',
       remove: 'Rimuovi',
-      subtotal: 'Subtotale',
       continue: 'Continua gli acquisti',
       clear: 'Svuota carrello',
-      notice: 'Il pagamento online e l’invio automatico dell’ordine non sono ancora attivi. Per ora il carrello è salvato soltanto in questo browser.',
-      footer: 'I prodotti e le quantità vengono conservati in questo browser. Il pagamento online non è ancora attivo.',
+      notice: 'La spedizione costa 5,00 €. Il totale dei prodotti personalizzati con prezzo da definire sarà confermato prima del pagamento.',
+      footer: 'Spedizione: 5,00 €. I dati del carrello sono salvati in questo browser.',
       size: 'Dimensione',
       backText: 'Testo sul retro',
       shirtSize: 'Taglia',
       theme: 'Tema richiesto',
-      image: 'Immagine di riferimento',
       file: 'File caricato',
       custom: 'Personalizzazione',
       confirmClear: 'Vuoi davvero svuotare il carrello?',
-      ready: 'Prodotto pronto da consegnare',
       customProduct: 'Prodotto personalizzato',
       noPrice: 'Da definire',
-      item: 'prodotto',
-      items: 'prodotti'
+      checkout: 'Procedi al checkout',
+      checkoutTitle: 'Completa l’ordine',
+      checkoutIntro: 'Inserisci i tuoi dati per preparare la richiesta d’ordine. Il pagamento sarà effettuato dopo la conferma dell’ordine.',
+      customerName: 'Nome e cognome *',
+      customerEmail: 'Email *',
+      customerPhone: 'Telefono (facoltativo)',
+      customerAddress: 'Indirizzo di spedizione *',
+      customerPostcode: 'CAP *',
+      customerCity: 'Città e provincia *',
+      customerNotes: 'Note per l’ordine (facoltative)',
+      paymentHeading: 'Metodo di pagamento preferito',
+      paypalTitle: 'PayPal',
+      paypalCopy: 'Dopo la conferma dell’ordine potrai pagare tramite il link PayPal configurato.',
+      bankTitle: 'Bonifico bancario',
+      bankCopy: 'Le coordinate bancarie saranno mostrate qui dopo averle configurate.',
+      paypalInfo: 'Dopo aver ricevuto la conferma dell’importo finale, potrai pagare usando il link PayPal qui sotto. Non pagare prima della conferma.',
+      bankInfo: 'Attendi la conferma dell’ordine e verifica beneficiario e IBAN prima di effettuare il bonifico.',
+      bankData: 'Beneficiario: {beneficiary} — IBAN: {iban}',
+      choosePayment: 'Seleziona un metodo di pagamento.',
+      pendingWarning: 'Almeno un prodotto ha un prezzo da confermare. Il totale qui indicato è provvisorio: attendi la conferma prima del pagamento.',
+      emailWarning: 'Questo passaggio prepara una bozza email. La richiesta verrà inviata solo quando premi Invia nel tuo programma di posta. Le immagini di riferimento non sono allegate automaticamente.',
+      cancel: 'Annulla',
+      prepareEmail: 'Prepara email ordine',
+      orderSubject: 'Richiesta ordine FedePictures',
+      emailError: 'Controlla i campi obbligatori e scegli un metodo di pagamento.',
+      emailOpened: 'Si aprirà il tuo programma di posta, se configurato. Controlla la bozza e premi Invia.',
+      mailCustomer: 'DATI CLIENTE',
+      mailItems: 'PRODOTTI',
+      mailNotes: 'NOTE',
+      mailPayment: 'METODO DI PAGAMENTO PREFERITO',
+      mailShipping: 'Spedizione',
+      mailSubtotal: 'Subtotale prodotti',
+      mailTotal: 'Totale ordine (spedizione inclusa)',
+      paymentPaypal: 'PayPal',
+      paymentBank: 'Bonifico bancario',
+      contact: 'Contattami'
     },
 
     en: {
@@ -527,38 +868,80 @@ footer {
       backShop: 'Back to shop',
       summary: 'Order summary',
       products: 'Products',
-      total: 'Product total',
+      subtotal: 'Product subtotal',
+      shipping: 'Shipping',
+      grandTotal: 'Order total',
       pending: 'Price to be confirmed',
       quantity: 'Quantity',
       remove: 'Remove',
-      subtotal: 'Subtotal',
       continue: 'Continue shopping',
       clear: 'Empty cart',
-      notice: 'Online payment and automatic order submission are not active yet. For now, your cart is saved only in this browser.',
-      footer: 'Products and quantities are stored in this browser. Online payment is not active yet.',
+      notice: 'Shipping costs €5.00. Prices for some custom products may need confirmation before payment.',
+      footer: 'Shipping: €5.00. Cart data is saved in this browser.',
       size: 'Size',
       backText: 'Text on the back',
       shirtSize: 'Size',
       theme: 'Requested theme',
-      image: 'Reference image',
       file: 'Uploaded file',
       custom: 'Customization',
       confirmClear: 'Do you really want to empty the cart?',
-      ready: 'Ready-to-ship product',
       customProduct: 'Personalized product',
       noPrice: 'To be confirmed',
-      item: 'item',
-      items: 'items'
+      checkout: 'Proceed to checkout',
+      checkoutTitle: 'Complete your order',
+      checkoutIntro: 'Enter your details to prepare the order request. Payment is made after the order is confirmed.',
+      customerName: 'Full name *',
+      customerEmail: 'Email *',
+      customerPhone: 'Phone (optional)',
+      customerAddress: 'Shipping address *',
+      customerPostcode: 'Postal code *',
+      customerCity: 'City and province *',
+      customerNotes: 'Order notes (optional)',
+      paymentHeading: 'Preferred payment method',
+      paypalTitle: 'PayPal',
+      paypalCopy: 'After the order is confirmed, you can pay using the configured PayPal link.',
+      bankTitle: 'Bank transfer',
+      bankCopy: 'Bank details will appear here after configuration.',
+      paypalInfo: 'After receiving confirmation of the final amount, you can pay using the PayPal link below. Do not pay before confirmation.',
+      bankInfo: 'Wait for order confirmation and verify beneficiary and IBAN before making a transfer.',
+      bankData: 'Beneficiary: {beneficiary} — IBAN: {iban}',
+      choosePayment: 'Choose a payment method.',
+      pendingWarning: 'At least one product price must be confirmed. This total is provisional: wait for confirmation before paying.',
+      emailWarning: 'This step prepares an email draft. The request is sent only when you press Send in your email app. Reference images are not attached automatically.',
+      cancel: 'Cancel',
+      prepareEmail: 'Prepare order email',
+      orderSubject: 'FedePictures order request',
+      emailError: 'Check the required fields and choose a payment method.',
+      emailOpened: 'Your email app should open if configured. Review the draft and press Send.',
+      mailCustomer: 'CUSTOMER DETAILS',
+      mailItems: 'PRODUCTS',
+      mailNotes: 'NOTES',
+      mailPayment: 'PREFERRED PAYMENT METHOD',
+      mailShipping: 'Shipping',
+      mailSubtotal: 'Product subtotal',
+      mailTotal: 'Order total (shipping included)',
+      paymentPaypal: 'PayPal',
+      paymentBank: 'Bank transfer',
+      contact: 'Contact me'
     }
   };
 
   const t = key => words[lang][key] || key;
 
-  const euro = value =>
-    new Intl.NumberFormat(
-      lang === 'it' ? 'it-IT' : 'en-GB',
-      { style: 'currency', currency: 'EUR' }
-    ).format(value);
+  const euro = value => new Intl.NumberFormat(
+    lang === 'it' ? 'it-IT' : 'en-GB',
+    { style: 'currency', currency: 'EUR' }
+  ).format(value);
+
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[ch]);
+  }
 
   function readCart() {
     try {
@@ -570,7 +953,16 @@ footer {
   }
 
   function writeCart(cart) {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    try {
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      updateHeader();
+      return true;
+    } catch (e) {
+      alert(lang === 'it'
+        ? 'Impossibile salvare il carrello nel browser.'
+        : 'Unable to save the cart in this browser.');
+      return false;
+    }
   }
 
   function updateHeader() {
@@ -586,16 +978,6 @@ footer {
     $('language-toggle').textContent = t('lang');
   }
 
-  function escapeHtml(value) {
-    return String(value ?? '').replace(/[&<>"']/g, ch => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    })[ch]);
-  }
-
   function getName(item) {
     if (item.type === 'custom') {
       const names = {
@@ -607,14 +989,90 @@ footer {
           : 'Custom mini canvas with easel'
       };
 
-      return names[item.kind] ||
-        item.name ||
+      return names[item.kind] || item.name ||
         (lang === 'it' ? 'Prodotto personalizzato' : 'Personalized product');
     }
 
     return item.name || item.id || (lang === 'it' ? 'Prodotto' : 'Product');
   }
 
+  function getItemPrice(item) {
+    if (
+      item.pricePending ||
+      item.unitPrice === null ||
+      item.unitPrice === undefined ||
+      !Number.isFinite(Number(item.unitPrice))
+    ) {
+      return null;
+    }
+
+    return Number(item.unitPrice);
+  }
+
+  /* Totale prodotti + costo fisso della spedizione */
+  function totals(cart) {
+    let subtotal = 0;
+    let pending = false;
+    let count = 0;
+
+    cart.forEach(item => {
+      const qty = Math.max(1, Number(item.quantity) || 1);
+      count += qty;
+
+      const price = getItemPrice(item);
+
+      if (price === null) {
+        pending = true;
+      } else {
+        subtotal += price * qty;
+      }
+    });
+
+    const shipping = cart.length ? SHIPPING_COST : 0;
+
+    return {
+      subtotal,
+      shipping,
+      total: subtotal + shipping,
+      pending,
+      count
+    };
+  }
+
+  /* Percorsi delle immagini dei prodotti pronti */
+  function itemImage(item) {
+    if (item.type === 'ready' && item.image) {
+      let path = String(item.image);
+
+      if (path.startsWith('../')) {
+        path = path.slice(3);
+      }
+
+      if (path.startsWith('http') || path.startsWith('data:')) {
+        return '<img class="item-image" src="' +
+          escapeHtml(path) +
+          '" alt="' + escapeHtml(getName(item)) +
+          '" onerror="this.style.display=\'none\'">';
+      }
+
+      return '<img class="item-image" src="' +
+        escapeHtml(SITE_URL + path) +
+        '" alt="' + escapeHtml(getName(item)) +
+        '" onerror="this.style.display=\'none\'">';
+    }
+
+    const data = item.customization && item.customization.fileData;
+
+    if (data && data.startsWith('data:image/')) {
+      return '<img class="item-image" src="' +
+        escapeHtml(data) +
+        '" alt="' + escapeHtml(t('file')) + '">';
+    }
+
+    return '<div class="item-image empty">✦</div>';
+  }
+
+  /* DISEGNA IL CARRELLO */
   function render() {
     const cart = readCart();
 
@@ -632,93 +1090,55 @@ footer {
           <div class="symbol">🛒</div>
           <h2>${t('emptyTitle')}</h2>
           <p>${t('emptyText')}</p>
-          <a href="index.html">${t('backShop')}</a>
+          <a href="${SITE_URL}shop/index.html">${t('backShop')}</a>
         </section>
       `;
       return;
     }
 
-    let total = 0;
-    let pending = false;
-    let count = 0;
+    const sum = totals(cart);
 
     const cards = cart.map((item, index) => {
       const qty = Math.max(1, Number(item.quantity) || 1);
-      count += qty;
-
-      const price =
-        item.pricePending ||
-        item.unitPrice === null ||
-        item.unitPrice === undefined ||
-        !Number.isFinite(Number(item.unitPrice))
-          ? null
-          : Number(item.unitPrice);
-
-      if (price === null) {
-        pending = true;
-      } else {
-        total += price * qty;
-      }
-
-      let image;
-
-      if (item.type === 'ready' && item.image) {
-        image = `
-          <img class="item-image"
-               src="${escapeHtml(item.image)}"
-               alt="${escapeHtml(getName(item))}"
-               onerror="this.style.display='none'">
-        `;
-      } else if (
-        item.customization &&
-        item.customization.fileData &&
-        item.customization.fileData.startsWith('data:image/')
-      ) {
-        image = `
-          <img class="item-image"
-               src="${item.customization.fileData}"
-               alt="${t('image')}">
-        `;
-      } else {
-        image = `<div class="item-image empty">✦</div>`;
-      }
-
+      const price = getItemPrice(item);
       const details = [];
 
       if (item.size) {
-        details.push(`
-          <p><strong>${t('size')}:</strong>
-          ${escapeHtml(item.size)}${price !== null ? ' — ' + euro(price) : ''}</p>
-        `);
+        details.push(
+          '<p><strong>' + t('size') + ':</strong> ' +
+          escapeHtml(item.size) +
+          (price !== null ? ' — ' + euro(price) : '') +
+          '</p>'
+        );
       }
 
       if (item.shirtSize) {
-        details.push(`
-          <p><strong>${t('shirtSize')}:</strong>
-          ${escapeHtml(item.shirtSize)}</p>
-        `);
+        details.push(
+          '<p><strong>' + t('shirtSize') + ':</strong> ' +
+          escapeHtml(item.shirtSize) + '</p>'
+        );
       }
 
       if (item.backText) {
-        details.push(`
-          <p><strong>${t('backText')}:</strong>
-          ${escapeHtml(item.backText)}</p>
-        `);
+        details.push(
+          '<p><strong>' + t('backText') + ':</strong> ' +
+          escapeHtml(item.backText) + '</p>'
+        );
       }
 
-      if (item.type === 'custom' && item.customization) {
+      if (item.customization) {
         if (item.customization.theme) {
-          details.push(`
-            <p><strong>${t('theme')}:</strong>
-            ${escapeHtml(item.customization.theme)}</p>
-          `);
+          details.push(
+            '<p><strong>' + t('theme') + ':</strong> ' +
+            escapeHtml(item.customization.theme) + '</p>'
+          );
         }
 
         if (item.customization.fileName) {
-          details.push(`
-            <p><strong>${t('file')}:</strong>
-            ${escapeHtml(item.customization.fileName)}</p>
-          `);
+          details.push(
+            '<p><strong>' + t('file') + ':</strong> ' +
+            escapeHtml(item.customization.fileName) + '</p>'
+          );
         }
       }
 
@@ -728,7 +1148,7 @@ footer {
 
       return `
         <article class="cart-item">
-          ${image}
+          ${itemImage(item)}
 
           <div>
             <h3 class="item-title">${escapeHtml(getName(item))}</h3>
@@ -736,28 +1156,27 @@ footer {
             <div class="item-meta">
               ${details.join('')}
               ${item.type === 'custom'
-                ? `<p><strong>${t('custom')}:</strong> ${t('customProduct')}</p>`
+                ? '<p><strong>' + t('custom') + ':</strong> ' +
+                  t('customProduct') + '</p>'
                 : ''}
             </div>
 
             <div class="item-bottom">
               <label class="quantity-control">
                 ${t('quantity')}
-                <input
-                  type="number"
-                  min="1"
-                  max="99"
-                  value="${qty}"
-                  data-qty="${index}"
-                  aria-label="${t('quantity')}">
+                <input type="number"
+                       min="1"
+                       max="99"
+                       value="${qty}"
+                       data-qty="${index}"
+                       aria-label="${t('quantity')}">
               </label>
 
               <span class="line-total">${lineTotal}</span>
 
-              <button
-                type="button"
-                class="remove-button"
-                data-remove="${index}">
+              <button type="button"
+                      class="remove-button"
+                      data-remove="${index}">
                 ${t('remove')}
               </button>
             </div>
@@ -779,22 +1198,42 @@ footer {
           <h2>${t('summary')}</h2>
 
           <div class="summary-row">
-            <span>${t('products')} (${count})</span>
+            <span>${t('products')} (${sum.count})</span>
             <strong>${cart.length}</strong>
           </div>
 
-          <div class="summary-row summary-total">
-            <span>${t('total')}</span>
-            <strong>${euro(total)}${pending ? ' +' : ''}</strong>
+          <div class="summary-row">
+            <span>${t('subtotal')}</span>
+            <strong>${euro(sum.subtotal)}${sum.pending ? ' +' : ''}</strong>
           </div>
 
-          ${pending
-            ? `<div class="notice">${t('pending')}: ${t('noPrice')}.</div>`
+          <div class="summary-row">
+            <span>${t('shipping')}</span>
+            <strong>${euro(sum.shipping)}</strong>
+          </div>
+
+          <div class="summary-row summary-total">
+            <span>${t('grandTotal')}</span>
+            <strong>${euro(sum.total)}${sum.pending ? ' +' : ''}</strong>
+          </div>
+
+          ${sum.pending
+            ? `<div class="notice">
+                ${t('pending')}: ${t('noPrice')}.
+                ${lang === 'it'
+                  ? 'Il totale finale sarà confermato prima del pagamento.'
+                  : 'The final total will be confirmed before payment.'}
+              </div>`
             : ''}
 
           <div class="notice">${t('notice')}</div>
 
-          <a class="primary-button" href="index.html">
+          <button type="button" class="primary-button" id="checkout-button">
+            ${t('checkout')}
+          </button>
+
+          <a class="secondary-button"
+             href="${SITE_URL}shop/index.html#ready-heading">
             ${t('continue')}
           </a>
         </aside>
@@ -803,112 +1242,302 @@ footer {
 
     root.querySelectorAll('[data-qty]').forEach(input => {
       input.addEventListener('change', () => {
-        const i = Number(input.dataset.qty);
-        const q = Math.min(
+        const index = Number(input.dataset.qty);
+        const qty = Math.min(
           99,
           Math.max(1, Math.floor(Number(input.value) || 1))
         );
 
         const updated = readCart();
 
-        if (updated[i]) {
-          updated[i].quantity = q;
+        if (updated[index]) {
+          updated[index].quantity = qty;
         }
 
-        writeCart(updated);
-        render();
+        if (writeCart(updated)) render();
       });
     });
 
     root.querySelectorAll('[data-remove]').forEach(button => {
       button.addEventListener('click', () => {
-        const i = Number(button.dataset.remove);
         const updated = readCart();
+        updated.splice(Number(button.dataset.remove), 1);
 
-        updated.splice(i, 1);
-        writeCart(updated);
-        render();
+        if (writeCart(updated)) render();
       });
     });
 
     $('clear-cart').addEventListener('click', () => {
-      if (confirm(t('confirmClear'))) {
-        writeCart([]);
+      if (confirm(t('confirmClear')) && writeCart([])) {
         render();
       }
     });
+
+    $('checkout-button').addEventListener('click', openCheckout);
   }
+
+  /* INFORMAZIONI SUI PAGAMENTI */
+  function paymentInfo(method) {
+    if (method === 'paypal') {
+      return t('paypalInfo');
+    }
+
+    if (PAYMENT_CONFIG.bankBeneficiary && PAYMENT_CONFIG.bankIban) {
+      return t('bankData')
+        .replace('{beneficiary}', PAYMENT_CONFIG.bankBeneficiary)
+        .replace('{iban}', PAYMENT_CONFIG.bankIban) +
+        (PAYMENT_CONFIG.bankBic
+          ? ' — BIC/SWIFT: ' + PAYMENT_CONFIG.bankBic
+          : '');
+    }
+
+    return t('bankInfo');
+  }
+
+  function updatePaymentInfo() {
+    const selected = document.querySelector(
+      'input[name="payment-method"]:checked'
+    );
+
+    $('payment-method-info').textContent = selected
+      ? paymentInfo(selected.value)
+      : t('choosePayment');
+
+    const wrap = $('paypal-link-wrap');
+
+    wrap.hidden = !(
+      selected &&
+      selected.value === 'paypal' &&
+      PAYMENT_CONFIG.paypalMeUrl
+    );
+
+    if (PAYMENT_CONFIG.paypalMeUrl) {
+      $('paypal-payment-link').href = PAYMENT_CONFIG.paypalMeUrl;
+    }
+  }
+
+  /* APERTURA DEL CHECKOUT */
+  function openCheckout() {
+    const cart = readCart();
+    if (!cart.length) return;
+
+    const sum = totals(cart);
+    checkoutPending = sum.pending;
+
+    const lines = cart.map(item => {
+      const qty = Math.max(1, Number(item.quantity) || 1);
+      const price = getItemPrice(item);
+
+      let line = '• ' + getName(item) + ' × ' + qty +
+        ' — ' + (price === null ? t('noPrice') : euro(price * qty));
+
+      if (item.size) line += '\n  ' + t('size') + ': ' + item.size;
+      if (item.shirtSize) line += '\n  ' + t('shirtSize') + ': ' + item.shirtSize;
+      if (item.backText) line += '\n  ' + t('backText') + ': ' + item.backText;
+
+      if (item.customization && item.customization.theme) {
+        line += '\n  ' + t('theme') + ': ' + item.customization.theme;
+      }
+
+      if (item.customization && item.customization.fileName) {
+        line += '\n  ' + t('file') + ': ' + item.customization.fileName;
+      }
+
+      return line;
+    });
+
+    checkoutSummaryText = lines.join('\n');
+
+    $('checkout-order-summary').innerHTML =
+      '<ul>' +
+      cart.map(item => {
+        const price = getItemPrice(item);
+        const qty = Math.max(1, Number(item.quantity) || 1);
+
+        return '<li>' +
+          escapeHtml(getName(item)) +
+          ' × ' + qty + ' — ' +
+          escapeHtml(price === null ? t('noPrice') : euro(price * qty)) +
+          '</li>';
+      }).join('') +
+      '</ul>' +
+
+      '<div class="summary-row"><span>' + t('subtotal') +
+      '</span><strong>' + euro(sum.subtotal) +
+      (sum.pending ? ' +' : '') + '</strong></div>' +
+
+      '<div class="summary-row"><span>' + t('shipping') +
+      '</span><strong>' + euro(sum.shipping) + '</strong></div>' +
+
+      '<div class="summary-row summary-total"><span>' + t('grandTotal') +
+      '</span><strong>' + euro(sum.total) +
+      (sum.pending ? ' +' : '') + '</strong></div>';
+
+    $('checkout-pending-warning').hidden = !sum.pending;
+    $('checkout-pending-warning').textContent = lang === 'it'
+      ? 'Almeno un prodotto ha un prezzo da confermare. Il totale qui indicato è provvisorio: attendi la conferma prima del pagamento.'
+      : 'At least one product price must be confirmed. This total is provisional: wait for confirmation before paying.';
+
+    $('checkout-error').textContent = '';
+    $('checkout-modal').classList.add('open');
+    updatePaymentInfo();
+  }
+
+  function closeCheckout() {
+    $('checkout-modal').classList.remove('open');
+  }
+
+  /* CREA LA RICHIESTA D'ORDINE VIA EMAIL */
+  function submitCheckout(event) {
+    event.preventDefault();
+
+    const form = $('checkout-form');
+    if (!form.reportValidity()) return;
+
+    const method = document.querySelector(
+      'input[name="payment-method"]:checked'
+    );
+
+    if (!method) {
+      $('checkout-error').textContent = t('emailError');
+      return;
+    }
+
+    const data = new FormData(form);
+    const sum = totals(readCart());
+
+    const body = [
+      lang === 'it'
+        ? 'RICHIESTA ORDINE FEDEPICTURES'
+        : 'FEDEPICTURES ORDER REQUEST',
+      '',
+      t('mailCustomer'),
+      (lang === 'it' ? 'Nome: ' : 'Name: ') + data.get('customerName'),
+      'Email: ' + data.get('customerEmail'),
+      (lang === 'it' ? 'Telefono: ' : 'Phone: ') +
+        (data.get('customerPhone') || '—'),
+      (lang === 'it' ? 'Indirizzo: ' : 'Address: ') +
+        data.get('customerAddress'),
+      (lang === 'it' ? 'CAP: ' : 'Postal code: ') +
+        data.get('customerPostcode'),
+      (lang === 'it' ? 'Città/provincia: ' : 'City/province: ') +
+        data.get('customerCity'),
+      '',
+      t('mailItems'),
+      checkoutSummaryText,
+      '',
+      t('mailSubtotal') + ': ' + euro(sum.subtotal) +
+        (sum.pending ? ' (' + t('pending') + ')' : ''),
+      t('mailShipping') + ': ' + euro(sum.shipping),
+      t('mailTotal') + ': ' + euro(sum.total) +
+        (sum.pending ? ' + prezzo da confermare' : ''),
+      '',
+      t('mailPayment') + ': ' +
+        (method.value === 'paypal' ? 'PayPal' : t('paymentBank')),
+      paymentInfo(method.value),
+      '',
+      t('mailNotes') + ': ' + (data.get('customerNotes') || '—'),
+      '',
+      lang === 'it'
+        ? 'Le immagini di riferimento non vengono allegate automaticamente: allega manualmente eventuali file originali alla mail. Attendi la conferma dell’ordine e dell’importo finale prima di pagare.'
+        : 'Reference images are not attached automatically: attach original files manually. Wait for order and final amount confirmation before paying.'
+    ].join('\n');
+
+    const mailto = 'mailto:' + PAYMENT_CONFIG.orderEmail +
+      '?subject=' + encodeURIComponent(t('orderSubject')) +
+      '&body=' + encodeURIComponent(body);
+
+    window.location.href = mailto;
+
+    $('checkout-error').textContent = t('emailOpened');
+  }
+
+  /* CAMBIO LINGUA */
+  function applyLanguage() {
+    document.documentElement.lang = lang;
+
+    const ids = {
+      'cart-label': 'cart',
+      'shop-button': 'shop',
+      'explore-button': 'explore',
+      'page-title': 'title',
+      'intro-text': 'intro',
+      'checkout-title': 'checkoutTitle',
+      'checkout-intro': 'checkoutIntro',
+      'customer-name-label': 'customerName',
+      'customer-email-label': 'customerEmail',
+      'customer-phone-label': 'customerPhone',
+      'customer-address-label': 'customerAddress',
+      'customer-postcode-label': 'customerPostcode',
+      'customer-city-label': 'customerCity',
+      'customer-notes-label': 'customerNotes',
+      'payment-heading': 'paymentHeading',
+      'paypal-option-title': 'paypalTitle',
+      'paypal-option-copy': 'paypalCopy',
+      'bank-option-title': 'bankTitle',
+      'bank-option-copy': 'bankCopy',
+      'checkout-email-warning': 'emailWarning',
+      'checkout-cancel': 'cancel',
+      'checkout-submit': 'prepareEmail'
+    };
+
+    Object.entries(ids).forEach(([id, key]) => {
+      if ($(id)) $(id).textContent = t(key);
+    });
+
+    const linkTexts = {
+      home: 'Home',
+      bookmarks: lang === 'it' ? 'Segnalibri' : 'Bookmarks',
+      baubles: lang === 'it' ? 'Palline di Natale' : 'Christmas baubles',
+      shirts: lang === 'it' ? 'Magliette e accessori' : 'T-shirts & accessories',
+      contact: t('contact')
+    };
+
+    document.querySelectorAll('[data-nav]').forEach(a => {
+      a.textContent = linkTexts[a.dataset.nav];
+    });
+
+    render();
+    updatePaymentInfo();
+  }
+
+  $('checkout-cancel').addEventListener('click', closeCheckout);
+
+  $('checkout-modal').addEventListener('click', event => {
+    if (event.target === $('checkout-modal')) closeCheckout();
+  });
+
+  $('checkout-form').addEventListener('submit', submitCheckout);
+
+  document.querySelectorAll('input[name="payment-method"]').forEach(input => {
+    input.addEventListener('change', updatePaymentInfo);
+  });
 
   $('explore-button').addEventListener('click', () => {
     const menu = $('explore-menu');
+    menu.classList.toggle('show');
 
-    menu.style.display =
-      menu.style.display === 'block' ? 'none' : 'block';
+    $('explore-button').setAttribute(
+      'aria-expanded',
+      menu.classList.contains('show') ? 'true' : 'false'
+    );
+  });
+
+  document.addEventListener('click', event => {
+    if (!event.target.closest('.dropdown')) {
+      $('explore-menu').classList.remove('show');
+      $('explore-button').setAttribute('aria-expanded', 'false');
+    }
   });
 
   $('language-toggle').addEventListener('click', () => {
     lang = lang === 'it' ? 'en' : 'it';
-
     localStorage.setItem(LANG_KEY, lang);
-    document.documentElement.lang = lang;
-
-    render();
-
-    document.querySelectorAll('[data-nav]').forEach(a => {
-      const labels = {
-        it: {
-          home: 'Home',
-          bookmarks: 'Segnalibri',
-          baubles: 'Palline di Natale',
-          shirts: 'Magliette e accessori',
-          contact: 'Contattami'
-        },
-        en: {
-          home: 'Home',
-          bookmarks: 'Bookmarks',
-          baubles: 'Christmas baubles',
-          shirts: 'T-shirts & accessories',
-          contact: 'Contact me'
-        }
-      };
-
-      a.textContent = labels[lang][a.dataset.nav];
-    });
+    applyLanguage();
   });
 
-  document.addEventListener('click', e => {
-    if (
-      !e.target.closest('#explore-button') &&
-      !e.target.closest('#explore-menu')
-    ) {
-      $('explore-menu').style.display = 'none';
-    }
-  });
-
-  document.documentElement.lang = lang;
-
-  document.querySelectorAll('[data-nav]').forEach(a => {
-    const labels = {
-      it: {
-        home: 'Home',
-        bookmarks: 'Segnalibri',
-        baubles: 'Palline di Natale',
-        shirts: 'Magliette e accessori',
-        contact: 'Contattami'
-      },
-      en: {
-        home: 'Home',
-        bookmarks: 'Bookmarks',
-        baubles: 'Palline di Natale',
-        shirts: 'Magliette e accessori',
-        contact: 'Contattami'
-      }
-    };
-
-    a.textContent = labels[lang][a.dataset.nav];
-  });
-
-  render();
+  $('payment-method-info').textContent = t('choosePayment');
+  applyLanguage();
 })();
 </script>
 
