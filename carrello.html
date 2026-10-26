@@ -855,18 +855,21 @@ function logoFallback(img) {
    * non verifica automaticamente il pagamento.
    */
   const PAYMENT_CONFIG = {
-    orderEmail: 'federicastancato@hotmail.com',
+  // Email a cui inviare le richieste d'ordine
+  orderEmail: 'federicastancato@hotmail.com',
 
-    /* Incolla qui il link PayPal vero, se lo hai creato.
-       Esempio di formato: https://paypal.me/tuonome */
-    paypalMeUrl: '',
+  // Email PayPal a cui inviare i pagamenti
+  paypalRecipientEmail: 'federucastancato@hotmail.com',
 
-    /* Inserisci i dati del conto reale per ricevere bonifici. */
-    bankBeneficiary: '',
-    bankIban: '',
-    bankBic: ''
+  // Facoltativo: link PayPal.Me, se ne creerai uno
+  paypalMeUrl: '',
+
+  // Coordinate per il bonifico
+  bankBeneficiary: 'Federica Stancato',
+  bankIban: 'IT20W03268223000EMH02563083',
+  bankBic: ''
   };
-
+  
   let lang = localStorage.getItem(LANG_KEY) || 'it';
   if (lang !== 'it' && lang !== 'en') lang = 'it';
 
