@@ -1600,7 +1600,13 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
     }
 
     const customization = saved[kind];
-    const price = size ? size.price : (kind==='mini-canvas' ? 8 : null);
+    const price = size
+  ? size.price
+  : kind === 'shirt'
+    ? 20
+    : kind === 'mini-canvas'
+      ? 8
+      : null;
 
     const item = {
       id:'custom-'+kind+'-'+Date.now(),
