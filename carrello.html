@@ -6,688 +6,32 @@
 <title>FedePictures | Carrello</title>
 <link rel="icon" href="https://fedepictures.github.io/FedePictures/volpe.png">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <style>
-:root {
-  --rosa: #ffc0cb;
-  --celeste: #b2eaff;
-  --viola: #d2b4f2;
-  --scuro: #333;
-  --bordo: #242424;
-  --ombra: 0 4px 14px rgba(0,0,0,.08);
-}
-
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-  margin: 0;
-  font-family: 'Quicksand', sans-serif;
-  color: var(--scuro);
-  background: #fff;
-}
-
-button, input, textarea {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* BARRA SUPERIORE */
-.site-header {
-  background: var(--celeste);
-  min-height: 76px;
-  padding: 8px 24px 8px 150px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 10px rgba(0,0,0,.1);
-}
-
-.logo-link {
-  position: absolute;
-  left: 24px;
-  top: 0;
-  width: 110px;
-  height: 95px;
-  display: flex;
-  align-items: flex-start;
-  z-index: 2;
-  overflow: visible;
-}
-
-.main-logo {
-  width: 110px;
-  height: 95px;
-  object-fit: contain;
-  object-position: left top;
-  filter: drop-shadow(0 3px 5px rgba(0,0,0,.08));
-  transition: transform .3s ease;
-}
-
-.main-logo:hover {
-  transform: scale(1.05) rotate(-3deg);
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.header-button,
-.lang-switcher {
-  border: 1px solid transparent;
-  background: var(--viola);
-  color: #68427f;
-  padding: 10px 15px;
-  border-radius: 9px;
-  font-size: .85rem;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.header-button:hover,
-.lang-switcher:hover {
-  background: #c5a0ec;
-}
-
-.cart-link {
-  border-color: #9466b6;
-}
-
-.cart-count {
-  display: inline-flex;
-  min-width: 21px;
-  height: 21px;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px;
-  margin-left: 5px;
-  border-radius: 20px;
-  background: #fff;
-  color: #68427f;
-  font-size: .75rem;
-}
-
-/* MENU ESPLORA */
-.dropdown {
-  position: relative;
-}
-
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: calc(100% + 8px);
-  background: #fff;
-  min-width: 210px;
-  border-radius: 10px;
-  box-shadow: var(--ombra);
-  overflow: hidden;
-}
-
-.dropdown-menu.show {
-  display: block;
-}
-
-.dropdown-menu a {
-  display: block;
-  padding: 11px 14px;
-  text-decoration: none;
-  color: #333;
-}
-
-.dropdown-menu a:hover {
-  background: #f5effa;
-}
-
-/* PAGINA CARRELLO */
-main {
-  max-width: 1050px;
-  margin: 0 auto;
-  padding: 30px 24px 60px;
-}
-
-h1, h2, h3 {
-  font-family: 'Baloo 2', sans-serif;
-}
-
-h1 {
-  font-size: clamp(2rem,4vw,2.7rem);
-  margin: 0 0 4px;
-}
-
-h2 {
-  font-size: 1.6rem;
-  margin: 0 0 18px;
-}
-
-.intro {
-  text-align: center;
-  margin: 8px auto 30px;
-}
-
-.intro p {
-  margin: 0;
-  color: #686078;
-}
-
-.cart-layout {
-  display: grid;
-  grid-template-columns: minmax(0,1fr) 300px;
-  gap: 24px;
-  align-items: start;
-}
-
-.items {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.cart-item {
-  border: 2px solid var(--bordo);
-  border-radius: 18px;
-  padding: 16px;
-  display: grid;
-  grid-template-columns: 100px minmax(0,1fr);
-  gap: 16px;
-  align-items: start;
-}
-
-.item-image {
-  width: 100px;
-  height: 110px;
-  border-radius: 10px;
-  object-fit: contain;
-  background: #faf8fc;
-}
-
-.item-image.empty {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #a08ab2;
-  font-size: 2rem;
-}
-
-.item-title {
-  font-family: 'Baloo 2', sans-serif;
-  font-size: 1.18rem;
-  font-weight: 700;
-  margin: 0 0 4px;
-}
-
-.item-meta {
-  font-size: .9rem;
-  line-height: 1.5;
-  color: #655d70;
-  overflow-wrap: anywhere;
-}
-
-.item-meta p {
-  margin: 3px 0;
-}
-
-.item-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-.quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .9rem;
-}
-
-.quantity-control input {
-  width: 66px;
-  padding: 8px;
-  border: 1px solid #aaa;
-  border-radius: 8px;
-}
-
-.line-total {
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.remove-button {
-  border: 1px solid #d9b7e9;
-  color: #704b86;
-  background: #fff;
-  border-radius: 8px;
-  padding: 7px 10px;
-  font-weight: 700;
-}
-
-.remove-button:hover {
-  background: #f8f1fc;
-}
-
-/* RIEPILOGO */
-.summary {
-  border-radius: 18px;
-  background: linear-gradient(145deg,#fff7fa,#f2faff);
-  padding: 20px;
-  box-shadow: var(--ombra);
-  position: sticky;
-  top: 95px;
-}
-
-.summary h2 {
-  font-size: 1.4rem;
-  margin-bottom: 14px;
-}
-
-.summary-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 12px 0;
-  font-size: .96rem;
-}
-
-.summary-total {
-  border-top: 1px solid #d9cfe0;
-  padding-top: 14px;
-  margin-top: 16px;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
-
-.notice {
-  font-size: .85rem;
-  line-height: 1.5;
-  color: #625a6c;
-  background: #fff;
-  border: 1px solid #e4d9eb;
-  padding: 12px;
-  border-radius: 10px;
-  margin: 16px 0;
-}
-
-.primary-button,
-.secondary-button {
-  display: block;
-  width: 100%;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.primary-button {
-  border: 1px solid #b48bd7;
-  background: var(--viola);
-  color: #4f3264;
-}
-
-.primary-button:hover {
-  background: #c5a0ec;
-}
-
-.secondary-button {
-  margin-top: 10px;
-  border: 1px solid #aaa;
-  background: #fff;
-  color: #333;
-}
-
-.secondary-button:hover {
-  background: #f7f7f7;
-}
-
-/* CARRELLO VUOTO */
-.empty-cart {
-  text-align: center;
-  border: 2px dashed #d7c7e4;
-  border-radius: 18px;
-  padding: 44px 20px;
-}
-
-.empty-cart .symbol {
-  font-size: 2.8rem;
-}
-
-.empty-cart h2 {
-  margin: 8px 0;
-}
-
-.empty-cart p {
-  line-height: 1.5;
-}
-
-.empty-cart a {
-  display: inline-block;
-  margin-top: 8px;
-  background: var(--viola);
-  color: #4f3264;
-  padding: 11px 18px;
-  border-radius: 9px;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.gradient-band {
-  height: 55px;
-  margin: 38px 0 0;
-  background: linear-gradient(110deg,#f7c4d4 0%,#e3d6e8 50%,#b2eaff 100%);
-}
-
-footer {
-  text-align: center;
-  padding: 0 20px 25px;
-  font-size: .85rem;
-  color: #746b7d;
-}
-
-/* CHECKOUT */
-.checkout-backdrop {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 4000;
-  padding: 16px;
-  align-items: center;
-  justify-content: center;
-  background: rgba(30,20,35,.62);
-}
-
-.checkout-backdrop.open {
-  display: flex;
-}
-
-.checkout-modal {
-  position: relative;
-  width: min(100%,680px);
-  max-height: 92vh;
-  overflow-y: auto;
-  padding: 24px;
-  border-radius: 18px;
-  background: #fff;
-  box-shadow: 0 18px 60px #0004;
-}
-
-.checkout-modal h2 {
-  margin: 0 0 8px;
-}
-
-.checkout-lead {
-  margin: 0 0 18px;
-  line-height: 1.5;
-  color: #625a6c;
-}
-
-.checkout-form-grid {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 12px;
-}
-
-.checkout-field {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 0;
-}
-
-.checkout-field.full {
-  grid-column: 1/-1;
-}
-
-.checkout-field label,
-.payment-heading {
-  font-weight: 700;
-  font-size: .9rem;
-}
-
-.checkout-field input,
-.checkout-field textarea {
-  width: 100%;
-  min-width: 0;
-  border: 1px solid #b9afc1;
-  border-radius: 8px;
-  padding: 10px;
-  font: inherit;
-  color: #333;
-  background: #fff;
-}
-
-.checkout-field textarea {
-  min-height: 72px;
-  resize: vertical;
-}
-
-.payment-options {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.payment-option {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  padding: 12px;
-  border: 1px solid #cbb6dc;
-  border-radius: 10px;
-  background: #fdfaff;
-  cursor: pointer;
-}
-
-.payment-option:has(input:checked) {
-  border-color: #8e61b0;
-  background: #f4eafb;
-}
-
-.payment-option input {
-  margin-top: 4px;
-  accent-color: #9167b3;
-}
-
-.payment-option strong {
-  display: block;
-  margin-bottom: 3px;
-}
-
-.payment-option small {
-  display: block;
-  font-size: .78rem;
-  line-height: 1.4;
-  color: #625a6c;
-}
-
-.checkout-order-summary,
-.payment-info,
-.checkout-warning {
-  padding: 12px;
-  margin: 14px 0;
-  border: 1px solid #e4d9eb;
-  border-radius: 10px;
-  background: #fbf8ff;
-  font-size: .88rem;
-  line-height: 1.5;
-}
-
-.checkout-warning {
-  background: #fff8e9;
-  border-color: #ecd6a7;
-}
-
-.checkout-order-summary ul {
-  padding-left: 20px;
-  margin: 8px 0;
-}
-
-.checkout-modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 18px;
-  flex-wrap: wrap;
-}
-
-.checkout-modal-actions button {
-  width: auto;
-  min-width: 130px;
-}
-
-.checkout-modal-actions .secondary-button {
-  margin-top: 0;
-}
-
-.checkout-error {
-  color: #a12828;
-  min-height: 1.2em;
-  font-size: .86rem;
-}
-
-.payment-info a {
-  color: #68427f;
-  font-weight: 700;
-}
-
-/* MOBILE */
-@media(max-width:760px) {
-  .site-header {
-    padding: 8px 10px 8px 94px;
-    gap: 6px;
-    min-height: 65px;
-  }
-
-  .logo-link {
-    left: 10px;
-    width: 72px;
-    height: 72px;
-  }
-
-  .main-logo {
-    width: 72px;
-    height: 72px;
-  }
-
-  .header-actions {
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .header-button,
-  .lang-switcher {
-    padding: 9px 10px;
-    font-size: .72rem;
-  }
-
-  main {
-    padding: 24px 14px 45px;
-  }
-
-  .cart-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .summary {
-    position: static;
-  }
-
-  .cart-item {
-    grid-template-columns: 72px minmax(0,1fr);
-    gap: 12px;
-    padding: 12px;
-  }
-
-  .item-image {
-    width: 72px;
-    height: 86px;
-  }
-}
-
-@media(max-width:520px) {
-  .checkout-modal {
-    padding: 18px;
-  }
-
-  .checkout-form-grid,
-  .payment-options {
-    grid-template-columns: 1fr;
-  }
-
-  .checkout-modal-actions {
-    flex-direction: column-reverse;
-  }
-
-  .checkout-modal-actions button {
-    width: 100%;
-  }
-}
-
-@media(max-width:390px) {
-  .header-button,
-  .lang-switcher {
-    padding: 8px 7px;
-    font-size: .68rem;
-  }
-
-  .cart-item {
-    grid-template-columns: 1fr;
-  }
-
-  .item-image {
-    width: 100%;
-    height: 120px;
-  }
-}
+:root{--rosa:#ffc0cb;--celeste:#b2eaff;--viola:#d2b4f2;--scuro:#333;--bordo:#242424;--ombra:0 4px 14px rgba(0,0,0,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:'Quicksand',sans-serif;color:var(--scuro);background:#fff}button,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.site-header{background:var(--celeste);min-height:76px;padding:8px 24px 8px 150px;display:flex;align-items:center;justify-content:flex-end;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.logo-link{position:absolute;left:24px;top:0;width:110px;height:95px;display:flex;align-items:flex-start;z-index:2;overflow:visible}.main-logo{width:110px;height:95px;object-fit:contain;object-position:left top;filter:drop-shadow(0 3px 5px rgba(0,0,0,.08));transition:transform .3s ease}.main-logo:hover{transform:scale(1.05) rotate(-3deg)}
+.header-actions{display:flex;align-items:center;gap:10px}.header-button,.lang-switcher{border:1px solid transparent;background:var(--viola);color:#68427f;padding:10px 15px;border-radius:9px;font-size:.85rem;font-weight:700;text-decoration:none;white-space:nowrap}.header-button:hover,.lang-switcher:hover{background:#c5a0ec}.cart-link{border-color:#9466b6}.cart-count{display:inline-flex;min-width:21px;height:21px;align-items:center;justify-content:center;padding:0 5px;margin-left:5px;border-radius:20px;background:#fff;color:#68427f;font-size:.75rem}
+.dropdown{position:relative}.dropdown-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);background:#fff;min-width:210px;border-radius:10px;box-shadow:var(--ombra);overflow:hidden}.dropdown-menu.show{display:block}.dropdown-menu a{display:block;padding:11px 14px;text-decoration:none;color:#333}.dropdown-menu a:hover{background:#f5effa}
+main{max-width:1050px;margin:0 auto;padding:30px 24px 60px}h1,h2,h3{font-family:'Baloo 2',sans-serif}h1{font-size:clamp(2rem,4vw,2.7rem);margin:0 0 4px}h2{font-size:1.6rem;margin:0 0 18px}.intro{text-align:center;margin:8px auto 30px}.intro p{margin:0;color:#686078}
+.cart-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}.items{display:flex;flex-direction:column;gap:14px}.cart-item{border:2px solid var(--bordo);border-radius:18px;padding:16px;display:grid;grid-template-columns:100px minmax(0,1fr);gap:16px;align-items:start}.item-image{width:100px;height:110px;border-radius:10px;object-fit:contain;background:#faf8fc}.item-image.empty{display:flex;align-items:center;justify-content:center;color:#a08ab2;font-size:2rem}.item-title{font-family:'Baloo 2',sans-serif;font-size:1.18rem;font-weight:700;margin:0 0 4px}.item-meta{font-size:.9rem;line-height:1.5;color:#655d70;overflow-wrap:anywhere}.item-meta p{margin:3px 0}.item-bottom{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:12px}.quantity-control{display:flex;align-items:center;gap:8px;font-size:.9rem}.quantity-control input{width:66px;padding:8px;border:1px solid #aaa;border-radius:8px}.line-total{font-weight:700;white-space:nowrap}.remove-button{border:1px solid #d9b7e9;color:#704b86;background:#fff;border-radius:8px;padding:7px 10px;font-weight:700}.remove-button:hover{background:#f8f1fc}
+.summary{border-radius:18px;background:linear-gradient(145deg,#fff7fa,#f2faff);padding:20px;box-shadow:var(--ombra);position:sticky;top:95px}.summary h2{font-size:1.4rem;margin-bottom:14px}.summary-row{display:flex;justify-content:space-between;gap:12px;margin:12px 0;font-size:.96rem}.summary-total{border-top:1px solid #d9cfe0;padding-top:14px;margin-top:16px;font-size:1.1rem;font-weight:700}.notice{font-size:.85rem;line-height:1.5;color:#625a6c;background:#fff;border:1px solid #e4d9eb;padding:12px;border-radius:10px;margin:16px 0}.primary-button,.secondary-button{display:block;width:100%;text-align:center;text-decoration:none;border-radius:10px;padding:12px 14px;font-weight:700;cursor:pointer}.primary-button{border:1px solid #b48bd7;background:var(--viola);color:#4f3264}.primary-button:hover{background:#c5a0ec}.secondary-button{margin-top:10px;border:1px solid #aaa;background:#fff;color:#333}.secondary-button:hover{background:#f7f7f7}.empty-cart{text-align:center;border:2px dashed #d7c7e4;border-radius:18px;padding:44px 20px}.empty-cart .symbol{font-size:2.8rem}.empty-cart h2{margin:8px 0}.empty-cart p{line-height:1.5}.empty-cart a{display:inline-block;margin-top:8px;background:var(--viola);color:#4f3264;padding:11px 18px;border-radius:9px;text-decoration:none;font-weight:700}.gradient-band{height:55px;margin:38px 0 0;background:linear-gradient(110deg,#f7c4d4 0%,#e3d6e8 50%,#b2eaff 100%)}footer{text-align:center;padding:0 20px 25px;font-size:.85rem;color:#746b7d}
+.checkout-backdrop{display:none;position:fixed;inset:0;z-index:4000;padding:16px;align-items:center;justify-content:center;background:rgba(30,20,35,.62)}.checkout-backdrop.open{display:flex}.checkout-modal{position:relative;width:min(100%,680px);max-height:92vh;overflow-y:auto;padding:24px;border-radius:18px;background:#fff;box-shadow:0 18px 60px #0004}.checkout-modal h2{margin:0 0 8px}.checkout-lead{margin:0 0 18px;line-height:1.5;color:#625a6c}.checkout-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.checkout-field{display:flex;flex-direction:column;gap:5px;min-width:0}.checkout-field.full{grid-column:1/-1}.checkout-field label,.payment-heading{font-weight:700;font-size:.9rem}.checkout-field input,.checkout-field textarea{width:100%;min-width:0;border:1px solid #b9afc1;border-radius:8px;padding:10px;font:inherit;color:#333;background:#fff}.checkout-field textarea{min-height:72px;resize:vertical}.payment-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}.payment-option{display:flex;align-items:flex-start;gap:9px;padding:12px;border:1px solid #cbb6dc;border-radius:10px;background:#fdfaff;cursor:pointer}.payment-option:has(input:checked){border-color:#8e61b0;background:#f4eafb}.payment-option input{margin-top:4px;accent-color:#9167b3}.payment-option strong{display:block;margin-bottom:3px}.payment-option small{display:block;font-size:.78rem;line-height:1.4;color:#625a6c}.checkout-order-summary,.payment-info,.checkout-warning{padding:12px;margin:14px 0;border:1px solid #e4d9eb;border-radius:10px;background:#fbf8ff;font-size:.88rem;line-height:1.5}.checkout-warning{background:#fff8e9;border-color:#ecd6a7}.checkout-order-summary ul{padding-left:20px;margin:8px 0}.checkout-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}.checkout-modal-actions button{width:auto;min-width:130px}.checkout-modal-actions .secondary-button{margin-top:0}.checkout-error{color:#a12828;min-height:1.2em;font-size:.86rem}.payment-info a{color:#68427f;font-weight:700}.payment-action-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.payment-action-row button,.payment-action-row a{display:inline-flex;align-items:center;justify-content:center;border:1px solid #b48bd7;border-radius:8px;padding:9px 12px;background:#eadcf4;color:#4f3264;font:700 .85rem 'Quicksand',sans-serif;text-decoration:none;cursor:pointer}.payment-action-row .open-paypal-button{background:#fff}.payment-hint{margin:10px 0 0;font-size:.8rem;color:#625a6c}.payment-value{overflow-wrap:anywhere;font-weight:700}
+@media(max-width:760px){.site-header{padding:8px 10px 8px 94px;gap:6px;min-height:65px}.logo-link{left:10px;width:72px;height:72px}.main-logo{width:72px;height:72px}.header-actions{gap:6px;flex-wrap:wrap}.header-button,.lang-switcher{padding:9px 10px;font-size:.72rem}main{padding:24px 14px 45px}.cart-layout{grid-template-columns:1fr}.summary{position:static}.cart-item{grid-template-columns:72px minmax(0,1fr);gap:12px;padding:12px}.item-image{width:72px;height:86px}}
+@media(max-width:520px){.checkout-modal{padding:18px}.checkout-form-grid,.payment-options{grid-template-columns:1fr}.checkout-modal-actions{flex-direction:column-reverse}.checkout-modal-actions button{width:100%}}
+@media(max-width:390px){.header-button,.lang-switcher{padding:8px 7px;font-size:.68rem}.cart-item{grid-template-columns:1fr}.item-image{width:100%;height:120px}}
 </style>
 </head>
-
 <body>
-
 <header class="site-header">
-  <a class="logo-link"
-     href="https://fedepictures.github.io/FedePictures/index.html"
-     aria-label="FedePictures - Home">
-
-    <img class="main-logo"
-         id="site-logo"
-         src="https://fedepictures.github.io/FedePictures/FedePictures_logo.png"
-         alt="Logo FedePictures"
-         onerror="logoFallback(this)">
+  <a class="logo-link" href="https://fedepictures.github.io/FedePictures/index.html" aria-label="FedePictures - Home">
+    <img class="main-logo" id="site-logo" src="https://fedepictures.github.io/FedePictures/FedePictures_logo.png" alt="Logo FedePictures" onerror="logoFallback(this)">
   </a>
-
   <div class="header-actions">
-    <a class="header-button cart-link"
-       href="https://fedepictures.github.io/FedePictures/carrello.html">
-      <span id="cart-label">CARRELLO</span>
-      <span class="cart-count" id="cart-count">0</span>
-    </a>
-
-    <a class="header-button"
-       href="https://fedepictures.github.io/FedePictures/shop/index.html"
-       id="shop-button">SHOP</a>
-
+    <a class="header-button cart-link" href="https://fedepictures.github.io/FedePictures/carrello.html"><span id="cart-label">CARRELLO</span><span class="cart-count" id="cart-count">0</span></a>
+    <a class="header-button" href="https://fedepictures.github.io/FedePictures/shop/index.html" id="shop-button">SHOP</a>
     <div class="dropdown">
-      <button class="header-button"
-              id="explore-button"
-              type="button"
-              aria-expanded="false">ESPLORA ▼</button>
-
+      <button class="header-button" id="explore-button" type="button" aria-expanded="false">ESPLORA ▼</button>
       <nav class="dropdown-menu" id="explore-menu">
         <a href="https://fedepictures.github.io/FedePictures/index.html" data-nav="home">Home</a>
         <a href="https://fedepictures.github.io/FedePictures/segnalibri.html" data-nav="bookmarks">Segnalibri</a>
@@ -696,969 +40,664 @@ footer {
         <a href="https://fedepictures.github.io/FedePictures/contatti.html" data-nav="contact">Contattami</a>
       </nav>
     </div>
-
     <button class="lang-switcher" id="language-toggle" type="button">EN</button>
   </div>
 </header>
-
 <main>
-  <section class="intro">
-    <h1 id="page-title">Il tuo carrello</h1>
-    <p id="intro-text">Controlla i prodotti e le personalizzazioni prima di continuare.</p>
-  </section>
-
+  <section class="intro"><h1 id="page-title">Il tuo carrello</h1><p id="intro-text">Controlla i prodotti e le personalizzazioni prima di continuare.</p></section>
   <div id="cart-content"></div>
   <div class="gradient-band" aria-hidden="true"></div>
 </main>
+<footer id="footer-note">Spedizione: 5,00 €. I dati del carrello sono salvati in questo browser.</footer>
 
-<footer id="footer-note">
-  Spedizione: 5,00 €. I dati del carrello sono salvati in questo browser.
-</footer>
-
-<!-- CHECKOUT -->
-<div class="checkout-backdrop"
-     id="checkout-modal"
-     role="dialog"
-     aria-modal="true"
-     aria-labelledby="checkout-title">
-
+<div class="checkout-backdrop" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
   <section class="checkout-modal">
     <h2 id="checkout-title">Completa l’ordine</h2>
-
-    <p class="checkout-lead" id="checkout-intro">
-      Inserisci i tuoi dati per preparare la richiesta d’ordine.
-    </p>
-
+    <p class="checkout-lead" id="checkout-intro">Inserisci i tuoi dati per preparare la richiesta d’ordine.</p>
     <div class="checkout-order-summary" id="checkout-order-summary"></div>
     <div class="checkout-warning" id="checkout-pending-warning" hidden></div>
-
     <form id="checkout-form">
       <div class="checkout-form-grid">
-
-        <div class="checkout-field">
-          <label for="customer-name" id="customer-name-label">Nome e cognome *</label>
-          <input id="customer-name" name="customerName" autocomplete="name" required maxlength="120">
-        </div>
-
-        <div class="checkout-field">
-          <label for="customer-email" id="customer-email-label">Email *</label>
-          <input id="customer-email" name="customerEmail" type="email" autocomplete="email" required maxlength="180">
-        </div>
-
-        <div class="checkout-field">
-          <label for="customer-phone" id="customer-phone-label">Telefono (facoltativo)</label>
-          <input id="customer-phone" name="customerPhone" type="tel" autocomplete="tel" maxlength="50">
-        </div>
-
-        <div class="checkout-field">
-          <label for="customer-address" id="customer-address-label">Indirizzo di spedizione *</label>
-          <input id="customer-address" name="customerAddress" autocomplete="street-address" required maxlength="180">
-        </div>
-
-        <div class="checkout-field">
-          <label for="customer-postcode" id="customer-postcode-label">CAP *</label>
-          <input id="customer-postcode" name="customerPostcode" autocomplete="postal-code" required maxlength="20">
-        </div>
-
-        <div class="checkout-field">
-          <label for="customer-city" id="customer-city-label">Città e provincia *</label>
-          <input id="customer-city" name="customerCity" autocomplete="address-level2" required maxlength="120">
-        </div>
-
-        <div class="checkout-field full">
-          <label for="customer-notes" id="customer-notes-label">Note per l’ordine (facoltative)</label>
-          <textarea id="customer-notes" name="customerNotes" maxlength="1200"></textarea>
-        </div>
-
+        <div class="checkout-field"><label for="customer-name" id="customer-name-label">Nome e cognome *</label><input id="customer-name" name="customerName" autocomplete="name" required maxlength="120"></div>
+        <div class="checkout-field"><label for="customer-email" id="customer-email-label">Email *</label><input id="customer-email" name="customerEmail" type="email" autocomplete="email" required maxlength="180"></div>
+        <div class="checkout-field"><label for="customer-phone" id="customer-phone-label">Telefono (facoltativo)</label><input id="customer-phone" name="customerPhone" type="tel" autocomplete="tel" maxlength="50"></div>
+        <div class="checkout-field"><label for="customer-address" id="customer-address-label">Indirizzo di spedizione *</label><input id="customer-address" name="customerAddress" autocomplete="street-address" required maxlength="180"></div>
+        <div class="checkout-field"><label for="customer-postcode" id="customer-postcode-label">CAP *</label><input id="customer-postcode" name="customerPostcode" autocomplete="postal-code" required maxlength="20"></div>
+        <div class="checkout-field"><label for="customer-city" id="customer-city-label">Città e provincia *</label><input id="customer-city" name="customerCity" autocomplete="address-level2" required maxlength="120"></div>
+        <div class="checkout-field full"><label for="customer-notes" id="customer-notes-label">Note per l’ordine (facoltative)</label><textarea id="customer-notes" name="customerNotes" maxlength="1200"></textarea></div>
       </div>
-
       <p class="payment-heading" id="payment-heading">Metodo di pagamento preferito</p>
-
       <div class="payment-options">
-
-        <label class="payment-option">
-          <input type="radio" name="payment-method" value="paypal" required>
-          <span>
-            <strong id="paypal-option-title">PayPal</strong>
-            <small id="paypal-option-copy">
-              Link non ancora configurato: riceverai le istruzioni dopo la conferma dell’ordine.
-            </small>
-          </span>
-        </label>
-
-        <label class="payment-option">
-          <input type="radio" name="payment-method" value="bank" required>
-          <span>
-            <strong id="bank-option-title">Bonifico bancario</strong>
-            <small id="bank-option-copy">
-              Coordinate non ancora configurate: ti saranno inviate con la conferma dell’ordine.
-            </small>
-          </span>
-        </label>
-
+        <label class="payment-option"><input type="radio" name="payment-method" value="paypal" required><span><strong id="paypal-option-title">PayPal</strong><small id="paypal-option-copy">Indirizzo destinatario: federucastancato@hotmail.com. Pagamento manuale dopo la conferma del totale.</small></span></label>
+        <label class="payment-option"><input type="radio" name="payment-method" value="bank" required><span><strong id="bank-option-title">Bonifico bancario</strong><small id="bank-option-copy">Beneficiario Federica Stancato. Le coordinate complete sono mostrate selezionando il bonifico.</small></span></label>
       </div>
-
-      <div class="payment-info" id="payment-method-info">
-        Seleziona un metodo di pagamento.
-      </div>
-
-      <p id="paypal-link-wrap" hidden>
-        <a id="paypal-payment-link" href="#" target="_blank" rel="noopener">Apri PayPal</a>
-      </p>
-
-      <p class="checkout-warning" id="checkout-email-warning">
-        Questo passaggio prepara una bozza email. La richiesta verrà inviata solo quando premi Invia nel tuo programma di posta. Le immagini di riferimento non sono allegate automaticamente.
-      </p>
-
+      <div class="payment-info" id="payment-method-info">Seleziona un metodo di pagamento.</div>
+      <p id="paypal-link-wrap" hidden><a id="paypal-payment-link" href="#" target="_blank" rel="noopener">Apri PayPal</a></p>
+      <p class="checkout-warning" id="checkout-email-warning">Questo passaggio prepara una bozza email. La richiesta verrà inviata solo quando premi Invia nel tuo programma di posta. Le immagini di riferimento non sono allegate automaticamente.</p>
       <p class="checkout-error" id="checkout-error" aria-live="polite"></p>
-
-      <div class="checkout-modal-actions">
-        <button type="button" class="secondary-button" id="checkout-cancel">Annulla</button>
-        <button type="submit" class="primary-button" id="checkout-submit">Prepara email ordine</button>
-      </div>
+      <div class="checkout-modal-actions"><button type="button" class="secondary-button" id="checkout-cancel">Annulla</button><button type="submit" class="primary-button" id="checkout-submit">Prepara email ordine</button></div>
     </form>
   </section>
 </div>
 
 <script>
-/* PROVA A TROVARE IL LOGO ANCHE SE IL NOME DEL FILE È DIVERSO */
-function logoFallback(img) {
-  const alternatives = [
+function logoFallback(img){
+  const alternatives=[
     'https://fedepictures.github.io/FedePictures/FedePictures%20logo.png',
     'https://fedepictures.github.io/FedePictures/FedePictures-logo.png',
     'https://fedepictures.github.io/FedePictures/logo.png'
   ];
-
-  const index = Number(img.dataset.fallbackIndex || 0);
-
-  if (index < alternatives.length) {
-    img.dataset.fallbackIndex = String(index + 1);
-    img.src = alternatives[index];
-  } else {
-    img.style.display = 'none';
+  const i=Number(img.dataset.fallbackIndex||0);
+  if(i<alternatives.length){
+    img.dataset.fallbackIndex=String(i+1);
+    img.src=alternatives[i];
+  }else{
+    img.style.display='none';
   }
 }
 
 (() => {
   'use strict';
 
-  const CART_KEY = 'fedepictures_shop_cart_v1';
-  const LANG_KEY = 'fedepictures_shop_language';
-  const SHIPPING_COST = 5;
-  const SITE_URL = 'https://fedepictures.github.io/FedePictures/';
+  const CART_KEY='fedepictures_shop_cart_v1';
+  const LANG_KEY='fedepictures_shop_language';
+  const SHIPPING_COST=5;
+  const SITE_URL='https://fedepictures.github.io/FedePictures/';
 
-  /*
-   * CONFIGURAZIONE PAGAMENTI
-   *
-   * Modifica solo questi campi quando hai i dati reali.
-   * Il sito prepara attualmente una richiesta via email:
-   * non verifica automaticamente il pagamento.
-   */
-  const PAYMENT_CONFIG = {
-  // Email a cui inviare le richieste d'ordine
-  orderEmail: 'federicastancato@hotmail.com',
-
-  // Email PayPal a cui inviare i pagamenti
-  paypalRecipientEmail: 'federucastancato@hotmail.com',
-
-  // Facoltativo: link PayPal.Me, se ne creerai uno
-  paypalMeUrl: '',
-
-  // Coordinate per il bonifico
-  bankBeneficiary: 'Federica Stancato',
-  bankIban: 'IT20W03268223000EMH02563083',
-  bankBic: ''
+  // Email per le richieste d'ordine e coordinate per i pagamenti.
+  const PAYMENT_CONFIG={
+    orderEmail:'fedepictures@libero.it',
+    paypalRecipientEmail:'federicastancato@hotmail.com',
+    // Lascia vuoto se non hai un link PayPal.Me verificato.
+    paypalMeUrl:'https://paypal.me/fedepictures',
+    bankBeneficiary:'Federica Stancato',
+    bankIban:'IT20W03268223000EMH02563083',
+    bankBic:''
   };
-  
-  let lang = localStorage.getItem(LANG_KEY) || 'it';
-  if (lang !== 'it' && lang !== 'en') lang = 'it';
 
-  let checkoutSummaryText = '';
+  let lang='it';
+  try{
+    const stored=localStorage.getItem(LANG_KEY);
+    if(stored==='it'||stored==='en')lang=stored;
+  }catch(e){}
 
-  const $ = id => document.getElementById(id);
+  const $=id=>document.getElementById(id);
+  let checkoutSummaryText='';
 
-  const words = {
-    it: {
-      cart: 'CARRELLO',
-      shop: 'SHOP',
-      explore: 'ESPLORA ▼',
-      lang: 'EN',
-      title: 'Il tuo carrello',
-      intro: 'Controlla i prodotti e le personalizzazioni prima di continuare.',
-      emptyTitle: 'Il carrello è vuoto',
-      emptyText: 'Non hai ancora aggiunto prodotti. Torna allo shop per scegliere le tue creazioni preferite.',
-      backShop: 'Torna allo shop',
-      summary: 'Riepilogo ordine',
-      products: 'Prodotti',
-      subtotal: 'Subtotale prodotti',
-      shipping: 'Spedizione',
-      grandTotal: 'Totale ordine',
-      pending: 'Prezzo da definire',
-      quantity: 'Quantità',
-      remove: 'Rimuovi',
-      continue: 'Continua gli acquisti',
-      clear: 'Svuota carrello',
-      notice: 'La spedizione costa 5,00 €. Il totale dei prodotti personalizzati con prezzo da definire sarà confermato prima del pagamento.',
-      footer: 'Spedizione: 5,00 €. I dati del carrello sono salvati in questo browser.',
-      size: 'Dimensione',
-      backText: 'Testo sul retro',
-      shirtSize: 'Taglia',
-      theme: 'Tema richiesto',
-      file: 'File caricato',
-      custom: 'Personalizzazione',
-      confirmClear: 'Vuoi davvero svuotare il carrello?',
-      customProduct: 'Prodotto personalizzato',
-      noPrice: 'Da definire',
-      checkout: 'Procedi al checkout',
-      checkoutTitle: 'Completa l’ordine',
-      checkoutIntro: 'Inserisci i tuoi dati per preparare la richiesta d’ordine. Il pagamento sarà effettuato dopo la conferma dell’ordine.',
-      customerName: 'Nome e cognome *',
-      customerEmail: 'Email *',
-      customerPhone: 'Telefono (facoltativo)',
-      customerAddress: 'Indirizzo di spedizione *',
-      customerPostcode: 'CAP *',
-      customerCity: 'Città e provincia *',
-      customerNotes: 'Note per l’ordine (facoltative)',
-      paymentHeading: 'Metodo di pagamento preferito',
-      paypalTitle: 'PayPal',
-      paypalCopy: 'Dopo la conferma dell’ordine potrai pagare tramite il link PayPal configurato.',
-      bankTitle: 'Bonifico bancario',
-      bankCopy: 'Le coordinate bancarie saranno mostrate qui dopo averle configurate.',
-      paypalInfo: 'Dopo aver ricevuto la conferma dell’importo finale, potrai pagare usando il link PayPal qui sotto. Non pagare prima della conferma.',
-      bankInfo: 'Attendi la conferma dell’ordine e verifica beneficiario e IBAN prima di effettuare il bonifico.',
-      bankData: 'Beneficiario: {beneficiary} — IBAN: {iban}',
-      choosePayment: 'Seleziona un metodo di pagamento.',
-      pendingWarning: 'Almeno un prodotto ha un prezzo da confermare. Il totale qui indicato è provvisorio: attendi la conferma prima del pagamento.',
-      emailWarning: 'Questo passaggio prepara una bozza email. La richiesta verrà inviata solo quando premi Invia nel tuo programma di posta. Le immagini di riferimento non sono allegate automaticamente.',
-      cancel: 'Annulla',
-      prepareEmail: 'Prepara email ordine',
-      orderSubject: 'Richiesta ordine FedePictures',
-      emailError: 'Controlla i campi obbligatori e scegli un metodo di pagamento.',
-      emailOpened: 'Si aprirà il tuo programma di posta, se configurato. Controlla la bozza e premi Invia.',
-      mailCustomer: 'DATI CLIENTE',
-      mailItems: 'PRODOTTI',
-      mailNotes: 'NOTE',
-      mailPayment: 'METODO DI PAGAMENTO PREFERITO',
-      mailShipping: 'Spedizione',
-      mailSubtotal: 'Subtotale prodotti',
-      mailTotal: 'Totale ordine (spedizione inclusa)',
-      paymentPaypal: 'PayPal',
-      paymentBank: 'Bonifico bancario',
-      contact: 'Contattami'
+  const words={
+    it:{
+      cart:'CARRELLO',shop:'SHOP',explore:'ESPLORA ▼',lang:'EN',
+      title:'Il tuo carrello',
+      intro:'Controlla i prodotti e le personalizzazioni prima di continuare.',
+      emptyTitle:'Il carrello è vuoto',
+      emptyText:'Non hai ancora aggiunto prodotti. Torna allo shop per scegliere le tue creazioni preferite.',
+      backShop:'Torna allo shop',
+      summary:'Riepilogo ordine',products:'Prodotti',
+      subtotal:'Subtotale prodotti',shipping:'Spedizione',grandTotal:'Totale ordine',
+      pending:'Prezzo da definire',quantity:'Quantità',remove:'Rimuovi',
+      continue:'Torna allo shop',clear:'Svuota carrello',
+      notice:'La spedizione costa 5,00 €. Se un prodotto ha il prezzo da definire, il totale è provvisorio e sarà confermato prima del pagamento.',
+      footer:'Spedizione: 5,00 €. I dati del carrello sono salvati in questo browser.',
+      size:'Dimensione',backText:'Testo sul retro',shirtSize:'Taglia',
+      theme:'Tema richiesto',file:'File caricato',custom:'Personalizzazione',
+      confirmClear:'Vuoi davvero svuotare il carrello?',
+      customProduct:'Prodotto personalizzato',noPrice:'Da definire',
+      checkout:'Procedi al checkout',checkoutTitle:'Completa l’ordine',
+      checkoutIntro:'Inserisci i tuoi dati per preparare la richiesta d’ordine. Il pagamento sarà effettuato dopo la conferma dell’ordine.',
+      customerName:'Nome e cognome *',customerEmail:'Email *',
+      customerPhone:'Telefono (facoltativo)',customerAddress:'Indirizzo di spedizione *',
+      customerPostcode:'CAP *',customerCity:'Città e provincia *',
+      customerNotes:'Note per l’ordine (facoltative)',
+      paymentHeading:'Metodo di pagamento preferito',
+      paypalTitle:'PayPal',
+      paypalCopy:'Indirizzo destinatario: federucastancato@hotmail.com. Pagamento manuale dopo la conferma del totale.',
+      bankTitle:'Bonifico bancario',
+      bankCopy:'Beneficiario Federica Stancato. Coordinate complete nel riquadro dopo la selezione.',
+      paypalInfo:'Dopo la conferma del totale, invia il pagamento PayPal all’indirizzo destinatario indicato. Il sito non verifica automaticamente l’accredito.',
+      bankInfo:'Attendi la conferma dell’ordine e dell’importo finale prima di effettuare il bonifico.',
+      bankData:'Beneficiario: {beneficiary} — IBAN: {iban}',
+      choosePayment:'Seleziona un metodo di pagamento.',
+      pendingWarning:'Almeno un prodotto ha il prezzo da confermare. Il totale è provvisorio: attendi la conferma prima del pagamento.',
+      emailWarning:'Questo passaggio prepara una bozza email. La richiesta sarà inviata solo quando premi Invia nel tuo programma di posta. Le immagini di riferimento non sono allegate automaticamente.',
+      cancel:'Annulla',prepareEmail:'Prepara email ordine',
+      orderSubject:'Richiesta ordine FedePictures',
+      emailError:'Controlla i campi obbligatori e scegli un metodo di pagamento.',
+      emailOpened:'Se configurata, si aprirà la tua app di posta. Controlla la bozza e premi Invia.',
+      mailCustomer:'DATI CLIENTE',mailItems:'PRODOTTI',mailNotes:'NOTE',
+      mailPayment:'METODO DI PAGAMENTO PREFERITO',
+      mailShipping:'Spedizione',mailSubtotal:'Subtotale prodotti',
+      mailTotal:'Totale ordine (spedizione inclusa)',
+      paymentBank:'Bonifico bancario',contact:'Contattami'
     },
-
-    en: {
-      cart: 'CART',
-      shop: 'SHOP',
-      explore: 'EXPLORE ▼',
-      lang: 'IT',
-      title: 'Your cart',
-      intro: 'Review your products and customizations before continuing.',
-      emptyTitle: 'Your cart is empty',
-      emptyText: 'You have not added any products yet. Return to the shop to choose your favorite creations.',
-      backShop: 'Back to shop',
-      summary: 'Order summary',
-      products: 'Products',
-      subtotal: 'Product subtotal',
-      shipping: 'Shipping',
-      grandTotal: 'Order total',
-      pending: 'Price to be confirmed',
-      quantity: 'Quantity',
-      remove: 'Remove',
-      continue: 'Continue shopping',
-      clear: 'Empty cart',
-      notice: 'Shipping costs €5.00. Prices for some custom products may need confirmation before payment.',
-      footer: 'Shipping: €5.00. Cart data is saved in this browser.',
-      size: 'Size',
-      backText: 'Text on the back',
-      shirtSize: 'Size',
-      theme: 'Requested theme',
-      file: 'Uploaded file',
-      custom: 'Customization',
-      confirmClear: 'Do you really want to empty the cart?',
-      customProduct: 'Personalized product',
-      noPrice: 'To be confirmed',
-      checkout: 'Proceed to checkout',
-      checkoutTitle: 'Complete your order',
-      checkoutIntro: 'Enter your details to prepare the order request. Payment is made after the order is confirmed.',
-      customerName: 'Full name *',
-      customerEmail: 'Email *',
-      customerPhone: 'Phone (optional)',
-      customerAddress: 'Shipping address *',
-      customerPostcode: 'Postal code *',
-      customerCity: 'City and province *',
-      customerNotes: 'Order notes (optional)',
-      paymentHeading: 'Preferred payment method',
-      paypalTitle: 'PayPal',
-      paypalCopy: 'After the order is confirmed, you can pay using the configured PayPal link.',
-      bankTitle: 'Bank transfer',
-      bankCopy: 'Bank details will appear here after configuration.',
-      paypalInfo: 'After receiving confirmation of the final amount, you can pay using the PayPal link below. Do not pay before confirmation.',
-      bankInfo: 'Wait for order confirmation and verify beneficiary and IBAN before making a transfer.',
-      bankData: 'Beneficiary: {beneficiary} — IBAN: {iban}',
-      choosePayment: 'Choose a payment method.',
-      pendingWarning: 'At least one product price must be confirmed. This total is provisional: wait for confirmation before paying.',
-      emailWarning: 'This step prepares an email draft. The request is sent only when you press Send in your email app. Reference images are not attached automatically.',
-      cancel: 'Cancel',
-      prepareEmail: 'Prepare order email',
-      orderSubject: 'FedePictures order request',
-      emailError: 'Check the required fields and choose a payment method.',
-      emailOpened: 'Your email app should open if configured. Review the draft and press Send.',
-      mailCustomer: 'CUSTOMER DETAILS',
-      mailItems: 'PRODUCTS',
-      mailNotes: 'NOTES',
-      mailPayment: 'PREFERRED PAYMENT METHOD',
-      mailShipping: 'Shipping',
-      mailSubtotal: 'Product subtotal',
-      mailTotal: 'Order total (shipping included)',
-      paymentPaypal: 'PayPal',
-      paymentBank: 'Bank transfer',
-      contact: 'Contact me'
+    en:{
+      cart:'CART',shop:'SHOP',explore:'EXPLORE ▼',lang:'IT',
+      title:'Your cart',
+      intro:'Review your products and customizations before continuing.',
+      emptyTitle:'Your cart is empty',
+      emptyText:'You have not added any products yet. Return to the shop to choose your favorite creations.',
+      backShop:'Back to shop',summary:'Order summary',products:'Products',
+      subtotal:'Product subtotal',shipping:'Shipping',grandTotal:'Order total',
+      pending:'Price to be confirmed',quantity:'Quantity',remove:'Remove',
+      continue:'Back to shop',clear:'Empty cart',
+      notice:'Shipping costs €5.00. If a product price is not yet defined, the total is provisional and will be confirmed before payment.',
+      footer:'Shipping: €5.00. Cart data is stored in this browser.',
+      size:'Size',backText:'Text on the back',shirtSize:'Size',
+      theme:'Requested theme',file:'Uploaded file',custom:'Customization',
+      confirmClear:'Do you really want to empty the cart?',
+      customProduct:'Personalized product',noPrice:'To be confirmed',
+      checkout:'Proceed to checkout',checkoutTitle:'Complete your order',
+      checkoutIntro:'Enter your details to prepare the order request. Payment will be made after the order is confirmed.',
+      customerName:'Full name *',customerEmail:'Email *',
+      customerPhone:'Phone (optional)',customerAddress:'Shipping address *',
+      customerPostcode:'Postal code *',customerCity:'City and province *',
+      customerNotes:'Order notes (optional)',paymentHeading:'Preferred payment method',
+      paypalTitle:'PayPal',
+      paypalCopy:'Recipient: federucastancato@hotmail.com. Manual payment after the final total is confirmed.',
+      bankTitle:'Bank transfer',
+      bankCopy:'Beneficiary Federica Stancato. Full details appear after selection.',
+      paypalInfo:'After the total is confirmed, send the PayPal payment to the recipient address shown. The site does not automatically verify payment.',
+      bankInfo:'Wait for order and final amount confirmation before making the transfer.',
+      bankData:'Beneficiary: {beneficiary} — IBAN: {iban}',
+      choosePayment:'Choose a payment method.',
+      pendingWarning:'At least one product price must be confirmed. The total is provisional: wait for confirmation before paying.',
+      emailWarning:'This step prepares an email draft. The request is sent only when you press Send in your email app. Reference images are not attached automatically.',
+      cancel:'Cancel',prepareEmail:'Prepare order email',
+      orderSubject:'FedePictures order request',
+      emailError:'Check required fields and choose a payment method.',
+      emailOpened:'Your email app should open if configured. Review the draft and press Send.',
+      mailCustomer:'CUSTOMER DETAILS',mailItems:'PRODUCTS',mailNotes:'NOTES',
+      mailPayment:'PREFERRED PAYMENT METHOD',
+      mailShipping:'Shipping',mailSubtotal:'Product subtotal',
+      mailTotal:'Order total (shipping included)',
+      paymentBank:'Bank transfer',contact:'Contact me'
     }
   };
 
-  const t = key => words[lang][key] || words.it[key] || key;
-
-  const euro = value => new Intl.NumberFormat(
-    lang === 'it' ? 'it-IT' : 'en-GB',
-    { style: 'currency', currency: 'EUR' }
+  const t=key=>(words[lang]&&words[lang][key])||words.it[key]||key;
+  const euro=value=>new Intl.NumberFormat(
+    lang==='it'?'it-IT':'en-GB',
+    {style:'currency',currency:'EUR'}
   ).format(value);
 
-  function escapeHtml(value) {
-    return String(value ?? '').replace(/[&<>"']/g, ch => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    })[ch]);
+  function escapeHtml(value){
+    return String(value??'').replace(/[&<>"']/g,ch=>({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[ch]));
   }
 
-  function readCart() {
-    try {
-      const data = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-      return Array.isArray(data) ? data : [];
-    } catch (e) {
-      return [];
-    }
+  function readCart(){
+    try{
+      const data=JSON.parse(localStorage.getItem(CART_KEY)||'[]');
+      return Array.isArray(data)?data:[];
+    }catch(e){return [];}
   }
 
-  function writeCart(cart) {
-    try {
-      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  function writeCart(cart){
+    try{
+      localStorage.setItem(CART_KEY,JSON.stringify(cart));
       updateHeader();
       return true;
-    } catch (e) {
-      alert(lang === 'it'
-        ? 'Impossibile salvare il carrello nel browser.'
-        : 'Unable to save the cart in this browser.');
+    }catch(e){
+      alert(lang==='it'
+        ?'Impossibile salvare il carrello nel browser.'
+        :'Unable to save the cart in this browser.');
       return false;
     }
   }
 
-  function updateHeader() {
-    $('cart-label').textContent = t('cart');
-
-    $('cart-count').textContent = readCart().reduce(
-      (n, item) => n + (Number(item.quantity) || 0),
-      0
+  function updateHeader(){
+    $('cart-label').textContent=t('cart');
+    $('cart-count').textContent=readCart().reduce(
+      (n,item)=>n+(Number(item.quantity)||0),0
     );
-
-    $('shop-button').textContent = t('shop');
-    $('explore-button').textContent = t('explore');
-    $('language-toggle').textContent = t('lang');
+    $('shop-button').textContent=t('shop');
+    $('explore-button').textContent=t('explore');
+    $('language-toggle').textContent=t('lang');
   }
 
-  function getName(item) {
-    if (item.type === 'custom') {
-      const names = {
-        bookmark: lang === 'it' ? 'Segnalibro personalizzato' : 'Custom bookmark',
-        bauble: lang === 'it' ? 'Pallina personalizzata' : 'Custom Christmas bauble',
-        shirt: lang === 'it' ? 'Maglietta personalizzata' : 'Custom T-shirt',
-        'mini-canvas': lang === 'it'
-          ? 'Mini tela personalizzata con cavalletto'
-          : 'Custom mini canvas with easel'
+  function getName(item){
+    if(item.type==='custom'){
+      const names={
+        bookmark:lang==='it'?'Segnalibro personalizzato':'Custom bookmark',
+        bauble:lang==='it'?'Pallina personalizzata':'Custom Christmas bauble',
+        shirt:lang==='it'?'Maglietta personalizzata':'Custom T-shirt',
+        'mini-canvas':lang==='it'
+          ?'Mini tela personalizzata con cavalletto'
+          :'Custom mini canvas with easel'
       };
-
-      return names[item.kind] || item.name ||
-        (lang === 'it' ? 'Prodotto personalizzato' : 'Personalized product');
+      return names[item.kind]||item.name||
+        (lang==='it'?'Prodotto personalizzato':'Personalized product');
     }
-
-    return item.name || item.id || (lang === 'it' ? 'Prodotto' : 'Product');
+    return item.name||item.id||(lang==='it'?'Prodotto':'Product');
   }
 
-  function getItemPrice(item) {
-    if (
-      item.pricePending ||
-      item.unitPrice === null ||
-      item.unitPrice === undefined ||
-      !Number.isFinite(Number(item.unitPrice))
-    ) {
-      return null;
-    }
-
+  function getItemPrice(item){
+    if(item.pricePending||item.unitPrice===null||
+       item.unitPrice===undefined||
+       !Number.isFinite(Number(item.unitPrice)))return null;
     return Number(item.unitPrice);
   }
 
-  /* Totale prodotti + spedizione fissa di 5 € */
-  function totals(cart) {
-    let subtotal = 0;
-    let pending = false;
-    let count = 0;
-
-    cart.forEach(item => {
-      const qty = Math.max(1, Number(item.quantity) || 1);
-      count += qty;
-
-      const price = getItemPrice(item);
-
-      if (price === null) {
-        pending = true;
-      } else {
-        subtotal += price * qty;
-      }
+  function totals(cart){
+    let subtotal=0,pending=false,count=0;
+    cart.forEach(item=>{
+      const qty=Math.max(1,Number(item.quantity)||1);
+      count+=qty;
+      const price=getItemPrice(item);
+      if(price===null)pending=true;
+      else subtotal+=price*qty;
     });
-
-    const shipping = cart.length ? 5 : 0;
-
-    return {
-      subtotal,
-      shipping,
-      total: subtotal + shipping,
-      pending,
-      count
-    };
+    const shipping=cart.length?SHIPPING_COST:0;
+    return{subtotal,shipping,total:subtotal+shipping,pending,count};
   }
 
-  function itemImage(item) {
-    if (item.type === 'ready' && item.image) {
-      let path = String(item.image);
-
-      if (path.startsWith('../')) {
-        path = path.slice(3);
-      }
-
-      if (path.startsWith('http') || path.startsWith('data:')) {
-        return '<img class="item-image" src="' +
-          escapeHtml(path) +
-          '" alt="' + escapeHtml(getName(item)) +
-          '" onerror="this.style.display=\'none\'">';
-      }
-
-      return '<img class="item-image" src="' +
-        escapeHtml(SITE_URL + path) +
-        '" alt="' + escapeHtml(getName(item)) +
+  function itemImage(item){
+    if(item.type==='ready'&&item.image){
+      let path=String(item.image);
+      if(path.startsWith('../'))path=path.slice(3);
+      const src=/^(https?:|data:)/i.test(path)?path:SITE_URL+path;
+      return '<img class="item-image" src="'+escapeHtml(src)+
+        '" alt="'+escapeHtml(getName(item))+
         '" onerror="this.style.display=\'none\'">';
     }
-
-    const data = item.customization && item.customization.fileData;
-
-    if (data && data.startsWith('data:image/')) {
-      return '<img class="item-image" src="' +
-        escapeHtml(data) +
-        '" alt="' + escapeHtml(t('file')) + '">';
+    const data=item.customization&&item.customization.fileData;
+    if(data&&data.startsWith('data:image/')){
+      return '<img class="item-image" src="'+escapeHtml(data)+
+        '" alt="'+escapeHtml(t('file'))+'">';
     }
-
     return '<div class="item-image empty">✦</div>';
   }
 
-  /* DISEGNA IL CARRELLO */
-  function render() {
-    const cart = readCart();
-
+  function render(){
+    const cart=readCart();
     updateHeader();
+    $('page-title').textContent=t('title');
+    $('intro-text').textContent=t('intro');
+    $('footer-note').textContent=t('footer');
+    const root=$('cart-content');
 
-    $('page-title').textContent = t('title');
-    $('intro-text').textContent = t('intro');
-    $('footer-note').textContent = t('footer');
-
-    const root = $('cart-content');
-
-    if (!cart.length) {
-      root.innerHTML = `
-        <section class="empty-cart">
-          <div class="symbol">🛒</div>
-          <h2>${t('emptyTitle')}</h2>
-          <p>${t('emptyText')}</p>
-          <a href="${SITE_URL}shop/index.html">${t('backShop')}</a>
-        </section>
-      `;
+    if(!cart.length){
+      root.innerHTML=
+        '<section class="empty-cart"><div class="symbol">🛒</div><h2>'+
+        t('emptyTitle')+'</h2><p>'+t('emptyText')+
+        '</p><a href="'+SITE_URL+'shop/index.html">'+
+        t('backShop')+'</a></section>';
       return;
     }
 
-    const sum = totals(cart);
+    const sum=totals(cart);
+    const cards=cart.map((item,index)=>{
+      const qty=Math.max(1,Number(item.quantity)||1);
+      const price=getItemPrice(item);
+      const details=[];
 
-    const cards = cart.map((item, index) => {
-      const qty = Math.max(1, Number(item.quantity) || 1);
-      const price = getItemPrice(item);
-      const details = [];
-
-      if (item.size) {
-        details.push(
-          '<p><strong>' + t('size') + ':</strong> ' +
-          escapeHtml(item.size) +
-          (price !== null ? ' — ' + euro(price) : '') +
-          '</p>'
+      if(item.size)details.push(
+        '<p><strong>'+t('size')+':</strong> '+escapeHtml(item.size)+
+        (price!==null?' — '+euro(price):'')+'</p>'
+      );
+      if(item.shirtSize)details.push(
+        '<p><strong>'+t('shirtSize')+':</strong> '+
+        escapeHtml(item.shirtSize)+'</p>'
+      );
+      if(item.backText)details.push(
+        '<p><strong>'+t('backText')+':</strong> '+
+        escapeHtml(item.backText)+'</p>'
+      );
+      if(item.customization){
+        if(item.customization.theme)details.push(
+          '<p><strong>'+t('theme')+':</strong> '+
+          escapeHtml(item.customization.theme)+'</p>'
+        );
+        if(item.customization.fileName)details.push(
+          '<p><strong>'+t('file')+':</strong> '+
+          escapeHtml(item.customization.fileName)+'</p>'
         );
       }
 
-      if (item.shirtSize) {
-        details.push(
-          '<p><strong>' + t('shirtSize') + ':</strong> ' +
-          escapeHtml(item.shirtSize) + '</p>'
-        );
-      }
+      const lineTotal=price===null?t('noPrice'):euro(price*qty);
 
-      if (item.backText) {
-        details.push(
-          '<p><strong>' + t('backText') + ':</strong> ' +
-          escapeHtml(item.backText) + '</p>'
-        );
-      }
-
-      if (item.customization) {
-        if (item.customization.theme) {
-          details.push(
-            '<p><strong>' + t('theme') + ':</strong> ' +
-            escapeHtml(item.customization.theme) + '</p>'
-          );
-        }
-
-        if (item.customization.fileName) {
-          details.push(
-            '<p><strong>' + t('file') + ':</strong> ' +
-            escapeHtml(item.customization.fileName) + '</p>'
-          );
-        }
-      }
-
-      const lineTotal = price === null
-        ? t('noPrice')
-        : euro(price * qty);
-
-      return `
-        <article class="cart-item">
-          ${itemImage(item)}
-
-          <div>
-            <h3 class="item-title">${escapeHtml(getName(item))}</h3>
-
-            <div class="item-meta">
-              ${details.join('')}
-              ${item.type === 'custom'
-                ? '<p><strong>' + t('custom') + ':</strong> ' +
-                  t('customProduct') + '</p>'
-                : ''}
-            </div>
-
-            <div class="item-bottom">
-              <label class="quantity-control">
-                ${t('quantity')}
-                <input type="number"
-                       min="1"
-                       max="99"
-                       value="${qty}"
-                       data-qty="${index}"
-                       aria-label="${t('quantity')}">
-              </label>
-
-              <span class="line-total">${lineTotal}</span>
-
-              <button type="button"
-                      class="remove-button"
-                      data-remove="${index}">
-                ${t('remove')}
-              </button>
-            </div>
-          </div>
-        </article>
-      `;
+      return '<article class="cart-item">'+itemImage(item)+
+        '<div><h3 class="item-title">'+escapeHtml(getName(item))+
+        '</h3><div class="item-meta">'+details.join('')+
+        (item.type==='custom'
+          ?'<p><strong>'+t('custom')+':</strong> '+t('customProduct')+'</p>'
+          :'')+
+        '</div><div class="item-bottom"><label class="quantity-control">'+
+        t('quantity')+' <input type="number" min="1" max="99" value="'+
+        qty+'" data-qty="'+index+'" aria-label="'+t('quantity')+'"></label>'+
+        '<span class="line-total">'+lineTotal+'</span>'+
+        '<button type="button" class="remove-button" data-remove="'+index+'">'+
+        t('remove')+'</button></div></div></article>';
     }).join('');
 
-    root.innerHTML = `
-      <div class="cart-layout">
-        <section>
-          <div class="items">${cards}</div>
-          <button type="button" class="secondary-button" id="clear-cart">
-            ${t('clear')}
-          </button>
-        </section>
+    root.innerHTML=
+      '<div class="cart-layout"><section><div class="items">'+cards+
+      '</div><button type="button" class="secondary-button" id="clear-cart">'+
+      t('clear')+'</button></section><aside class="summary"><h2>'+
+      t('summary')+'</h2><div class="summary-row"><span>'+t('products')+
+      ' ('+sum.count+')</span><strong>'+cart.length+
+      '</strong></div><div class="summary-row"><span>'+t('subtotal')+
+      '</span><strong>'+euro(sum.subtotal)+(sum.pending?' +':'')+
+      '</strong></div><div class="summary-row"><span>'+t('shipping')+
+      '</span><strong>'+euro(sum.shipping)+'</strong></div>'+
+      '<div class="summary-row summary-total"><span>'+t('grandTotal')+
+      '</span><strong>'+euro(sum.total)+(sum.pending?' +':'')+
+      '</strong></div>'+
+      (sum.pending
+        ?'<div class="notice">'+t('pending')+'. '+
+          (lang==='it'
+            ?'Il totale finale sarà confermato prima del pagamento.'
+            :'The final total will be confirmed before payment.')+'</div>'
+        :'')+
+      '<div class="notice">'+t('notice')+'</div>'+
+      '<button type="button" class="primary-button" id="checkout-button">'+
+      t('checkout')+'</button>'+
+      '<a class="secondary-button" href="'+SITE_URL+
+      'shop/index.html#ready-heading">'+t('continue')+'</a></aside></div>';
 
-        <aside class="summary">
-          <h2>${t('summary')}</h2>
-
-          <div class="summary-row">
-            <span>${t('products')} (${sum.count})</span>
-            <strong>${cart.length}</strong>
-          </div>
-
-          <div class="summary-row">
-            <span>${t('subtotal')}</span>
-            <strong>${euro(sum.subtotal)}${sum.pending ? ' +' : ''}</strong>
-          </div>
-
-          <div class="summary-row">
-            <span>${t('shipping')}</span>
-            <strong>${euro(sum.shipping)}</strong>
-          </div>
-
-          <div class="summary-row summary-total">
-            <span>${t('grandTotal')}</span>
-            <strong>${euro(sum.total)}${sum.pending ? ' +' : ''}</strong>
-          </div>
-
-          ${sum.pending
-            ? `<div class="notice">
-                ${t('pending')}: ${t('noPrice')}.
-                ${lang === 'it'
-                  ? 'Il totale finale sarà confermato prima del pagamento.'
-                  : 'The final total will be confirmed before payment.'}
-              </div>`
-            : ''}
-
-          <div class="notice">${t('notice')}</div>
-
-          <button type="button" class="primary-button" id="checkout-button">
-            ${t('checkout')}
-          </button>
-
-          <a class="secondary-button"
-             href="${SITE_URL}shop/index.html#ready-heading">
-            ${t('continue')}
-          </a>
-        </aside>
-      </div>
-    `;
-
-    root.querySelectorAll('[data-qty]').forEach(input => {
-      input.addEventListener('change', () => {
-        const index = Number(input.dataset.qty);
-        const qty = Math.min(
-          99,
-          Math.max(1, Math.floor(Number(input.value) || 1))
-        );
-
-        const updated = readCart();
-
-        if (updated[index]) {
-          updated[index].quantity = qty;
-        }
-
-        if (writeCart(updated)) render();
+    root.querySelectorAll('[data-qty]').forEach(input=>{
+      input.addEventListener('change',()=>{
+        const i=Number(input.dataset.qty);
+        const q=Math.min(99,Math.max(1,Math.floor(Number(input.value)||1)));
+        const updated=readCart();
+        if(updated[i])updated[i].quantity=q;
+        if(writeCart(updated))render();
       });
     });
 
-    root.querySelectorAll('[data-remove]').forEach(button => {
-      button.addEventListener('click', () => {
-        const updated = readCart();
-        updated.splice(Number(button.dataset.remove), 1);
-
-        if (writeCart(updated)) render();
+    root.querySelectorAll('[data-remove]').forEach(button=>{
+      button.addEventListener('click',()=>{
+        const updated=readCart();
+        updated.splice(Number(button.dataset.remove),1);
+        if(writeCart(updated))render();
       });
     });
 
-    $('clear-cart').addEventListener('click', () => {
-      if (confirm(t('confirmClear')) && writeCart([])) {
-        render();
-      }
+    $('clear-cart').addEventListener('click',()=>{
+      if(confirm(t('confirmClear'))&&writeCart([]))render();
     });
-
-    $('checkout-button').addEventListener('click', openCheckout);
+    $('checkout-button').addEventListener('click',openCheckout);
   }
 
-  /* INFORMAZIONI SUI PAGAMENTI */
-  function paymentInfo(method) {
-    if (method === 'paypal') {
-      if (PAYMENT_CONFIG.paypalMeUrl && PAYMENT_CONFIG.paypalMeUrl.trim()) {
-        return t('paypalInfo');
+  function paymentInfo(method){
+    if(method==='paypal'){
+      return 'PayPal destinatario: '+PAYMENT_CONFIG.paypalRecipientEmail+
+        '. Attendi la conferma dell’importo finale; apri PayPal, invia il pagamento a questo indirizzo e indica il riferimento dell’ordine. Il sito non verifica automaticamente l’accredito.';
+    }
+    if(method==='bank'){
+      return 'Bonifico bancario. Beneficiario: '+
+        PAYMENT_CONFIG.bankBeneficiary+'. IBAN: '+PAYMENT_CONFIG.bankIban+
+        (PAYMENT_CONFIG.bankBic?'. BIC/SWIFT: '+PAYMENT_CONFIG.bankBic:'')+
+        '. Attendi la conferma dell’ordine e dell’importo finale prima del bonifico.';
+    }
+    return t('choosePayment');
+  }
+
+  async function copyText(text,button){
+    const old=button.textContent;
+    try{
+      if(navigator.clipboard&&window.isSecureContext){
+        await navigator.clipboard.writeText(text);
+      }else{
+        const area=document.createElement('textarea');
+        area.value=text;
+        area.readOnly=true;
+        area.style.position='fixed';
+        area.style.opacity='0';
+        document.body.appendChild(area);
+        area.select();
+        const ok=document.execCommand('copy');
+        area.remove();
+        if(!ok)throw new Error('copy failed');
       }
-
-      return lang === 'it'
-        ? 'Il link PayPal non è ancora configurato. Puoi inviare la richiesta d’ordine; dopo aver confermato il prezzo finale, ti invierò le istruzioni per pagare.'
-        : 'The PayPal link has not been configured yet. You can submit the order request; after confirming the final amount, I will send you payment instructions.';
+      button.textContent=lang==='it'?'Copiato!':'Copied!';
+      setTimeout(()=>{
+        if(button.isConnected)button.textContent=old;
+      },1600);
+    }catch(e){
+      button.textContent=lang==='it'?'Copia non riuscita':'Copy failed';
     }
-
-    if (PAYMENT_CONFIG.bankBeneficiary && PAYMENT_CONFIG.bankIban) {
-      return t('bankData')
-        .replace('{beneficiary}', PAYMENT_CONFIG.bankBeneficiary)
-        .replace('{iban}', PAYMENT_CONFIG.bankIban) +
-        (PAYMENT_CONFIG.bankBic
-          ? ' — BIC/SWIFT: ' + PAYMENT_CONFIG.bankBic
-          : '');
-    }
-
-    return lang === 'it'
-      ? 'Le coordinate bancarie non sono ancora configurate. Puoi inviare la richiesta d’ordine; ti invierò i dati per il bonifico nella conferma.'
-      : 'Bank details have not been configured yet. You can submit the order request; I will send the transfer details with the confirmation.';
   }
 
-  function updatePaymentInfo() {
-    const selected = document.querySelector(
+  function updatePaymentInfo(){
+    const selected=document.querySelector(
       'input[name="payment-method"]:checked'
     );
+    const info=$('payment-method-info');
 
-    $('payment-method-info').textContent = selected
-      ? paymentInfo(selected.value)
-      : t('choosePayment');
+    $('paypal-option-copy').textContent=t('paypalCopy');
+    $('bank-option-copy').textContent=t('bankCopy');
+    $('paypal-link-wrap').hidden=true;
 
-    const paypalConfigured = Boolean(
-      PAYMENT_CONFIG.paypalMeUrl && PAYMENT_CONFIG.paypalMeUrl.trim()
-    );
-
-    $('paypal-link-wrap').hidden = !(
-      selected &&
-      selected.value === 'paypal' &&
-      paypalConfigured
-    );
-
-    if (paypalConfigured) {
-      $('paypal-payment-link').href = PAYMENT_CONFIG.paypalMeUrl.trim();
+    if(!selected){
+      info.textContent=t('choosePayment');
+      return;
     }
 
-    $('paypal-option-copy').textContent = paypalConfigured
-      ? t('paypalCopy')
-      : (lang === 'it'
-          ? 'Link non ancora configurato: riceverai le istruzioni dopo la conferma dell’ordine.'
-          : 'Link not configured yet: you will receive instructions after order confirmation.');
+    if(selected.value==='paypal'){
+      const email=PAYMENT_CONFIG.paypalRecipientEmail;
+      const url=PAYMENT_CONFIG.paypalMeUrl&&PAYMENT_CONFIG.paypalMeUrl.trim()
+        ?PAYMENT_CONFIG.paypalMeUrl.trim()
+        :'https://www.paypal.com/';
 
-    $('bank-option-copy').textContent =
-      PAYMENT_CONFIG.bankBeneficiary && PAYMENT_CONFIG.bankIban
-        ? (lang === 'it'
-            ? 'Coordinate bancarie disponibili nel riepilogo dopo la selezione.'
-            : 'Bank details will be shown in the information box after selection.')
-        : (lang === 'it'
-            ? 'Coordinate non ancora configurate: ti saranno inviate con la conferma dell’ordine.'
-            : 'Details not configured yet: they will be sent with the order confirmation.');
+      info.innerHTML=
+        '<p><strong>Email PayPal destinatario:</strong><br>'+
+        '<span class="payment-value">'+escapeHtml(email)+'</span></p>'+
+        '<div class="payment-action-row">'+
+          '<button type="button" id="copy-paypal-email">Copia email PayPal</button>'+
+          '<a class="open-paypal-button" href="'+escapeHtml(url)+
+          '" target="_blank" rel="noopener">Apri PayPal</a>'+
+        '</div>'+
+        '<p class="payment-hint">Dopo la conferma del totale, apri PayPal, scegli “Invia e richiedi”, inserisci l’indirizzo sopra e digita l’importo confermato. Il pulsante apre PayPal ma non invia automaticamente il pagamento.</p>';
+
+      $('copy-paypal-email').addEventListener('click',event=>{
+        copyText(email,event.currentTarget);
+      });
+      return;
+    }
+
+    if(selected.value==='bank'){
+      const iban=PAYMENT_CONFIG.bankIban;
+      info.innerHTML=
+        '<p><strong>Beneficiario:</strong><br><span class="payment-value">'+
+        escapeHtml(PAYMENT_CONFIG.bankBeneficiary)+'</span></p>'+
+        '<p><strong>IBAN:</strong><br><span class="payment-value">'+
+        escapeHtml(iban)+'</span></p>'+
+        (PAYMENT_CONFIG.bankBic
+          ?'<p><strong>BIC/SWIFT:</strong><br>'+
+            escapeHtml(PAYMENT_CONFIG.bankBic)+'</p>'
+          :'')+
+        '<div class="payment-action-row">'+
+          '<button type="button" id="copy-bank-iban">Copia IBAN</button>'+
+        '</div>'+
+        '<p class="payment-hint">Attendi la conferma dell’ordine e dell’importo finale prima di effettuare il bonifico. Indica nella causale il riferimento dell’ordine.</p>';
+
+      $('copy-bank-iban').addEventListener('click',event=>{
+        copyText(iban,event.currentTarget);
+      });
+    }
   }
 
-  /* APERTURA DEL CHECKOUT */
-  function openCheckout() {
-    const cart = readCart();
-    if (!cart.length) return;
+  function openCheckout(){
+    const cart=readCart();
+    if(!cart.length)return;
+    const sum=totals(cart);
 
-    const sum = totals(cart);
-
-    const lines = cart.map(item => {
-      const qty = Math.max(1, Number(item.quantity) || 1);
-      const price = getItemPrice(item);
-
-      let line = '• ' + getName(item) + ' × ' + qty +
-        ' — ' + (price === null ? t('noPrice') : euro(price * qty));
-
-      if (item.size) line += '\n  ' + t('size') + ': ' + item.size;
-      if (item.shirtSize) line += '\n  ' + t('shirtSize') + ': ' + item.shirtSize;
-      if (item.backText) line += '\n  ' + t('backText') + ': ' + item.backText;
-
-      if (item.customization && item.customization.theme) {
-        line += '\n  ' + t('theme') + ': ' + item.customization.theme;
-      }
-
-      if (item.customization && item.customization.fileName) {
-        line += '\n  ' + t('file') + ': ' + item.customization.fileName;
-      }
-
+    const lines=cart.map(item=>{
+      const qty=Math.max(1,Number(item.quantity)||1);
+      const price=getItemPrice(item);
+      let line='• '+getName(item)+' × '+qty+' — '+
+        (price===null?t('noPrice'):euro(price*qty));
+      if(item.size)line+='\n  '+t('size')+': '+item.size;
+      if(item.shirtSize)line+='\n  '+t('shirtSize')+': '+item.shirtSize;
+      if(item.backText)line+='\n  '+t('backText')+': '+item.backText;
+      if(item.customization&&item.customization.theme)
+        line+='\n  '+t('theme')+': '+item.customization.theme;
+      if(item.customization&&item.customization.fileName)
+        line+='\n  '+t('file')+': '+item.customization.fileName;
       return line;
     });
 
-    checkoutSummaryText = lines.join('\n');
+    checkoutSummaryText=lines.join('\n');
 
-    $('checkout-order-summary').innerHTML =
-      '<ul>' +
-      cart.map(item => {
-        const price = getItemPrice(item);
-        const qty = Math.max(1, Number(item.quantity) || 1);
+    $('checkout-order-summary').innerHTML=
+      '<ul>'+cart.map(item=>{
+        const price=getItemPrice(item);
+        const qty=Math.max(1,Number(item.quantity)||1);
+        return '<li>'+escapeHtml(getName(item))+' × '+qty+' — '+
+          escapeHtml(price===null?t('noPrice'):euro(price*qty))+'</li>';
+      }).join('')+'</ul>'+
+      '<div class="summary-row"><span>'+t('subtotal')+
+      '</span><strong>'+euro(sum.subtotal)+(sum.pending?' +':'')+
+      '</strong></div>'+
+      '<div class="summary-row"><span>'+t('shipping')+
+      '</span><strong>'+euro(sum.shipping)+'</strong></div>'+
+      '<div class="summary-row summary-total"><span>'+t('grandTotal')+
+      '</span><strong>'+euro(sum.total)+(sum.pending?' +':'')+
+      '</strong></div>';
 
-        return '<li>' +
-          escapeHtml(getName(item)) +
-          ' × ' + qty + ' — ' +
-          escapeHtml(price === null ? t('noPrice') : euro(price * qty)) +
-          '</li>';
-      }).join('') +
-      '</ul>' +
-
-      '<div class="summary-row"><span>' + t('subtotal') +
-      '</span><strong>' + euro(sum.subtotal) +
-      (sum.pending ? ' +' : '') + '</strong></div>' +
-
-      '<div class="summary-row"><span>' + t('shipping') +
-      '</span><strong>' + euro(sum.shipping) + '</strong></div>' +
-
-      '<div class="summary-row summary-total"><span>' + t('grandTotal') +
-      '</span><strong>' + euro(sum.total) +
-      (sum.pending ? ' +' : '') + '</strong></div>';
-
-    $('checkout-pending-warning').hidden = !sum.pending;
-    $('checkout-pending-warning').textContent = t('pendingWarning');
-    $('checkout-error').textContent = '';
-
+    $('checkout-pending-warning').hidden=!sum.pending;
+    $('checkout-pending-warning').textContent=t('pendingWarning');
+    $('checkout-error').textContent='';
     $('checkout-modal').classList.add('open');
     updatePaymentInfo();
   }
 
-  function closeCheckout() {
+  function closeCheckout(){
     $('checkout-modal').classList.remove('open');
   }
 
-  /* PREPARA LA RICHIESTA D'ORDINE VIA EMAIL */
-  function submitCheckout(event) {
+  function submitCheckout(event){
     event.preventDefault();
 
-    const form = $('checkout-form');
-    if (!form.reportValidity()) return;
+    const form=$('checkout-form');
+    if(!form.reportValidity())return;
 
-    const method = document.querySelector(
+    const method=document.querySelector(
       'input[name="payment-method"]:checked'
     );
-
-    if (!method) {
-      $('checkout-error').textContent = t('emailError');
+    if(!method){
+      $('checkout-error').textContent=t('emailError');
       return;
     }
 
-    const data = new FormData(form);
-    const sum = totals(readCart());
+    const data=new FormData(form);
+    const sum=totals(readCart());
 
-    const body = [
-      lang === 'it'
-        ? 'RICHIESTA ORDINE FEDEPICTURES'
-        : 'FEDEPICTURES ORDER REQUEST',
+    const body=[
+      lang==='it'?'RICHIESTA ORDINE FEDEPICTURES':'FEDEPICTURES ORDER REQUEST',
       '',
       t('mailCustomer'),
-      (lang === 'it' ? 'Nome: ' : 'Name: ') + data.get('customerName'),
-      'Email: ' + data.get('customerEmail'),
-      (lang === 'it' ? 'Telefono: ' : 'Phone: ') +
-        (data.get('customerPhone') || '—'),
-      (lang === 'it' ? 'Indirizzo: ' : 'Address: ') +
-        data.get('customerAddress'),
-      (lang === 'it' ? 'CAP: ' : 'Postal code: ') +
-        data.get('customerPostcode'),
-      (lang === 'it' ? 'Città/provincia: ' : 'City/province: ') +
-        data.get('customerCity'),
+      (lang==='it'?'Nome: ':'Name: ')+data.get('customerName'),
+      'Email: '+data.get('customerEmail'),
+      (lang==='it'?'Telefono: ':'Phone: ')+(data.get('customerPhone')||'—'),
+      (lang==='it'?'Indirizzo: ':'Address: ')+data.get('customerAddress'),
+      (lang==='it'?'CAP: ':'Postal code: ')+data.get('customerPostcode'),
+      (lang==='it'?'Città/provincia: ':'City/province: ')+data.get('customerCity'),
       '',
       t('mailItems'),
       checkoutSummaryText,
       '',
-      t('mailSubtotal') + ': ' + euro(sum.subtotal) +
-        (sum.pending ? ' (' + t('pending') + ')' : ''),
-      t('mailShipping') + ': ' + euro(sum.shipping),
-      t('mailTotal') + ': ' + euro(sum.total) +
-        (sum.pending ? ' + prezzo da confermare' : ''),
+      t('mailSubtotal')+': '+euro(sum.subtotal)+(sum.pending?' ('+t('pending')+')':''),
+      t('mailShipping')+': '+euro(sum.shipping),
+      t('mailTotal')+': '+euro(sum.total)+(sum.pending?' — prezzo da confermare':''),
       '',
-      t('mailPayment') + ': ' +
-        (method.value === 'paypal' ? 'PayPal' : t('paymentBank')),
-      paymentInfo(method.value) +
-        (method.value === 'paypal' && PAYMENT_CONFIG.paypalMeUrl && PAYMENT_CONFIG.paypalMeUrl.trim()
-          ? '\nLink PayPal: ' + PAYMENT_CONFIG.paypalMeUrl.trim()
-          : ''),
+      t('mailPayment')+': '+(method.value==='paypal'?'PayPal':t('paymentBank')),
+      paymentInfo(method.value),
       '',
-      t('mailNotes') + ': ' + (data.get('customerNotes') || '—'),
+      t('mailNotes')+': '+(data.get('customerNotes')||'—'),
       '',
-      lang === 'it'
-        ? 'Le immagini di riferimento non vengono allegate automaticamente: allega manualmente eventuali file originali alla mail. Attendi la conferma dell’ordine e dell’importo finale prima di pagare.'
-        : 'Reference images are not attached automatically: attach original files manually. Wait for order and final amount confirmation before paying.'
+      lang==='it'
+        ?'Le immagini di riferimento non vengono allegate automaticamente. Allega manualmente eventuali file originali. Attendi la conferma dell’ordine e dell’importo finale prima di pagare.'
+        :'Reference images are not attached automatically. Attach any original files manually. Wait for order and final amount confirmation before paying.'
     ].join('\n');
 
-    const mailto = 'mailto:' + PAYMENT_CONFIG.orderEmail +
-      '?subject=' + encodeURIComponent(t('orderSubject')) +
-      '&body=' + encodeURIComponent(body);
+    const mailto='mailto:'+PAYMENT_CONFIG.orderEmail+
+      '?subject='+encodeURIComponent(t('orderSubject'))+
+      '&body='+encodeURIComponent(body);
 
-    window.location.href = mailto;
-
-    $('checkout-error').textContent = t('emailOpened');
+    window.location.href=mailto;
+    $('checkout-error').textContent=t('emailOpened');
   }
 
-  /* CAMBIO LINGUA */
-  function applyLanguage() {
-    document.documentElement.lang = lang;
-
-    const ids = {
-      'cart-label': 'cart',
-      'shop-button': 'shop',
-      'explore-button': 'explore',
-      'page-title': 'title',
-      'intro-text': 'intro',
-      'checkout-title': 'checkoutTitle',
-      'checkout-intro': 'checkoutIntro',
-      'customer-name-label': 'customerName',
-      'customer-email-label': 'customerEmail',
-      'customer-phone-label': 'customerPhone',
-      'customer-address-label': 'customerAddress',
-      'customer-postcode-label': 'customerPostcode',
-      'customer-city-label': 'customerCity',
-      'customer-notes-label': 'customerNotes',
-      'payment-heading': 'paymentHeading',
-      'paypal-option-title': 'paypalTitle',
-      'paypal-option-copy': 'paypalCopy',
-      'bank-option-title': 'bankTitle',
-      'bank-option-copy': 'bankCopy',
-      'checkout-email-warning': 'emailWarning',
-      'checkout-cancel': 'cancel',
-      'checkout-submit': 'prepareEmail'
+  function applyLanguage(){
+    document.documentElement.lang=lang;
+    const ids={
+      'cart-label':'cart',
+      'shop-button':'shop',
+      'explore-button':'explore',
+      'page-title':'title',
+      'intro-text':'intro',
+      'checkout-title':'checkoutTitle',
+      'checkout-intro':'checkoutIntro',
+      'customer-name-label':'customerName',
+      'customer-email-label':'customerEmail',
+      'customer-phone-label':'customerPhone',
+      'customer-address-label':'customerAddress',
+      'customer-postcode-label':'customerPostcode',
+      'customer-city-label':'customerCity',
+      'customer-notes-label':'customerNotes',
+      'payment-heading':'paymentHeading',
+      'paypal-option-title':'paypalTitle',
+      'paypal-option-copy':'paypalCopy',
+      'bank-option-title':'bankTitle',
+      'bank-option-copy':'bankCopy',
+      'checkout-email-warning':'emailWarning',
+      'checkout-cancel':'cancel',
+      'checkout-submit':'prepareEmail'
     };
 
-    Object.entries(ids).forEach(([id, key]) => {
-      if ($(id)) $(id).textContent = t(key);
+    Object.entries(ids).forEach(([id,key])=>{
+      if($(id))$(id).textContent=t(key);
     });
 
-    const linkTexts = {
-      home: 'Home',
-      bookmarks: lang === 'it' ? 'Segnalibri' : 'Bookmarks',
-      baubles: lang === 'it' ? 'Palline di Natale' : 'Christmas baubles',
-      shirts: lang === 'it' ? 'Magliette e accessori' : 'T-shirts & accessories',
-      contact: t('contact')
+    const nav={
+      home:'Home',
+      bookmarks:lang==='it'?'Segnalibri':'Bookmarks',
+      baubles:lang==='it'?'Palline di Natale':'Christmas baubles',
+      shirts:lang==='it'?'Magliette e accessori':'T-shirts & accessories',
+      contact:t('contact')
     };
-
-    document.querySelectorAll('[data-nav]').forEach(a => {
-      a.textContent = linkTexts[a.dataset.nav];
+    document.querySelectorAll('[data-nav]').forEach(a=>{
+      a.textContent=nav[a.dataset.nav]||a.textContent;
     });
-
     render();
     updatePaymentInfo();
   }
 
-  $('checkout-cancel').addEventListener('click', closeCheckout);
-
-  $('checkout-modal').addEventListener('click', event => {
-    if (event.target === $('checkout-modal')) closeCheckout();
+  $('checkout-cancel').addEventListener('click',closeCheckout);
+  $('checkout-modal').addEventListener('click',event=>{
+    if(event.target===$('checkout-modal'))closeCheckout();
+  });
+  $('checkout-form').addEventListener('submit',submitCheckout);
+  document.querySelectorAll('input[name="payment-method"]').forEach(input=>{
+    input.addEventListener('change',updatePaymentInfo);
   });
 
-  $('checkout-form').addEventListener('submit', submitCheckout);
-
-  document.querySelectorAll('input[name="payment-method"]').forEach(input => {
-    input.addEventListener('change', updatePaymentInfo);
-  });
-
-  $('explore-button').addEventListener('click', () => {
-    const menu = $('explore-menu');
+  $('explore-button').addEventListener('click',()=>{
+    const menu=$('explore-menu');
     menu.classList.toggle('show');
-
     $('explore-button').setAttribute(
-      'aria-expanded',
-      menu.classList.contains('show') ? 'true' : 'false'
+      'aria-expanded',menu.classList.contains('show')?'true':'false'
     );
   });
 
-  document.addEventListener('click', event => {
-    if (!event.target.closest('.dropdown')) {
+  document.addEventListener('click',event=>{
+    if(!event.target.closest('.dropdown')){
       $('explore-menu').classList.remove('show');
-      $('explore-button').setAttribute('aria-expanded', 'false');
+      $('explore-button').setAttribute('aria-expanded','false');
     }
   });
 
-  $('language-toggle').addEventListener('click', () => {
-    lang = lang === 'it' ? 'en' : 'it';
-
-    try {
-      localStorage.setItem(LANG_KEY, lang);
-    } catch (e) {}
-
+  $('language-toggle').addEventListener('click',()=>{
+    lang=lang==='it'?'en':'it';
+    try{localStorage.setItem(LANG_KEY,lang);}catch(e){}
     applyLanguage();
   });
 
-  $('payment-method-info').textContent = t('choosePayment');
+  $('payment-method-info').textContent=t('choosePayment');
   applyLanguage();
 })();
 </script>
-
 </body>
 </html>
