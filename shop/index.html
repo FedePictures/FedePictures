@@ -1,157 +1,1056 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedePictures | Shop</title>
+<link rel="icon" href="../volpe.png">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --pink:#f7c4d4;
+  --blue:#b2eaff;
+  --purple:#d2b4f2;
+  --dark:#333;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  font-family:'Quicksand',sans-serif;
+  color:var(--dark);
+  background:white;
+}
+button,input,textarea { font:inherit; }
+button,a { -webkit-tap-highlight-color:transparent; }
+button { cursor:pointer; }
+
+/* BARRA SUPERIORE */
+.site-header {
+  min-height:76px;
+  padding:8px 24px 8px 150px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:var(--blue);
+  box-shadow:0 2px 10px #0001;
+}
+.logo-link {
+  position:absolute;
+  left:24px;
+  top:0;
+  width:90px;
+  height:90px;
+  z-index:2;
+}
+.main-logo {
+  display:block;
+  width:90px;
+  height:90px;
+  object-fit:contain;
+  object-position:left top;
+}
+.header-actions {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.header-button,.lang-switcher {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  border:0;
+  border-radius:9px;
+  background:var(--purple);
+  color:#68427f;
+  padding:10px 16px;
+  font-size:.88rem;
+  font-weight:700;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.cart-count {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:21px;
+  height:21px;
+  border-radius:50%;
+  background:white;
+  padding:0 5px;
+}
+.dropdown { position:relative; }
+.dropdown-content {
+  display:none;
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  min-width:220px;
+  background:white;
+  border-radius:12px;
+  box-shadow:0 5px 20px #0002;
+  overflow:hidden;
+  z-index:200;
+}
+.dropdown-content.show { display:block; }
+.dropdown-content a {
+  display:block;
+  padding:12px 15px;
+  color:#333;
+  text-decoration:none;
+  font-weight:600;
+}
+.dropdown-content a:hover { background:#f5f0fa; }
+
+/* CONTENUTO */
+main {
+  max-width:1250px;
+  padding:28px 24px 0;
+  margin:auto;
+}
+.intro {
+  text-align:center;
+  margin:12px auto 30px;
+  max-width:800px;
+}
+h1,h2,h3 { font-family:'Baloo 2',sans-serif; }
+h1 { font-size:clamp(2rem,4vw,2.8rem); margin:0 0 4px; }
+.intro p { margin:0; line-height:1.6; }
+.section-heading {
+  font-size:1.75rem;
+  margin:32px 0 20px;
+}
+.custom-grid {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:12px;
+  align-items:stretch;
+}
+.custom-card {
+  border:3px solid #111;
+  border-radius:34px;
+  padding:14px 11px 12px;
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  background:#fff;
+}
+.custom-card h3 {
+  text-align:center;
+  font-size:1.25rem;
+  margin:0 0 8px;
+  line-height:1.2;
+}
+.product-symbol {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  margin:0 auto 7px;
+}
+.product-symbol svg {
+  width:56px;
+  height:48px;
+  stroke:#d8c900;
+  fill:none;
+  stroke-width:1.5;
+}
+.price-options {
+  margin:0 0 10px;
+  display:grid;
+  gap:5px;
+}
+.price-options label {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-size:.88rem;
+  white-space:nowrap;
+}
+.price-options input {
+  accent-color:#9c70bf;
+  width:15px;
+  height:15px;
+  flex-shrink:0;
+}
+.size-field { margin:0 0 8px; font-size:.85rem; }
+.size-field label { display:block; margin-bottom:5px; }
+.size-field input {
+  width:100%;
+  border:1px solid #777;
+  border-radius:8px;
+  padding:8px;
+  min-width:0;
+}
+.card-description {
+  font-size:.86rem;
+  line-height:1.45;
+  margin:5px 0 8px;
+}
+.back-text-input {
+  width:100%;
+  min-width:0;
+  border:1px solid #777;
+  border-radius:8px;
+  padding:8px 9px;
+  margin:0 0 12px;
+  font-size:.85rem;
+  background:#fff;
+}
+.customize-button {
+  width:100%;
+  min-height:54px;
+  border:1px solid #444;
+  border-radius:12px;
+  padding:7px 6px;
+  background:white;
+  font-size:.76rem;
+  font-weight:700;
+  line-height:1.35;
+  text-align:center;
+  text-decoration:none;
+  color:inherit;
+}
+.customize-button:hover { background:#f8f2fc; }
+.custom-state {
+  font-size:.78rem;
+  margin:6px 0 0;
+  overflow-wrap:anywhere;
+  color:#5e4474;
+}
+.quantity-row {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-top:auto;
+  padding-top:9px;
+  font-size:.78rem;
+}
+.quantity-row label { white-space:nowrap; }
+.quantity-row input {
+  width:48px;
+  min-width:0;
+  padding:6px 4px;
+  border:1px solid #777;
+  border-radius:7px;
+  text-align:center;
+}
+.add-label { line-height:1.15; flex:1; }
+.cart-icon-button {
+  border:1px solid #6d4b8b;
+  border-radius:7px;
+  background:var(--purple);
+  color:#4f2d68;
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  width:39px;
+  height:34px;
+  flex:0 0 auto;
+}
+.cart-icon-button svg {
+  width:22px;
+  height:22px;
+  stroke:currentColor;
+  fill:none;
+  stroke-width:1.8;
+}
+button:disabled { opacity:.45; cursor:not-allowed; }
+
+/* SFUMATURA SOTTO I CINQUE RIQUADRI */
+.custom-gradient-band {
+  display:block;
+  width:100%;
+  height:68px;
+  margin-top:28px;
+  background:linear-gradient(110deg,#f7c4d4 0%,#e3d4e6 50%,#b2eaff 100%);
+}
+
+/* PRODOTTI PRONTA CONSEGNA */
+.ready-section { margin-top:42px; }
+.ready-grid {
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:28px 22px;
+  padding:0 8px;
+}
+.ready-card {
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+}
+.ready-photo {
+  width:100%;
+  aspect-ratio:1.12 / 1;
+  border:1px solid #bbb;
+  border-radius:20px;
+  overflow:hidden;
+  background:#fafafa;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+.ready-photo img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.ready-description {
+  font-size:.86rem;
+  line-height:1.4;
+  margin:8px 2px;
+  min-height:2.5em;
+  overflow-wrap:anywhere;
+}
+.ready-buy-row {
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.ready-price {
+  padding:7px 5px;
+  border:1px solid #777;
+  border-radius:7px;
+  font-weight:700;
+  text-align:center;
+  white-space:nowrap;
+}
+.ready-buy-row .add-label { font-size:.78rem; }
+
+/* FINE PAGINA */
+.contact-band {
+  background:var(--blue);
+  padding:32px 20px;
+  text-align:center;
+  margin-top:48px;
+}
+.contact-band h2 { margin:0 0 8px; }
+.contact-band p { line-height:1.6; }
+.contact-band a {
+  display:inline-block;
+  color:#333;
+  background:white;
+  padding:10px 18px;
+  border-radius:9px;
+  font-weight:700;
+  text-decoration:none;
+}
+footer {
+  background:#333;
+  color:white;
+  text-align:center;
+  padding:20px;
+  font-size:.9rem;
+}
+.notice { font-size:.82rem; color:#666; }
+.toast {
+  position:fixed;
+  z-index:1200;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#333;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:10px;
+  display:none;
+  max-width:calc(100% - 32px);
+  text-align:center;
+}
+.toast.show { display:block; }
+
+/* FINESTRE MODALI */
+.modal-backdrop {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:900;
+  padding:18px;
+  align-items:center;
+  justify-content:center;
+  background:#0008;
+}
+.modal-backdrop.open { display:flex; }
+.modal {
+  width:min(100%,460px);
+  max-height:90vh;
+  overflow-y:auto;
+  background:white;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 15px 45px #0004;
+}
+.modal h2 { margin:0 0 8px; font-size:1.65rem; }
+.modal p { line-height:1.5; }
+.modal label { display:block; font-weight:700; margin:14px 0 6px; }
+.modal input[type=file] {
+  width:100%;
+  border:1px dashed #9d83b4;
+  border-radius:9px;
+  padding:10px;
+  background:#fbf8ff;
+}
+.modal textarea {
+  width:100%;
+  min-height:100px;
+  padding:10px;
+  border:1px solid #aaa;
+  border-radius:9px;
+  resize:vertical;
+}
+.or-divider { text-align:center; color:#777; margin:12px 0; font-weight:700; }
+.modal-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:20px; }
+.modal-actions button {
+  padding:10px 18px;
+  border-radius:9px;
+  border:1px solid #8e6aab;
+  font-weight:700;
+}
+.cancel-button { background:white; color:#614879; }
+.confirm-button { background:var(--purple); color:#432657; }
+.form-error { color:#a12828; min-height:1.2em; font-size:.88rem; }
+.lightbox {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:#000e;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.lightbox.open { display:flex; }
+.lightbox img { max-width:92vw; max-height:88vh; object-fit:contain; }
+.lightbox-close {
+  position:absolute;
+  top:18px;
+  right:24px;
+  color:white;
+  background:transparent;
+  border:0;
+  font-size:2.3rem;
+}
+
+@media(max-width:1050px) {
+  .custom-grid,.ready-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+}
+@media(max-width:680px) {
+  .site-header { position:relative; padding:84px 12px 12px; justify-content:center; }
+  .logo-link { left:12px; width:76px; height:76px; }
+  .main-logo { width:76px; height:76px; }
+  .header-actions { gap:7px; flex-wrap:wrap; justify-content:center; }
+  .header-button,.lang-switcher { padding:9px 11px; font-size:.8rem; }
+  main { padding:22px 14px 0; }
+  .custom-grid,.ready-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+  .custom-card { border-radius:26px; padding:12px 9px; }
+  .custom-card h3 { font-size:1.08rem; }
+  .price-options label { font-size:.8rem; }
+  .quantity-row { flex-wrap:wrap; }
+  .ready-grid { padding:0; }
+}
+@media(max-width:390px) {
+  .custom-grid,.ready-grid { grid-template-columns:1fr; }
+  .custom-card,.ready-card { max-width:380px; width:100%; margin:0 auto; }
+}
+</style>
 </head>
+
 <body>
-  <header class="site-header">
-    <a href="../index.html" class="logo-link" aria-label="FedePictures - Home">
-      <img src="../FedePictures_logo.png" alt="Logo FedePictures" class="main-logo">
+<header class="site-header">
+  <a href="../index.html" class="logo-link" aria-label="FedePictures - Home">
+    <img src="../FedePictures_logo.png" alt="Logo FedePictures" class="main-logo">
+  </a>
+
+  <nav class="header-actions" aria-label="Navigazione principale">
+    <a class="header-button" href="carrello.html">
+      <span id="cart-label">CARRELLO</span>
+      <span class="cart-count" id="cart-count">0</span>
     </a>
-    <nav class="header-actions" aria-label="Navigazione principale">
-      <a class="header-button cart-link" href="carrello.html"><span id="cart-label">CARRELLO</span><span class="cart-count" id="cart-count">0</span></a>
-      <div class="dropdown">
-        <button class="header-button" id="explore-button" type="button" aria-expanded="false">ESPLORA ▼</button>
-        <div class="dropdown-content" id="explore-menu">
-          <a href="../index.html" id="menu-home">Home</a>
-          <a href="../ritratti.html" id="menu-portraits">Ritratti</a>
-          <a href="../disegni-digitali.html" id="menu-digital">Disegni al PC</a>
-          <a href="../murales.html" id="menu-wall">Disegni sui muri</a>
-          <a href="../segnalibri.html" id="menu-bookmarks">Segnalibri</a>
-          <a href="../palline.html" id="menu-balls">Palline di Natale</a>
-          <a href="../magliette.html" id="menu-shirts">Magliette e accessori</a>
-          <a href="../contatti.html" id="menu-contact">Contattami</a>
-        </div>
+
+    <div class="dropdown">
+      <button class="header-button" id="explore-button" type="button" aria-expanded="false">ESPLORA ▼</button>
+      <div class="dropdown-content" id="explore-menu">
+        <a href="../index.html" data-translation="home">Home</a>
+        <a href="../ritratti.html" data-translation="portraits">Ritratti</a>
+        <a href="../disegni-digitali.html" data-translation="digital">Disegni al PC</a>
+        <a href="../murales.html" data-translation="wall">Disegni sui muri</a>
+        <a href="../segnalibri.html" data-translation="bookmarks">Segnalibri</a>
+        <a href="../palline.html" data-translation="balls">Palline di Natale</a>
+        <a href="../magliette.html" data-translation="shirts">Magliette e accessori</a>
+        <a href="../contatti.html" data-translation="contact">Contattami</a>
       </div>
-      <button class="lang-switcher" id="language-button" type="button">EN</button>
-    </nav>
-  </header>
-
-  <main>
-    <section class="intro">
-      <h1 id="page-title">Shop FedePictures</h1>
-      <p id="page-intro">Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.</p>
-    </section>
-
-    <section aria-labelledby="custom-heading">
-      <h2 class="section-heading" id="custom-heading">Ordina il tuo prodotto personalizzato</h2>
-      <div class="custom-grid">
-        <article class="custom-card" data-kind="bookmark">
-          <h3 id="bookmark-title">Segnalibro</h3>
-          <div class="product-symbol" aria-hidden="true">
-            <svg viewBox="0 0 70 55"><path d="M13 5 Q10 3 9 10 L7 48 Q17 43 24 50 L25 8 Q21 3 13 5Z"/><path d="M49 7 Q52 2 56 7 L64 45 Q56 42 49 51 L43 13 Q44 8 49 7Z"/></svg>
-          </div>
-          <div class="price-options">
-            <label><input type="radio" name="bookmark-size" value="piccolo" data-price="5"> <span id="bookmark-small">Piccolo 11 cm – 5 €</span></label>
-            <label><input type="radio" name="bookmark-size" value="grande" data-price="10"> <span id="bookmark-large">Grande 20 cm – 10 €</span></label>
-          </div>
-          <p class="card-description" id="bookmark-description">Che frase o nome vuoi che scriva sul retro?</p>
-          <input class="back-text-input" id="bookmark-back-text" type="text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro del segnalibro">
-          <button class="customize-button" type="button" data-customize="bookmark" id="bookmark-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
-          <p class="custom-state" id="bookmark-state" aria-live="polite"></p>
-          <div class="quantity-row">
-            <label for="bookmark-qty" class="quantity-label">N°</label><input id="bookmark-qty" type="number" min="0" step="1" value="0" inputmode="numeric">
-            <span class="add-label" id="bookmark-add-label">Aggiungi al carrello</span>
-            <button class="cart-icon-button custom-add" type="button" data-add-custom="bookmark" aria-label="Aggiungi segnalibro al carrello" disabled></button>
-          </div>
-        </article>
-
-        <article class="custom-card" data-kind="bauble">
-          <h3 id="bauble-title">Pallina</h3>
-          <div class="product-symbol" aria-hidden="true">
-            <svg viewBox="0 0 70 55"><path d="M31 12 L31 6 L39 6 L39 12"/><path d="M35 12 C23 12 13 22 13 33 C13 45 23 50 35 50 C47 50 57 45 57 33 C57 22 47 12 35 12Z"/><path d="M29 11 Q35 15 41 11"/></svg>
-          </div>
-          <div class="price-options">
-            <label><input type="radio" name="bauble-size" value="plastica" data-price="6"> <span id="bauble-small">Plastica 8 cm – 6 €</span></label>
-            <label><input type="radio" name="bauble-size" value="vetro" data-price="8"> <span id="bauble-large">Vetro 8 cm – 8 €</span></label>
-          </div>
-          <p class="card-description" id="bauble-description">Che frase o nome vuoi che scriva sul retro?</p>
-          <input class="back-text-input" id="bauble-back-text" type="text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro della pallina">
-          <button class="customize-button" type="button" data-customize="bauble" id="bauble-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
-          <p class="custom-state" id="bauble-state" aria-live="polite"></p>
-          <div class="quantity-row">
-            <label for="bauble-qty" class="quantity-label">N°</label><input id="bauble-qty" type="number" min="0" step="1" value="0" inputmode="numeric">
-            <span class="add-label" id="bauble-add-label">Aggiungi al carrello</span>
-            <button class="cart-icon-button custom-add" type="button" data-add-custom="bauble" aria-label="Aggiungi pallina al carrello" disabled></button>
-          </div>
-        </article>
-
-        <article class="custom-card" data-kind="shirt">
-          <h3 id="shirt-title">Maglietta</h3>
-          <div class="product-symbol" aria-hidden="true">
-            <svg viewBox="0 0 70 55"><path d="M23 10 L31 5 Q35 10 39 5 L47 10 L62 19 L53 29 L46 24 L46 51 L24 51 L24 24 L17 29 L8 19Z"/></svg>
-          </div>
-          <div class="size-field">
-            <label for="shirt-size" id="shirt-size-label">Che taglia?</label>
-            <input id="shirt-size" type="text" placeholder="Es. M, L, XL">
-          </div>
-          <p class="card-description" id="shirt-description">Tutte le magliette sono realizzate solo su una base di colore bianco.</p>
-          <button class="customize-button" type="button" data-customize="shirt" id="shirt-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
-          <p class="custom-state" id="shirt-state" aria-live="polite"></p>
-          <div class="quantity-row">
-            <label for="shirt-qty" class="quantity-label">N°</label><input id="shirt-qty" type="number" min="0" step="1" value="0" inputmode="numeric">
-            <span class="add-label" id="shirt-add-label">Aggiungi al carrello</span>
-            <button class="cart-icon-button custom-add" type="button" data-add-custom="shirt" aria-label="Aggiungi maglietta al carrello" disabled></button>
-          </div>
-        </article>
-
-        <article class="custom-card" data-kind="mini-canvas">
-          <h3 id="canvas-title">Mini tela</h3>
-          <div class="product-symbol" aria-hidden="true">
-            <svg viewBox="0 0 70 55"><path d="M17 8 L50 5 L55 35 L21 39Z"/><path d="M23 12 L48 10 L51 32 L25 34Z"/><path d="M27 39 L26 51 L20 54 M45 37 L48 51 L55 54 M30 46 L44 45"/></svg>
-          </div>
-          <p class="card-description" id="canvas-description">Mini tela di dimensioni 7 × 7 cm, con cavalletto in legno. Ideale come idea regalo o bomboniera originale. Prezzo: 8 €.</p>
-          <button class="customize-button" type="button" data-customize="mini-canvas" id="canvas-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
-          <p class="custom-state" id="mini-canvas-state" aria-live="polite"></p>
-          <div class="quantity-row">
-            <label for="mini-canvas-qty" class="quantity-label">N°</label><input id="mini-canvas-qty" type="number" min="0" step="1" value="0" inputmode="numeric">
-            <span class="add-label" id="mini-canvas-add-label">Aggiungi al carrello</span>
-            <button class="cart-icon-button custom-add" type="button" data-add-custom="mini-canvas" aria-label="Aggiungi mini tela al carrello" disabled></button>
-          </div>
-        </article>
-
-        <article class="custom-card other-card">
-          <h3 id="other-title">Altre creazioni</h3>
-          <div class="product-symbol" aria-hidden="true"></div>
-          <p class="card-description" id="other-description" style="text-align:center;margin-top:20px">Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.</p>
-          <a class="customize-button" id="contact-button" href="../contatti.html" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;text-decoration:none;color:inherit;min-height:42px;margin-top:auto">CONTATTAMI</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="ready-section" aria-labelledby="ready-heading">
-      <h2 class="section-heading" id="ready-heading">Prodotti in pronta consegna</h2>
-      <div class="ready-grid" id="ready-grid"></div>
-      <p class="notice" id="ready-note">Le fotografie e i dettagli dei prodotti disponibili si possono aggiornare modificando l'elenco dei prodotti nel codice della pagina.</p>
-    </section>
-  </main>
-
-  <section class="contact-band">
-    <h2 id="contact-heading">Hai un'idea speciale?</h2>
-    <p id="contact-copy">Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.</p>
-    <a href="../contatti.html" target="_blank" rel="noopener" id="contact-cta">Vai ai contatti</a>
-  </section>
-  <footer><p>&copy; 2026 FedePictures • P. IVA 04962510618.</p></footer>
-
-  <div class="modal-backdrop" id="custom-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal">
-      <h2 id="modal-title">Personalizza il tuo prodotto</h2>
-      <p id="modal-instructions">Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.</p>
-      <form id="custom-form">
-        <label for="reference-file" id="upload-label">Carica un'immagine (un solo file)</label>
-        <input type="file" id="reference-file" accept="image/*">
-        <p class="notice" id="upload-note">Immagine consentita: JPG, PNG, WEBP o altro formato immagine. Massimo 3 MB in questa versione.</p>
-        <p class="notice" id="existing-custom-note" aria-live="polite"></p>
-        <div class="or-divider" id="or-label">— oppure —</div>
-        <label for="reference-theme" id="theme-label">Scrivi il tema</label>
-        <textarea id="reference-theme" maxlength="600" placeholder="Es. un gatto nello spazio, stile kawaii..."></textarea>
-        <p class="form-error" id="modal-error" aria-live="polite"></p>
-        <div class="modal-actions">
-          <button class="cancel-button" type="button" id="cancel-custom">Annulla</button>
-          <button class="confirm-button" type="submit" id="confirm-custom">Conferma</button>
-        </div>
-      </form>
     </div>
-  </div>
 
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Immagine ingrandita">
-    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Chiudi">×</button>
-    <img id="lightbox-image" src="" alt="">
+    <button class="lang-switcher" id="language-button" type="button">EN</button>
+  </nav>
+</header>
+
+<main>
+  <section class="intro">
+    <h1 id="page-title">Shop FedePictures</h1>
+    <p id="page-intro">Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.</p>
+  </section>
+
+  <section aria-labelledby="custom-heading">
+    <h2 class="section-heading" id="custom-heading">Ordina il tuo prodotto personalizzato</h2>
+
+    <div class="custom-grid">
+      <article class="custom-card" data-kind="bookmark">
+        <h3 id="bookmark-title">Segnalibro</h3>
+        <div class="product-symbol" aria-hidden="true">
+          <svg viewBox="0 0 70 55"><path d="M13 5 Q10 3 9 10 L7 48 Q17 43 24 50 L25 8 Q21 3 13 5Z"/><path d="M49 7 Q52 2 56 7 L64 45 Q56 42 49 51 L43 13 Q44 8 49 7Z"/></svg>
+        </div>
+        <div class="price-options">
+          <label><input type="radio" name="bookmark-size" value="piccolo" data-price="5"><span id="bookmark-small">Piccolo 11 cm – 5 €</span></label>
+          <label><input type="radio" name="bookmark-size" value="grande" data-price="10"><span id="bookmark-large">Grande 20 cm – 10 €</span></label>
+        </div>
+        <p class="card-description" id="bookmark-description">Che frase o nome vuoi che scriva sul retro?</p>
+        <input class="back-text-input" id="bookmark-back-text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro del segnalibro">
+        <button class="customize-button" type="button" data-customize="bookmark" id="bookmark-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="bookmark-state" aria-live="polite"></p>
+        <div class="quantity-row">
+          <label for="bookmark-qty" class="quantity-label">N°</label>
+          <input id="bookmark-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label" id="bookmark-add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button custom-add" type="button" data-add-custom="bookmark" disabled aria-label="Aggiungi segnalibro al carrello"></button>
+        </div>
+      </article>
+
+      <article class="custom-card" data-kind="bauble">
+        <h3 id="bauble-title">Pallina</h3>
+        <div class="product-symbol" aria-hidden="true">
+          <svg viewBox="0 0 70 55"><path d="M31 12 L31 6 L39 6 L39 12"/><path d="M35 12 C23 12 13 22 13 33 C13 45 23 50 35 50 C47 50 57 45 57 33 C57 22 47 12 35 12Z"/></svg>
+        </div>
+        <div class="price-options">
+          <label><input type="radio" name="bauble-size" value="plastica" data-price="6"><span id="bauble-small">Plastica 8 cm – 6 €</span></label>
+          <label><input type="radio" name="bauble-size" value="vetro" data-price="8"><span id="bauble-large">Vetro 8 cm – 8 €</span></label>
+        </div>
+        <p class="card-description" id="bauble-description">Che frase o nome vuoi che scriva sul retro?</p>
+        <input class="back-text-input" id="bauble-back-text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro della pallina">
+        <button class="customize-button" type="button" data-customize="bauble" id="bauble-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="bauble-state" aria-live="polite"></p>
+        <div class="quantity-row">
+          <label for="bauble-qty" class="quantity-label">N°</label>
+          <input id="bauble-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label" id="bauble-add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button custom-add" type="button" data-add-custom="bauble" disabled aria-label="Aggiungi pallina al carrello"></button>
+        </div>
+      </article>
+
+      <article class="custom-card" data-kind="shirt">
+        <h3 id="shirt-title">Maglietta</h3>
+        <div class="product-symbol" aria-hidden="true">
+          <svg viewBox="0 0 70 55"><path d="M23 10 L31 5 Q35 10 39 5 L47 10 L62 19 L53 29 L46 24 L46 51 L24 51 L24 24 L17 29 L8 19Z"/></svg>
+        </div>
+        <div class="size-field">
+          <label for="shirt-size" id="shirt-size-label">Che taglia?</label>
+          <input id="shirt-size" type="text" placeholder="Es. M, L, XL">
+        </div>
+        <p class="card-description" id="shirt-description">Tutte le magliette sono realizzate solo su una base di colore bianco.</p>
+        <button class="customize-button" type="button" data-customize="shirt" id="shirt-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="shirt-state" aria-live="polite"></p>
+        <div class="quantity-row">
+          <label for="shirt-qty" class="quantity-label">N°</label>
+          <input id="shirt-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label" id="shirt-add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button custom-add" type="button" data-add-custom="shirt" disabled aria-label="Aggiungi maglietta al carrello"></button>
+        </div>
+      </article>
+
+      <article class="custom-card" data-kind="mini-canvas">
+        <h3 id="canvas-title">Mini tela</h3>
+        <div class="product-symbol" aria-hidden="true">
+          <svg viewBox="0 0 70 55"><path d="M17 8 L50 5 L55 35 L21 39Z"/><path d="M23 12 L48 10 L51 32 L25 34Z"/><path d="M27 39 L26 51 L20 54 M45 37 L48 51 L55 54 M30 46 L44 45"/></svg>
+        </div>
+        <p class="card-description" id="canvas-description">Mini tela di dimensioni 7 × 7 cm, con cavalletto in legno. Ideale come idea regalo o bomboniera originale. Prezzo: 8 €.</p>
+        <button class="customize-button" type="button" data-customize="mini-canvas" id="canvas-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="mini-canvas-state" aria-live="polite"></p>
+        <div class="quantity-row">
+          <label for="mini-canvas-qty" class="quantity-label">N°</label>
+          <input id="mini-canvas-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label" id="mini-canvas-add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button custom-add" type="button" data-add-custom="mini-canvas" disabled aria-label="Aggiungi mini tela al carrello"></button>
+        </div>
+      </article>
+
+      <article class="custom-card other-card">
+        <h3 id="other-title">Altre creazioni</h3>
+        <div class="product-symbol"></div>
+        <p class="card-description" id="other-description" style="text-align:center;margin-top:20px">Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.</p>
+        <a class="customize-button" id="contact-button" href="../contatti.html" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;margin-top:auto">CONTATTAMI</a>
+      </article>
+    </div>
+
+    <div class="custom-gradient-band" aria-hidden="true"></div>
+  </section>
+
+  <section class="ready-section" aria-labelledby="ready-heading">
+    <h2 class="section-heading" id="ready-heading">Prodotti in pronta consegna</h2>
+    <div class="ready-grid" id="ready-grid"></div>
+    <p class="notice" id="ready-note">I prodotti disponibili sono acquistabili direttamente dal carrello.</p>
+  </section>
+</main>
+
+<section class="contact-band">
+  <h2 id="contact-heading">Hai un'idea speciale?</h2>
+  <p id="contact-copy">Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.</p>
+  <a href="../contatti.html" target="_blank" rel="noopener" id="contact-cta">Vai ai contatti</a>
+</section>
+<footer><p>&copy; 2026 FedePictures</p></footer>
+
+<!-- FINESTRA DI PERSONALIZZAZIONE -->
+<div class="modal-backdrop" id="custom-modal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h2 id="modal-title">Personalizza il tuo prodotto</h2>
+    <p id="modal-instructions">Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.</p>
+    <form id="custom-form">
+      <label for="reference-file" id="upload-label">Carica un'immagine (un solo file)</label>
+      <input type="file" id="reference-file" accept="image/*">
+      <p class="notice" id="upload-note">Immagine consentita, massimo 3 MB.</p>
+      <p class="notice" id="existing-custom-note" aria-live="polite"></p>
+      <div class="or-divider" id="or-label">— oppure —</div>
+      <label for="reference-theme" id="theme-label">Scrivi il tema</label>
+      <textarea id="reference-theme" maxlength="600" placeholder="Es. un gatto nello spazio, stile kawaii..."></textarea>
+      <p class="form-error" id="modal-error" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="cancel-button" type="button" id="cancel-custom">Annulla</button>
+        <button class="confirm-button" type="submit" id="confirm-custom">Conferma</button>
+      </div>
+    </form>
   </div>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<!-- IMMAGINE INGRANDITA -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Chiudi">×</button>
+  <img id="lightbox-image" src="" alt="">
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const CART_KEY = 'fedepictures_shop_cart_v1';
+const MAX_FILE_BYTES = 3 * 1024 * 1024;
+const $ = id => document.getElementById(id);
+
+const readyProducts = [
+  {id:'segnalibro-piccprinc',image:'images/pronta-consegna/segnalibro_piccprinc.jpg',description:{it:'Segnalibro piccolo – Il Piccolo Principe',en:'Small bookmark – The Little Prince'},price:5},
+  {id:'segnalibro-alice',image:'images/pronta-consegna/segnalibro_alice.jpg',description:{it:'Segnalibro piccolo – Alice nel Paese delle Meraviglie',en:'Small bookmark – Alice in Wonderland'},price:5},
+  {id:'segnalibro-belle',image:'images/pronta-consegna/segnalibro_belle.jpg',description:{it:'Segnalibro piccolo – Belle',en:'Small bookmark – Belle'},price:5},
+  {id:'segnalibro-creamy',image:'images/pronta-consegna/segnalibro_Creamy.jpg',description:{it:'Segnalibro piccolo – Creamy',en:'Small bookmark – Creamy'},price:5},
+  {id:'segnalibro-cuorrossi',image:'images/pronta-consegna/segnalibro_cuorrossi.jpg',description:{it:'Segnalibro piccolo – Cuori rossi',en:'Small bookmark – Red hearts'},price:5},
+  {id:'segnalibro-cuoriviola',image:'images/pronta-consegna/segnalibro_cuoriviola.jpg',description:{it:'Segnalibro piccolo – Cuori viola',en:'Small bookmark – Purple hearts'},price:5},
+  {id:'segnalibro-fioreviolaegiallo',image:'images/pronta-consegna/segnalibro_fioreviolaegiallo.jpg',description:{it:'Segnalibro piccolo – Fiori viola e gialli',en:'Small bookmark – Purple and yellow flowers'},price:5},
+  {id:'segnalibro-fioreviolarosa',image:'images/pronta-consegna/segnalibro_fioreviolarosa.jpg',description:{it:'Segnalibro piccolo – Fiori rosa e viola',en:'Small bookmark – Pink and purple flowers'},price:5},
+  {id:'segnalibro-foglieargento',image:'images/pronta-consegna/segnalibro_foglieargento.jpg',description:{it:'Segnalibro piccolo – Foglie argentate',en:'Small bookmark – Silver leaves'},price:5},
+  {id:'segnalibro-hobbit',image:'images/pronta-consegna/segnalibro_hobbit.jpg',description:{it:'Segnalibro piccolo – Lo Hobbit',en:'Small bookmark – The Hobbit'},price:5},
+  {id:'segnalibro-hp',image:'images/pronta-consegna/segnalibro_hp.jpg',description:{it:'Segnalibro piccolo – Harry Potter',en:'Small bookmark – Harry Potter'},price:5},
+  {id:'segnalibro-hp1',image:'images/pronta-consegna/segnalibro_hp1.jpg',description:{it:'Segnalibro piccolo – Harry Potter',en:'Small bookmark – Harry Potter'},price:5},
+  {id:'segnalibro-jacksk',image:'images/pronta-consegna/segnalibro_jacksk.jpg',description:{it:'Segnalibro piccolo – Nightmare Before Christmas',en:'Small bookmark – Nightmare Before Christmas'},price:5},
+  {id:'segnalibro-luffy',image:'images/pronta-consegna/segnalibro_Luffy.jpg',description:{it:'Segnalibro piccolo – Luffy',en:'Small bookmark – Luffy'},price:5},
+  {id:'segnalibro-mare',image:'images/pronta-consegna/segnalibro_mare.jpg',description:{it:'Segnalibro piccolo – Tema mare',en:'Small bookmark – Sea theme'},price:5},
+  {id:'segnalibro-natalebiscotto',image:'images/pronta-consegna/segnalibro_natale_biscotto.jpg',description:{it:'Segnalibro piccolo – Natale, biscotto',en:'Small bookmark – Christmas gingerbread'},price:5},
+  {id:'segnalibro-nataleorso',image:'images/pronta-consegna/segnalibro_natale_orso.jpg',description:{it:'Segnalibro piccolo – Natale, orso',en:'Small bookmark – Christmas bear'},price:5},
+  {id:'segnalibro-nataletazza',image:'images/pronta-consegna/segnalibro_natale_tazza.jpg',description:{it:'Segnalibro piccolo – Natale, tazza',en:'Small bookmark – Christmas mug'},price:5},
+  {id:'segnalibro-rapunzelpascal',image:'images/pronta-consegna/segnalibro_rapunzelpascal.jpg',description:{it:'Segnalibro piccolo – Rapunzel e Pascal',en:'Small bookmark – Rapunzel and Pascal'},price:5},
+  {id:'segnalibro-signorinacaffe',image:'images/pronta-consegna/segnalibro_signorinacaffe.jpg',description:{it:'Segnalibro piccolo – Signorina Caffè',en:'Small bookmark – Miss Coffee'},price:5}
+];
+
+const customProducts = {
+  bookmark:{name:{it:'Segnalibro personalizzato',en:'Custom bookmark'},qtyId:'bookmark-qty',stateId:'bookmark-state',requiresSize:true},
+  bauble:{name:{it:'Pallina personalizzata',en:'Custom Christmas bauble'},qtyId:'bauble-qty',stateId:'bauble-state',requiresSize:true},
+  shirt:{name:{it:'Maglietta personalizzata',en:'Custom T-shirt'},qtyId:'shirt-qty',stateId:'shirt-state',requiresSize:false},
+  'mini-canvas':{name:{it:'Mini tela personalizzata con cavalletto',en:'Custom mini canvas with easel'},qtyId:'mini-canvas-qty',stateId:'mini-canvas-state',requiresSize:false}
+};
+
+const translations = {
+  it:{
+    cart:'CARRELLO',explore:'ESPLORA ▼',home:'Home',portraits:'Ritratti',digital:'Disegni al PC',wall:'Disegni sui muri',bookmarks:'Segnalibri',balls:'Palline di Natale',shirts:'Magliette e accessori',contact:'Contattami',
+    title:'Shop FedePictures',intro:'Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.',customHeading:'Ordina il tuo prodotto personalizzato',readyHeading:'Prodotti in pronta consegna',
+    bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 8 cm – 6 €',baubleLarge:'Vetro 8 cm – 8 €',
+    bookmarkDesc:'Che frase o nome vuoi che scriva sul retro?',baubleDesc:'Che frase o nome vuoi che scriva sul retro?',backTextPlaceholder:'Scrivi...',shirtSize:'Che taglia?',shirtPlaceholder:'Es. M, L, XL',
+    shirtDesc:'Tutte le magliette sono realizzate solo su una base di colore bianco.',canvasDesc:'Mini tela di dimensioni 7 × 7 cm, con cavalletto in legno. Ideale come idea regalo o bomboniera originale. Prezzo: 8 €.',
+    otherDesc:'Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.',customize:'CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE',contactButton:'CONTATTAMI',add:'Aggiungi al carrello',quantityLabel:'N°',
+    contactHeading:'Hai un’idea speciale?',contactCopy:'Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.',contactCta:'Vai ai contatti',
+    modalTitle:'Personalizza il tuo prodotto',modalInstructions:'Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.',upload:'Carica un’immagine (un solo file)',uploadNote:'Immagine consentita, massimo 3 MB.',
+    or:'— oppure —',theme:'Scrivi il tema',themePlaceholder:'Es. un gatto nello spazio, stile kawaii...',cancel:'Annulla',confirm:'Conferma',
+    needOne:'Carica un’immagine oppure scrivi un tema, non entrambi.',fileLarge:'Il file supera il limite di 3 MB.',fileType:'Il file deve essere un’immagine.',savedImage:'Immagine salvata',savedTheme:'Tema salvato: ',
+    customizeFirst:'Prima carica un’immagine o scrivi e conferma il tema.',quantity:'Inserisci una quantità maggiore di zero.',chooseSize:'Scegli una dimensione.',shirtSizeRequired:'Inserisci la taglia della maglietta.',
+    added:'Prodotto aggiunto al carrello in questo browser.',photoAlt:'Foto del prodotto',addLabel:'Aggiungi al carrello',priceMissing:'Prezzo non impostato.'
+  },
+  en:{
+    cart:'CART',explore:'EXPLORE ▼',home:'Home',portraits:'Portraits',digital:'Digital drawings',wall:'Wall art',bookmarks:'Bookmarks',balls:'Christmas baubles',shirts:'T-shirts & accessories',contact:'Contact me',
+    title:'FedePictures Shop',intro:'Handmade creations, ready-to-gift products and personalized ideas made for you.',customHeading:'Order your personalized product',readyHeading:'Ready-to-ship products',
+    bookmark:'Bookmark',bauble:'Christmas bauble',shirt:'T-shirt',canvas:'Mini canvas',other:'Other creations',bookmarkSmall:'Small 11 cm – €5',bookmarkLarge:'Large 20 cm – €10',baubleSmall:'Plastic 8 cm – €6',baubleLarge:'Glass 8 cm – €8',
+    bookmarkDesc:'What phrase or name would you like on the back?',baubleDesc:'What phrase or name would you like on the back?',backTextPlaceholder:'Write here...',shirtSize:'What size?',shirtPlaceholder:'E.g. M, L, XL',
+    shirtDesc:'All T-shirts are made on a white base only.',canvasDesc:'7 × 7 cm mini canvas with a wooden easel. Ideal as a gift or a unique party favour. Price: €8.',
+    otherDesc:'For all other creations, contact me and I’ll help bring your idea to life.',customize:'UPLOAD AN IMAGE OR WRITE A THEME; I CAN CHOOSE FOR YOU',contactButton:'CONTACT ME',add:'Add to cart',quantityLabel:'Qty',
+    contactHeading:'Have a special idea?',contactCopy:'For special requests or custom creations, tell me what you have in mind.',contactCta:'Contact me',
+    modalTitle:'Personalize your product',modalInstructions:'Upload one image or write the theme you would like. Fill in only one of the two options.',upload:'Upload one image file',uploadNote:'Image files only, maximum 3 MB.',
+    or:'— or —',theme:'Write the theme',themePlaceholder:'E.g. a cat in space, kawaii style...',cancel:'Cancel',confirm:'Confirm',
+    needOne:'Upload an image or write a theme, not both.',fileLarge:'The file is over 3 MB.',fileType:'The selected file must be an image.',savedImage:'Image saved',savedTheme:'Theme saved: ',
+    customizeFirst:'Upload an image or write and confirm a theme first.',quantity:'Enter a quantity greater than zero.',chooseSize:'Choose a size.',shirtSizeRequired:'Enter the T-shirt size.',
+    added:'Product added to the cart in this browser.',photoAlt:'Product photo',addLabel:'Add to cart',priceMissing:'Price not set.'
+  }
+};
+
+let currentLang='it';
+let activeKind=null;
+let pendingFileData=null;
+let fileReadPromise=null;
+let savedCustomizations={};
+
+try {
+  currentLang=localStorage.getItem('fedepictures_shop_language')||'it';
+} catch(e) {}
+if(!translations[currentLang]) currentLang='it';
+
+function t(key){return translations[currentLang][key]||key;}
+
+function cartRead(){
+  try{return JSON.parse(localStorage.getItem(CART_KEY)||'[]');}
+  catch(e){return [];}
+}
+function cartWrite(cart){
+  try{
+    localStorage.setItem(CART_KEY,JSON.stringify(cart));
+    updateCartCount();
+    return true;
+  }catch(e){
+    showToast(currentLang==='it'?'Spazio del browser insufficiente. Prova un’immagine più piccola.':'Browser storage is full. Try a smaller image.');
+    return false;
+  }
+}
+function updateCartCount(){
+  const count=cartRead().reduce((sum,item)=>sum+(Number(item.quantity)||0),0);
+  $('cart-count').textContent=count;
+}
+function showToast(message){
+  const toast=$('toast');
+  toast.textContent=message;
+  toast.classList.add('show');
+  clearTimeout(showToast.timer);
+  showToast.timer=setTimeout(()=>toast.classList.remove('show'),3500);
+}
+function cartIconSvg(){
+  return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 11.2a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 8H6"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>';
+}
+document.querySelectorAll('.cart-icon-button').forEach(b=>b.innerHTML=cartIconSvg());
+
+function selectedSize(kind){
+  const radio=document.querySelector('input[name="'+kind+'-size"]:checked');
+  return radio?{value:radio.value,price:Number(radio.dataset.price)}:null;
+}
+function customizationReady(kind){
+  const custom=savedCustomizations[kind];
+  return !!(custom&&((custom.theme&&custom.theme.trim())||(custom.fileData&&custom.fileData.startsWith('data:image/'))));
+}
+function productPrice(kind){
+  if(kind==='bookmark'||kind==='bauble'){
+    const size=selectedSize(kind);
+    return size?size.price:null;
+  }
+  if(kind==='mini-canvas')return 8;
+  return null;
+}
+function updateCustomButton(kind){
+  const product=customProducts[kind];
+  if(!product)return;
+  const card=document.querySelector('[data-kind="'+kind+'"]');
+  const button=card.querySelector('[data-add-custom="'+kind+'"]');
+  const raw=$(product.qtyId).value.trim();
+  const quantity=raw===''?0:Number(raw);
+  const quantityReady=Number.isSafeInteger(quantity)&&quantity>=1;
+  const sizeReady=!product.requiresSize||!!selectedSize(kind);
+  const shirtReady=kind!=='shirt'||$('shirt-size').value.trim().length>0;
+  button.disabled=!(customizationReady(kind)&&quantityReady&&sizeReady&&shirtReady);
+}
+Object.keys(customProducts).forEach(kind=>{
+  const product=customProducts[kind];
+  $(product.qtyId).addEventListener('input',()=>updateCustomButton(kind));
+  if(product.requiresSize){
+    document.querySelectorAll('input[name="'+kind+'-size"]').forEach(r=>r.addEventListener('change',()=>updateCustomButton(kind)));
+  }
+});
+$('shirt-size').addEventListener('input',()=>updateCustomButton('shirt'));
+
+document.querySelectorAll('[data-customize]').forEach(button=>{
+  button.addEventListener('click',()=>openCustomization(button.dataset.customize));
+});
+
+function openCustomization(kind){
+  activeKind=kind;
+  pendingFileData=null;
+  fileReadPromise=null;
+  $('custom-form').reset();
+  $('modal-error').textContent='';
+  $('existing-custom-note').textContent='';
+  $('modal-title').textContent=t('modalTitle')+': '+customProducts[kind].name[currentLang];
+
+  const existing=savedCustomizations[kind];
+  if(existing){
+    if(existing.theme){
+      $('reference-theme').value=existing.theme;
+      $('existing-custom-note').textContent=currentLang==='it'?'Tema già salvato. Puoi modificarlo oppure confermare di nuovo.':'Theme saved. You can edit it or confirm again.';
+    }else if(existing.fileName){
+      $('existing-custom-note').textContent=(currentLang==='it'?'Immagine già salvata: ':'Image already saved: ')+existing.fileName;
+    }
+  }
+  $('custom-modal').classList.add('open');
+}
+$('reference-file').addEventListener('change',()=>{
+  pendingFileData=null;
+  fileReadPromise=null;
+  const file=$('reference-file').files[0];
+  if(!file)return;
+  $('reference-theme').value='';
+  $('modal-error').textContent='';
+  if(!file.type.startsWith('image/')){
+    $('modal-error').textContent=t('fileType');
+    $('reference-file').value='';
+    return;
+  }
+  if(file.size>MAX_FILE_BYTES){
+    $('modal-error').textContent=t('fileLarge');
+    $('reference-file').value='';
+    return;
+  }
+  fileReadPromise=new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      pendingFileData={name:file.name,type:file.type,data:reader.result};
+      resolve(pendingFileData);
+    };
+    reader.onerror=()=>reject(new Error('Impossibile leggere il file'));
+    reader.readAsDataURL(file);
+  });
+});
+$('reference-theme').addEventListener('input',()=>{
+  if($('reference-theme').value.trim()){
+    $('reference-file').value='';
+    pendingFileData=null;
+    fileReadPromise=null;
+  }
+});
+$('cancel-custom').addEventListener('click',closeCustomization);
+function closeCustomization(){
+  $('custom-modal').classList.remove('open');
+  activeKind=null;
+  pendingFileData=null;
+  fileReadPromise=null;
+}
+$('custom-modal').addEventListener('click',e=>{
+  if(e.target===$('custom-modal'))closeCustomization();
+});
+
+$('custom-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const kind=activeKind;
+  if(!kind)return;
+  const file=$('reference-file').files[0];
+  const theme=$('reference-theme').value.trim();
+  const existing=savedCustomizations[kind];
+
+  if(file&&theme){
+    $('modal-error').textContent=t('needOne');
+    return;
+  }
+  if(file&&fileReadPromise&&!pendingFileData){
+    try{await fileReadPromise;}catch(err){
+      $('modal-error').textContent=currentLang==='it'?'Impossibile leggere l’immagine. Selezionala di nuovo.':'Unable to read the image. Please select it again.';
+      return;
+    }
+  }
+  if(file){
+    if(!pendingFileData||!pendingFileData.data.startsWith('data:image/')){
+      $('modal-error').textContent=t('fileType');
+      return;
+    }
+    savedCustomizations[kind]={fileName:pendingFileData.name,fileType:pendingFileData.type,fileData:pendingFileData.data,theme:''};
+  }else if(theme){
+    savedCustomizations[kind]={theme,fileName:'',fileType:'',fileData:''};
+  }else if(!existing){
+    $('modal-error').textContent=t('needOne');
+    return;
+  }
+
+  const custom=savedCustomizations[kind];
+  $(customProducts[kind].stateId).textContent=custom.fileData?t('savedImage')+': '+custom.fileName:t('savedTheme')+custom.theme;
+  closeCustomization();
+  updateCustomButton(kind);
+});
+
+document.querySelectorAll('[data-add-custom]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    const kind=button.dataset.addCustom;
+    const product=customProducts[kind];
+    if(!customizationReady(kind)){showToast(t('customizeFirst'));return;}
+    const quantity=Number($(product.qtyId).value);
+    if(!Number.isInteger(quantity)||quantity<1){showToast(t('quantity'));return;}
+    const size=selectedSize(kind);
+    if(product.requiresSize&&!size){showToast(t('chooseSize'));return;}
+    if(kind==='shirt'&&!$('shirt-size').value.trim()){showToast(t('shirtSizeRequired'));return;}
+
+    const custom=savedCustomizations[kind];
+    const cartItem={
+      id:'custom-'+kind+'-'+Date.now(),
+      type:'custom',
+      kind,
+      name:product.name[currentLang],
+      quantity,
+      unitPrice:productPrice(kind),
+      pricePending:productPrice(kind)===null,
+      size:size?size.value:'',
+      shirtSize:kind==='shirt' ? $('shirt-size').value.trim():'',
+      backText:(kind==='bookmark'||kind==='bauble')?$(kind+'-back-text').value.trim():'',
+      customization:{
+        theme:custom.theme||'',
+        fileName:custom.fileName||'',
+        fileType:custom.fileType||'',
+        fileData:custom.fileData||''
+      }
+    };
+    const cart=cartRead();
+    cart.push(cartItem);
+    if(cartWrite(cart)){
+      $(product.qtyId).value=0;
+      updateCustomButton(kind);
+      showToast(t('added'));
+    }
+  });
+});
+
+function renderReadyProducts(){
+  const grid=$('ready-grid');
+  grid.innerHTML='';
+  readyProducts.forEach(product=>{
+    const card=document.createElement('article');
+    card.className='ready-card';
+
+    const photo=document.createElement('button');
+    photo.type='button';
+    photo.className='ready-photo';
+    const img=document.createElement('img');
+    img.src=product.image;
+    img.alt=product.description[currentLang];
+    img.loading='lazy';
+    img.onerror=()=>{img.alt=currentLang==='it'?'Foto non trovata: controlla il nome del file':'Photo not found: check the filename';};
+    photo.appendChild(img);
+    photo.addEventListener('click',()=>openLightbox(product.image,img.alt));
+
+    const description=document.createElement('p');
+    description.className='ready-description';
+    description.textContent=product.description[currentLang];
+
+    const row=document.createElement('div');
+    row.className='ready-buy-row';
+    const price=document.createElement('span');
+    price.className='ready-price';
+    price.textContent=new Intl.NumberFormat(currentLang==='it'?'it-IT':'en-GB',{style:'currency',currency:'EUR'}).format(product.price);
+
+    const label=document.createElement('span');
+    label.className='add-label';
+    label.textContent=t('addLabel');
+
+    const add=document.createElement('button');
+    add.type='button';
+    add.className='cart-icon-button';
+    add.innerHTML=cartIconSvg();
+    add.setAttribute('aria-label',t('addLabel'));
+    add.addEventListener('click',()=>{
+      const cart=cartRead();
+      cart.push({id:product.id,type:'ready',name:product.description[currentLang],image:product.image,quantity:1,unitPrice:product.price});
+      if(cartWrite(cart))showToast(t('added'));
+    });
+
+    row.append(price,label,add);
+    card.append(photo,description,row);
+    grid.appendChild(card);
+  });
+}
+function openLightbox(src,alt){
+  $('lightbox-image').src=src;
+  $('lightbox-image').alt=alt;
+  $('lightbox').classList.add('open');
+}
+function closeLightbox(){
+  $('lightbox').classList.remove('open');
+  $('lightbox-image').src='';
+}
+$('lightbox').addEventListener('click',e=>{
+  if(e.target===$('lightbox')||e.target===$('lightbox-close'))closeLightbox();
+});
+$('lightbox-close').addEventListener('click',closeLightbox);
+
+$('explore-button').addEventListener('click',()=>{
+  const menu=$('explore-menu');
+  menu.classList.toggle('show');
+  $('explore-button').setAttribute('aria-expanded',menu.classList.contains('show')?'true':'false');
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.dropdown')){
+    $('explore-menu').classList.remove('show');
+    $('explore-button').setAttribute('aria-expanded','false');
+  }
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    closeLightbox();
+    closeCustomization();
+    $('explore-menu').classList.remove('show');
+  }
+});
+
+function applyLanguage(){
+  document.documentElement.lang=currentLang;
+  const map={
+    'cart-label':'cart','explore-button':'explore',
+    'page-title':'title','page-intro':'intro','custom-heading':'customHeading','ready-heading':'readyHeading',
+    'bookmark-title':'bookmark','bauble-title':'bauble','shirt-title':'shirt','canvas-title':'canvas','other-title':'other',
+    'bookmark-small':'bookmarkSmall','bookmark-large':'bookmarkLarge','bauble-small':'baubleSmall','bauble-large':'baubleLarge',
+    'bookmark-description':'bookmarkDesc','bauble-description':'baubleDesc','shirt-size-label':'shirtSize',
+    'shirt-description':'shirtDesc','canvas-description':'canvasDesc','other-description':'otherDesc',
+    'bookmark-customize':'customize','bauble-customize':'customize','shirt-customize':'customize','canvas-customize':'customize',
+    'bookmark-add-label':'add','bauble-add-label':'add','shirt-add-label':'add','mini-canvas-add-label':'add',
+    'contact-button':'contactButton','contact-heading':'contactHeading','contact-copy':'contactCopy','contact-cta':'contactCta',
+    'modal-title':'modalTitle','modal-instructions':'modalInstructions','upload-label':'upload','upload-note':'uploadNote',
+    'or-label':'or','theme-label':'theme','cancel-custom':'cancel','confirm-custom':'confirm'
+  };
+  Object.entries(map).forEach(([id,key])=>{
+    const el=$(id);
+    if(el)el.textContent=t(key);
+  });
+  document.querySelectorAll('[data-translation]').forEach(el=>{
+    el.textContent=t(el.dataset.translation);
+  });
+  $('reference-theme').placeholder=t('themePlaceholder');
+  $('shirt-size').placeholder=t('shirtPlaceholder');
+  document.querySelectorAll('.back-text-input').forEach(input=>{
+    input.placeholder=t('backTextPlaceholder');
+    input.setAttribute('aria-label',currentLang==='it'?'Frase o nome da scrivere sul retro':'Phrase or name to write on the back');
+  });
+  document.querySelectorAll('[data-customize]').forEach(button=>button.textContent=t('customize'));
+  document.querySelectorAll('.quantity-label').forEach(label=>label.textContent=t('quantityLabel'));
+  $('language-button').textContent=currentLang==='it'?'EN':'IT';
+  renderReadyProducts();
+  Object.keys(customProducts).forEach(updateCustomButton);
+}
+$('language-button').addEventListener('click',()=>{
+  currentLang=currentLang==='it'?'en':'it';
+  try{localStorage.setItem('fedepictures_shop_language',currentLang);}catch(e){}
+  applyLanguage();
+});
+
+updateCartCount();
+renderReadyProducts();
+applyLanguage();
+Object.keys(customProducts).forEach(updateCustomButton);
+</script>
+</body>
+</html>
