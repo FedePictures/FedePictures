@@ -1,50 +1,276 @@
-/* ===== CORREZIONE BARRA SUPERIORE E TITOLO ===== */
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedePictures | Shop</title>
+<link rel="icon" href="../volpe.png">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<style>
+:root {
+  --rosa: #f7c4d4;
+  --celeste: #b2eaff;
+  --viola: #d2b4f2;
+  --scuro: #333;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  color: var(--scuro);
+  background: #fff;
+}
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+
+/* BARRA SUPERIORE */
 .site-header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: #b2eaff !important;
-  isolation: isolate;
+  min-height: 82px;
+  padding: 8px 24px 8px 150px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background: var(--celeste);
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
 }
-
-/* Evita fasce colorate sovrapposte alla barra */
-.site-header::before,
-.site-header::after {
-  content: none !important;
-  display: none !important;
+.logo-link {
+  position: absolute;
+  left: 24px;
+  top: 5px;
+  width: 100px;
+  height: 72px;
+  display: flex;
+  align-items: center;
 }
+.main-logo {
+  width: 100%;
+  height: 72px;
+  object-fit: contain;
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-button, .lang-switcher {
+  padding: 10px 17px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--viola);
+  color: #68427f;
+  font-size: .88rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.cart-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 21px;
+  height: 21px;
+  margin-left: 5px;
+  padding: 0 5px;
+  border-radius: 20px;
+  background: #fff;
+}
+.dropdown { position: relative; }
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  min-width: 220px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px #0002;
+  overflow: hidden;
+}
+.dropdown-content.show { display: block; }
+.dropdown-content a {
+  display: block;
+  padding: 12px 15px;
+  color: var(--scuro);
+  text-decoration: none;
+}
+.dropdown-content a:hover { background: #f5f0fa; }
 
-/* Il contenuto inizia sotto la barra */
+/* CONTENUTO: IL TITOLO NON È COPERTO DALLA SFUMATURA */
 main {
   position: relative;
   z-index: 1;
-  padding-top: 28px;
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 28px 24px 0;
 }
-
-/* Titolo e sottotitolo sempre visibili */
 .intro {
-  position: relative;
-  z-index: 1;
-  margin: 12px auto 30px;
-  padding: 0;
-  background: transparent;
   text-align: center;
+  margin: 8px auto 30px;
+  max-width: 850px;
+  background: transparent;
 }
-
-.intro h1 {
-  position: relative;
-  z-index: 1;
-  margin: 0 0 4px;
+h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
+h1 {
+  margin: 0 0 8px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
   line-height: 1.2;
 }
+.intro p { margin: 0; line-height: 1.6; }
+.section-heading {
+  font-size: 1.75rem;
+  margin: 30px 0 20px;
+}
 
-/* ===== SFUMATURA SOTTO I CINQUE RIQUADRI ===== */
+/* CINQUE RIQUADRI */
+.custom-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+.custom-card {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 11px 12px;
+  border: 3px solid #111;
+  border-radius: 34px;
+  background: #fff;
+}
+.custom-card h3 {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+.product-symbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  margin: 0 auto 7px;
+}
+.product-symbol svg {
+  width: 56px;
+  height: 48px;
+  fill: none;
+  stroke: #d8c900;
+  stroke-width: 1.5;
+}
+.price-options {
+  display: grid;
+  gap: 5px;
+  margin: 0 0 10px;
+}
+.price-options label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: .78rem;
+}
+.price-options input {
+  flex: 0 0 14px;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  accent-color: #9c70bf;
+}
+.size-field {
+  margin: 0 0 8px;
+  font-size: .85rem;
+}
+.size-field label {
+  display: block;
+  margin-bottom: 5px;
+}
+.size-field input, .back-text-input {
+  width: 100%;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid #777;
+  border-radius: 8px;
+  background: #fff;
+}
+.card-description {
+  margin: 5px 0 8px;
+  font-size: .86rem;
+  line-height: 1.45;
+}
+.back-text-input {
+  margin: 0 0 12px;
+  font-size: .85rem;
+}
+.customize-button {
+  width: 100%;
+  min-height: 54px;
+  margin-top: auto;
+  padding: 7px 6px;
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #fff;
+  font-size: .76rem;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+}
+.customize-button:hover { background: #f8f2fc; }
+.custom-state {
+  margin: 6px 0 0;
+  font-size: .78rem;
+  overflow-wrap: anywhere;
+  color: #5e4474;
+}
+.quantity-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 9px;
+  font-size: .78rem;
+}
+.quantity-row label { white-space: nowrap; }
+.quantity-row input {
+  width: 45px;
+  min-width: 0;
+  padding: 6px 3px;
+  border: 1px solid #777;
+  border-radius: 7px;
+  text-align: center;
+}
+.add-label { flex: 1; line-height: 1.15; }
+.cart-icon-button {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 39px;
+  height: 34px;
+  border: 1px solid #6d4b8b;
+  border-radius: 7px;
+  background: var(--viola);
+  color: #4f2d68;
+}
+.cart-icon-button svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
 
+/* SFUMATURA: SOLTANTO SOTTO I CINQUE RIQUADRI */
 .custom-gradient-band {
   display: block;
-  position: relative;
-  z-index: 0;
   width: 100%;
   height: 72px;
   margin-top: 28px;
@@ -55,3 +281,792 @@ main {
     #b2eaff 100%
   );
 }
+
+/* PRODOTTI IN PRONTA CONSEGNA */
+.ready-section {
+  margin-top: 20px;
+  padding: 24px 18px 32px;
+}
+.ready-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 28px 22px;
+  padding: 0 8px;
+}
+.ready-card { min-width: 0; display: flex; flex-direction: column; }
+.ready-photo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1.12 / 1;
+  padding: 0;
+  border: 1px solid #bbb;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #fafafa;
+}
+.ready-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ready-description {
+  margin: 8px 2px;
+  font-size: .86rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.ready-buy-row { display: flex; align-items: center; gap: 6px; }
+.ready-price {
+  padding: 7px 5px;
+  border: 1px solid #777;
+  border-radius: 7px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.notice { color: #666; font-size: .82rem; }
+
+/* FINESTRA DI PERSONALIZZAZIONE */
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(0,0,0,.55);
+}
+.modal-backdrop.open { display: flex; }
+.modal {
+  width: min(100%, 460px);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 15px 45px #0004;
+}
+.modal h2 { margin: 0 0 8px; font-size: 1.65rem; }
+.modal p { line-height: 1.5; }
+.modal label {
+  display: block;
+  margin: 14px 0 6px;
+  font-weight: 700;
+}
+.modal input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px dashed #9d83b4;
+  border-radius: 9px;
+  background: #fbf8ff;
+}
+.modal textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  border: 1px solid #aaa;
+  border-radius: 9px;
+  resize: vertical;
+}
+.or-divider {
+  margin: 12px 0;
+  color: #777;
+  font-weight: 700;
+  text-align: center;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+.modal-actions button {
+  padding: 10px 18px;
+  border: 1px solid #8e6aab;
+  border-radius: 9px;
+  font-weight: 700;
+}
+.cancel-button { background: #fff; color: #614879; }
+.confirm-button { background: var(--viola); color: #432657; }
+.form-error { color: #a12828; min-height: 1.2em; font-size: .88rem; }
+
+/* IMMAGINE INGRANDITA, NOTIFICHE E CONTATTI */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0,0,0,.88);
+}
+.lightbox.open { display: flex; }
+.lightbox img {
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+}
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 2.3rem;
+}
+.toast {
+  display: none;
+  position: fixed;
+  z-index: 4000;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: #333;
+  color: #fff;
+  text-align: center;
+}
+.toast.show { display: block; }
+.contact-band {
+  margin-top: 0;
+  padding: 32px 20px;
+  background: linear-gradient(110deg, #f7c4d4, #e3d4e6 50%, #b2eaff);
+  text-align: center;
+}
+.contact-band h2 { margin: 0 0 8px; }
+.contact-band p { line-height: 1.6; }
+.contact-band a {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 9px;
+  background: #fff;
+  color: #333;
+  font-weight: 700;
+  text-decoration: none;
+}
+footer {
+  padding: 20px;
+  background: #333;
+  color: #fff;
+  text-align: center;
+  font-size: .9rem;
+}
+
+/* ADATTAMENTO A TABLET E TELEFONI */
+@media (max-width: 1050px) {
+  .custom-grid, .ready-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .site-header {
+    position: relative;
+    padding: 82px 12px 12px;
+    justify-content: center;
+  }
+  .logo-link {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 5px;
+    height: 70px;
+    justify-content: center;
+  }
+  .main-logo { height: 70px; }
+  .header-actions { gap: 7px; flex-wrap: wrap; justify-content: center; }
+  .header-button, .lang-switcher { padding: 9px 11px; font-size: .8rem; }
+  main { padding: 22px 14px 0; }
+  .custom-grid, .ready-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .custom-card { border-radius: 26px; padding: 12px 9px; }
+  .custom-card h3 { font-size: 1.08rem; }
+  .price-options label { font-size: .7rem; }
+  .quantity-row { flex-wrap: wrap; }
+  .ready-grid { padding: 0; }
+}
+@media (max-width: 390px) {
+  .custom-grid, .ready-grid { grid-template-columns: 1fr; }
+  .custom-card, .ready-card { max-width: 380px; width: 100%; margin: 0 auto; }
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <a href="../index.html" class="logo-link" aria-label="FedePictures - Home">
+    <img src="../FedePictures_logo.png" alt="Logo FedePictures" class="main-logo">
+  </a>
+
+  <nav class="header-actions" aria-label="Navigazione principale">
+    <a class="header-button" href="carrello.html">
+      <span id="cart-label">CARRELLO</span>
+      <span class="cart-count" id="cart-count">0</span>
+    </a>
+
+    <div class="dropdown">
+      <button class="header-button" id="explore-button" type="button">ESPLORA ▼</button>
+      <div class="dropdown-content" id="explore-menu">
+        <a href="../index.html" data-it="Home" data-en="Home">Home</a>
+        <a href="../ritratti.html" data-it="Ritratti" data-en="Portraits">Ritratti</a>
+        <a href="../disegni-digitali.html" data-it="Disegni al PC" data-en="Digital drawings">Disegni al PC</a>
+        <a href="../murales.html" data-it="Disegni sui muri" data-en="Wall art">Disegni sui muri</a>
+        <a href="../segnalibri.html" data-it="Segnalibri" data-en="Bookmarks">Segnalibri</a>
+        <a href="../palline.html" data-it="Palline di Natale" data-en="Christmas baubles">Palline di Natale</a>
+        <a href="../magliette.html" data-it="Magliette e accessori" data-en="T-shirts and accessories">Magliette e accessori</a>
+        <a href="../contatti.html" data-it="Contattami" data-en="Contact me">Contattami</a>
+      </div>
+    </div>
+
+    <button class="lang-switcher" id="language-button" type="button">EN</button>
+  </nav>
+</header>
+
+<main>
+  <section class="intro">
+    <h1 id="page-title">Shop FedePictures</h1>
+    <p id="page-intro">Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.</p>
+  </section>
+
+  <section aria-labelledby="custom-heading">
+    <h2 class="section-heading" id="custom-heading">Ordina il tuo prodotto personalizzato</h2>
+
+    <div class="custom-grid">
+
+      <article class="custom-card" data-kind="bookmark">
+        <h3>Segnalibro</h3>
+        <div class="product-symbol">
+          <svg viewBox="0 0 70 55"><path d="M13 5 Q10 3 9 10 L7 48 Q17 43 24 50 L25 8 Q21 3 13 5Z"/><path d="M49 7 Q52 2 56 7 L64 45 Q56 42 49 51 L43 13 Q44 8 49 7Z"/></svg>
+        </div>
+        <div class="price-options">
+          <label><input type="radio" name="bookmark-size" value="Piccolo 11 cm" data-price="5"> Piccolo 11 cm – 5 €</label>
+          <label><input type="radio" name="bookmark-size" value="Grande 20 cm" data-price="10"> Grande 20 cm – 10 €</label>
+        </div>
+        <p class="card-description">Che frase o nome vuoi che scriva sul retro?</p>
+        <input class="back-text-input" id="bookmark-back-text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro del segnalibro">
+        <button class="customize-button" data-customize="bookmark" type="button">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="bookmark-state"></p>
+        <div class="quantity-row">
+          <label for="bookmark-qty">N°</label>
+          <input id="bookmark-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button" data-add-custom="bookmark" type="button" disabled aria-label="Aggiungi segnalibro al carrello">🛒</button>
+        </div>
+      </article>
+
+      <article class="custom-card" data-kind="bauble">
+        <h3>Pallina</h3>
+        <div class="product-symbol">
+          <svg viewBox="0 0 70 55"><path d="M31 12 L31 6 L39 6 L39 12"/><path d="M35 12 C23 12 13 22 13 33 C13 45 23 50 35 50 C47 50 57 45 57 33 C57 22 47 12 35 12Z"/></svg>
+        </div>
+        <div class="price-options">
+          <label><input type="radio" name="bauble-size" value="Plastica 8 cm" data-price="6"> Plastica 8 cm – 6 €</label>
+          <label><input type="radio" name="bauble-size" value="Vetro 8 cm" data-price="8"> Vetro 8 cm – 8 €</label>
+        </div>
+        <p class="card-description">Che frase o nome vuoi che scriva sul retro?</p>
+        <input class="back-text-input" id="bauble-back-text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro della pallina">
+        <button class="customize-button" data-customize="bauble" type="button">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="bauble-state"></p>
+        <div class="quantity-row">
+          <label for="bauble-qty">N°</label>
+          <input id="bauble-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button" data-add-custom="bauble" type="button" disabled aria-label="Aggiungi pallina al carrello">🛒</button>
+        </div>
+      </article>
+
+      <article class="custom-card" data-kind="shirt">
+        <h3>Maglietta</h3>
+        <div class="product-symbol">
+          <svg viewBox="0 0 70 55"><path d="M23 10 L31 5 Q35 10 39 5 L47 10 L62 19 L53 29 L46 24 L46 51 L24 51 L24 24 L17 29 L8 19Z"/></svg>
+        </div>
+        <div class="size-field">
+          <label for="shirt-size">Che taglia?</label>
+          <input id="shirt-size" type="text" placeholder="Es. M, L, XL">
+        </div>
+        <p class="card-description">Tutte le magliette sono realizzate solo su una base di colore bianco.</p>
+        <button class="customize-button" data-customize="shirt" type="button">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="shirt-state"></p>
+        <div class="quantity-row">
+          <label for="shirt-qty">N°</label>
+          <input id="shirt-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button" data-add-custom="shirt" type="button" disabled aria-label="Aggiungi maglietta al carrello">🛒</button>
+        </div>
+      </article>
+
+      <article class="custom-card" data-kind="mini-canvas">
+        <h3>Mini tela</h3>
+        <div class="product-symbol">
+          <svg viewBox="0 0 70 55"><path d="M17 8 L50 5 L55 35 L21 39Z"/><path d="M23 12 L48 10 L51 32 L25 34Z"/><path d="M27 39 L26 51 L20 54 M45 37 L48 51 L55 54"/></svg>
+        </div>
+        <p class="card-description">Mini tela di dimensioni 7 × 7 cm, con cavalletto in legno. Ideale come idea regalo o bomboniera originale. Prezzo: 8 €.</p>
+        <button class="customize-button" data-customize="mini-canvas" type="button">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
+        <p class="custom-state" id="mini-canvas-state"></p>
+        <div class="quantity-row">
+          <label for="mini-canvas-qty">N°</label>
+          <input id="mini-canvas-qty" type="number" min="0" step="1" value="0">
+          <span class="add-label">Aggiungi al carrello</span>
+          <button class="cart-icon-button" data-add-custom="mini-canvas" type="button" disabled aria-label="Aggiungi mini tela al carrello">🛒</button>
+        </div>
+      </article>
+
+      <article class="custom-card">
+        <h3>Altre creazioni</h3>
+        <div class="product-symbol"></div>
+        <p class="card-description" style="text-align:center;margin-top:20px">Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.</p>
+        <a class="customize-button" href="../contatti.html" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center">CONTATTAMI</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- La sfumatura è qui, DOPO i cinque riquadri -->
+  <div class="custom-gradient-band" aria-hidden="true"></div>
+
+  <section class="ready-section">
+    <h2 class="section-heading" id="ready-heading">Prodotti in pronta consegna</h2>
+    <div class="ready-grid" id="ready-grid"></div>
+  </section>
+</main>
+
+<section class="contact-band">
+  <h2>Hai un'idea speciale?</h2>
+  <p>Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.</p>
+  <a href="../contatti.html" target="_blank" rel="noopener">Vai ai contatti</a>
+</section>
+
+<footer>
+  <p>&copy; 2026 FedePictures • P. IVA 04962510618.</p>
+</footer>
+
+<!-- FINESTRA PER IMMAGINE O TEMA -->
+<div class="modal-backdrop" id="custom-modal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h2 id="modal-title">Personalizza il tuo prodotto</h2>
+    <p>Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.</p>
+    <form id="custom-form">
+      <label for="reference-file">Carica un'immagine (un solo file)</label>
+      <input type="file" id="reference-file" accept="image/*">
+      <p class="notice">Formato immagine consentito. Massimo 3 MB.</p>
+      <div class="or-divider">— oppure —</div>
+      <label for="reference-theme">Scrivi il tema</label>
+      <textarea id="reference-theme" maxlength="600" placeholder="Es. un gatto nello spazio, stile kawaii..."></textarea>
+      <p class="form-error" id="modal-error" aria-live="polite"></p>
+      <div class="modal-actions">
+        <button class="cancel-button" type="button" id="cancel-custom">Annulla</button>
+        <button class="confirm-button" type="submit">Conferma</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close" type="button">×</button>
+  <img id="lightbox-image" src="" alt="Immagine ingrandita">
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const CART_KEY = 'fedepictures_shop_cart_v1';
+const MAX_FILE_BYTES = 3 * 1024 * 1024;
+const $ = id => document.getElementById(id);
+
+let currentLang = localStorage.getItem('fedepictures_shop_language') || 'it';
+let activeKind = null;
+let pendingFileData = null;
+const savedCustomizations = {};
+
+/* Aggiungi qui i prodotti disponibili in pronta consegna.
+   Lascia l'array vuoto per mantenere la galleria vuota. */
+const readyProducts = [];
+
+const productConfig = {
+  bookmark: { name: 'Segnalibro personalizzato', qty: 'bookmark-qty', state: 'bookmark-state', size: true, price: 5 },
+  bauble: { name: 'Pallina personalizzata', qty: 'bauble-qty', state: 'bauble-state', size: true, price: 6 },
+  shirt: { name: 'Maglietta personalizzata', qty: 'shirt-qty', state: 'shirt-state', size: false, price: null },
+  'mini-canvas': { name: 'Mini tela personalizzata con cavalletto', qty: 'mini-canvas-qty', state: 'mini-canvas-state', size: false, price: 8 }
+};
+
+const messages = {
+  it: {
+    customizeFirst: 'Prima carica un’immagine oppure scrivi e conferma un tema.',
+    quantity: 'Inserisci una quantità maggiore di zero.',
+    chooseSize: 'Scegli una dimensione o un materiale.',
+    shirtSize: 'Inserisci la taglia della maglietta.',
+    needOne: 'Carica un’immagine oppure scrivi un tema, non entrambi.',
+    fileType: 'Il file deve essere un’immagine.',
+    fileLarge: 'Il file supera il limite di 3 MB. Scegli un’immagine più piccola.',
+    savedImage: 'Immagine selezionata',
+    savedTheme: 'Tema salvato: ',
+    added: 'Prodotto aggiunto al carrello in questo browser.',
+    storageError: 'Impossibile salvare il carrello. Riprova con un’immagine più piccola.',
+    cart: 'CARRELLO',
+    explore: 'ESPLORA ▼',
+    title: 'Shop FedePictures',
+    intro: 'Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.',
+    customHeading: 'Ordina il tuo prodotto personalizzato',
+    readyHeading: 'Prodotti in pronta consegna'
+  },
+  en: {
+    customizeFirst: 'Upload an image or write and confirm a theme first.',
+    quantity: 'Enter a quantity greater than zero.',
+    chooseSize: 'Choose a size or material.',
+    shirtSize: 'Enter the T-shirt size.',
+    needOne: 'Upload an image or write a theme, not both.',
+    fileType: 'The file must be an image.',
+    fileLarge: 'The file exceeds 3 MB. Choose a smaller image.',
+    savedImage: 'Image selected',
+    savedTheme: 'Theme saved: ',
+    added: 'Product added to the cart in this browser.',
+    storageError: 'Could not save the cart. Try a smaller image.',
+    cart: 'CART',
+    explore: 'EXPLORE ▼',
+    title: 'FedePictures Shop',
+    intro: 'Handmade creations, ready-to-gift products and personalized ideas made for you.',
+    customHeading: 'Order your personalized product',
+    readyHeading: 'Ready-to-ship products'
+  }
+};
+
+function msg(key) {
+  return messages[currentLang][key] || key;
+}
+
+function readCart() {
+  try {
+    return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function writeCart(cart) {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    updateCartCount();
+    return true;
+  } catch (e) {
+    showToast(msg('storageError'));
+    return false;
+  }
+}
+
+function updateCartCount() {
+  const total = readCart().reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+  $('cart-count').textContent = total;
+}
+
+let toastTimer;
+function showToast(text) {
+  const toast = $('toast');
+  toast.textContent = text;
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+function getSelectedSize(kind) {
+  const selected = document.querySelector('input[name="' + kind + '-size"]:checked');
+  return selected ? { value: selected.value, price: Number(selected.dataset.price) } : null;
+}
+
+function customizationReady(kind) {
+  const custom = savedCustomizations[kind];
+  return !!(custom && (custom.fileData || custom.theme));
+}
+
+function updateCustomButton(kind) {
+  const config = productConfig[kind];
+  const button = document.querySelector('[data-add-custom="' + kind + '"]');
+  const quantity = Number($(config.qty).value);
+  const validQuantity = Number.isInteger(quantity) && quantity > 0;
+  const size = getSelectedSize(kind);
+  const validSize = !config.size || !!size;
+  const validShirt = kind !== 'shirt' || !!$('shirt-size').value.trim();
+  button.disabled = !(customizationReady(kind) && validQuantity && validSize && validShirt);
+}
+
+Object.keys(productConfig).forEach(kind => {
+  const config = productConfig[kind];
+  $(config.qty).addEventListener('input', () => updateCustomButton(kind));
+
+  const radios = document.querySelectorAll('input[name="' + kind + '-size"]');
+  radios.forEach(radio => radio.addEventListener('change', () => updateCustomButton(kind)));
+
+  if (kind === 'shirt') {
+    $('shirt-size').addEventListener('input', () => updateCustomButton(kind));
+  }
+});
+
+document.querySelectorAll('[data-customize]').forEach(button => {
+  button.addEventListener('click', () => {
+    activeKind = button.dataset.customize;
+    pendingFileData = null;
+    $('reference-file').value = '';
+    $('reference-theme').value = '';
+    $('modal-error').textContent = '';
+    $('modal-title').textContent = 'Personalizza il tuo prodotto: ' +
+      (productConfig[activeKind].name);
+    $('custom-modal').classList.add('open');
+  });
+});
+
+function closeModal() {
+  $('custom-modal').classList.remove('open');
+  activeKind = null;
+  pendingFileData = null;
+}
+
+$('cancel-custom').addEventListener('click', closeModal);
+
+$('custom-modal').addEventListener('click', event => {
+  if (event.target === $('custom-modal')) closeModal();
+});
+
+$('reference-file').addEventListener('change', () => {
+  const file = $('reference-file').files[0];
+  pendingFileData = null;
+  $('modal-error').textContent = '';
+
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    $('modal-error').textContent = msg('fileType');
+    $('reference-file').value = '';
+    return;
+  }
+  if (file.size > MAX_FILE_BYTES) {
+    $('modal-error').textContent = msg('fileLarge');
+    $('reference-file').value = '';
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    pendingFileData = {
+      name: file.name,
+      type: file.type,
+      data: reader.result
+    };
+  };
+  reader.onerror = () => {
+    $('modal-error').textContent = 'Impossibile leggere il file. Riprova.';
+  };
+  reader.readAsDataURL(file);
+});
+
+$('custom-form').addEventListener('submit', event => {
+  event.preventDefault();
+
+  const file = $('reference-file').files[0];
+  const theme = $('reference-theme').value.trim();
+
+  if ((!file && !theme) || (file && theme)) {
+    $('modal-error').textContent = msg('needOne');
+    return;
+  }
+
+  if (file && !pendingFileData) {
+    $('modal-error').textContent = 'Attendi il caricamento del file e riprova.';
+    return;
+  }
+
+  savedCustomizations[activeKind] = file
+    ? { fileName: pendingFileData.name, fileType: pendingFileData.type, fileData: pendingFileData.data, theme: '' }
+    : { fileName: '', fileType: '', fileData: '', theme: theme };
+
+  const state = $(productConfig[activeKind].state);
+  state.textContent = file
+    ? msg('savedImage') + ': ' + file.name
+    : msg('savedTheme') + theme;
+
+  updateCustomButton(activeKind);
+  closeModal();
+});
+
+document.querySelectorAll('[data-add-custom]').forEach(button => {
+  button.addEventListener('click', () => {
+    const kind = button.dataset.addCustom;
+    const config = productConfig[kind];
+
+    if (!customizationReady(kind)) {
+      showToast(msg('customizeFirst'));
+      return;
+    }
+
+    const quantity = Number($(config.qty).value);
+    if (!Number.isInteger(quantity) || quantity < 1) {
+      showToast(msg('quantity'));
+      return;
+    }
+
+    const size = getSelectedSize(kind);
+    if (config.size && !size) {
+      showToast(msg('chooseSize'));
+      return;
+    }
+
+    const shirtSize = kind === 'shirt' ? $('shirt-size').value.trim() : '';
+    if (kind === 'shirt' && !shirtSize) {
+      showToast(msg('shirtSize'));
+      return;
+    }
+
+    const custom = savedCustomizations[kind];
+    const unitPrice = size ? size.price : config.price;
+
+    const item = {
+      id: 'custom-' + kind + '-' + Date.now(),
+      type: 'custom',
+      kind: kind,
+      name: config.name,
+      quantity: quantity,
+      unitPrice: unitPrice,
+      pricePending: unitPrice === null,
+      size: size ? size.value : '',
+      shirtSize: shirtSize,
+      backText: (kind === 'bookmark' || kind === 'bauble')
+        ? $(kind + '-back-text').value.trim()
+        : '',
+      customization: {
+        theme: custom.theme || '',
+        fileName: custom.fileName || '',
+        fileType: custom.fileType || '',
+        fileData: custom.fileData || ''
+      }
+    };
+
+    const cart = readCart();
+    cart.push(item);
+
+    if (writeCart(cart)) {
+      delete savedCustomizations[kind];
+      $(config.qty).value = 0;
+      $(config.state).textContent = '';
+      updateCustomButton(kind);
+      showToast(msg('added'));
+    }
+  });
+});
+
+/* La galleria resta vuota finché non vengono inseriti prodotti reali. */
+function renderReadyProducts() {
+  const grid = $('ready-grid');
+  grid.innerHTML = '';
+
+  readyProducts.forEach(product => {
+    const card = document.createElement('article');
+    card.className = 'ready-card';
+
+    const photoButton = document.createElement('button');
+    photoButton.type = 'button';
+    photoButton.className = 'ready-photo';
+
+    const img = document.createElement('img');
+    img.src = product.image;
+    img.alt = product.description;
+    photoButton.appendChild(img);
+
+    photoButton.addEventListener('click', () => {
+      $('lightbox-image').src = product.image;
+      $('lightbox').classList.add('open');
+    });
+
+    const description = document.createElement('p');
+    description.className = 'ready-description';
+    description.textContent = product.description;
+
+    const buyRow = document.createElement('div');
+    buyRow.className = 'ready-buy-row';
+
+    const price = document.createElement('span');
+    price.className = 'ready-price';
+    price.textContent = product.price + ' €';
+
+    const add = document.createElement('button');
+    add.type = 'button';
+    add.className = 'cart-icon-button';
+    add.textContent = '🛒';
+
+    add.addEventListener('click', () => {
+      const cart = readCart();
+      cart.push({
+        id: product.id,
+        type: 'ready',
+        name: product.description,
+        quantity: 1,
+        unitPrice: Number(product.price)
+      });
+      if (writeCart(cart)) showToast(msg('added'));
+    });
+
+    buyRow.append(price, add);
+    card.append(photoButton, description, buyRow);
+    grid.appendChild(card);
+  });
+}
+
+$('lightbox-close').addEventListener('click', () => {
+  $('lightbox').classList.remove('open');
+  $('lightbox-image').src = '';
+});
+
+$('lightbox').addEventListener('click', event => {
+  if (event.target === $('lightbox')) {
+    $('lightbox').classList.remove('open');
+    $('lightbox-image').src = '';
+  }
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    closeModal();
+    $('lightbox').classList.remove('open');
+    $('explore-menu').classList.remove('show');
+  }
+});
+
+$('explore-button').addEventListener('click', () => {
+  $('explore-menu').classList.toggle('show');
+});
+
+document.addEventListener('click', event => {
+  if (!event.target.closest('.dropdown')) {
+    $('explore-menu').classList.remove('show');
+  }
+});
+
+function applyLanguage() {
+  const english = currentLang === 'en';
+  document.documentElement.lang = currentLang;
+  $('language-button').textContent = english ? 'IT' : 'EN';
+  $('cart-label').textContent = english ? 'CART' : 'CARRELLO';
+  $('explore-button').textContent = english ? 'EXPLORE ▼' : 'ESPLORA ▼';
+  $('page-title').textContent = msg('title');
+  $('page-intro').textContent = msg('intro');
+  $('custom-heading').textContent = msg('customHeading');
+  $('ready-heading').textContent = msg('readyHeading');
+
+  document.querySelectorAll('.dropdown-content a').forEach(link => {
+    link.textContent = english ? link.dataset.en : link.dataset.it;
+  });
+}
+
+$('language-button').addEventListener('click', () => {
+  currentLang = currentLang === 'it' ? 'en' : 'it';
+  localStorage.setItem('fedepictures_shop_language', currentLang);
+  applyLanguage();
+});
+
+updateCartCount();
+renderReadyProducts();
+applyLanguage();
+
+Object.keys(productConfig).forEach(updateCustomButton);
+</script>
+
+</body>
+</html>
