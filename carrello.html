@@ -1124,12 +1124,18 @@ footer {
       });
     });
 
-    $("clear-cart").addEventListener("click", () => {
-      if (confirm("Vuoi davvero svuotare il carrello?")) {
-        writeCart([]);
-        renderCart();
-      }
-    });
+   $("clear-cart").addEventListener("click", () => {
+  if (confirm("Vuoi davvero svuotare il carrello?")) {
+    writeCart([]);
+
+    try {
+      localStorage.removeItem(CUSTOM_KEY);
+      localStorage.removeItem(PERSONALIZATION_NOTES_KEY);
+    } catch (_) {}
+
+    renderCart();
+  }
+});
 
     $("open-checkout").addEventListener("click", openCheckout);
   }
