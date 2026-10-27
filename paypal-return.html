@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FedePictures | Esito ordine</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --celeste: #b2eaff;
+  --viola: #d2b4f2;
+  --scuro: #333;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  color: var(--scuro);
+  background: linear-gradient(130deg,#fff,#f8effa,#edfaff);
+  font-family: 'Quicksand',sans-serif;
+}
+main {
+  width: min(100%,560px);
+  padding: 34px 25px;
+  border: 1px solid #e1d5eb;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 12px 40px #00000010;
+  text-align: center;
+}
+h1 {
+  margin: 8px 0;
+  font-family: 'Baloo 2',sans-serif;
+  font-size: clamp(1.8rem,5vw,2.5rem);
+}
+p { line-height: 1.6; }
+.symbol {
+  font-size: 3.2rem;
+  line-height: 1.2;
+}
+.status { color: #625a6c; overflow-wrap: anywhere; }
+.button {
+  display: inline-flex;
+  justify-content: center;
+  margin-top: 12px;
+  padding: 12px 18px;
+  border: 1px solid #b48bd7;
+  border-radius: 10px;
+  background: var(--viola);
+  color: #4f3264;
+  text-decoration: none;
+  font-weight: 700;
+}
+.secondary {
+  margin-left: 8px;
+  background: white;
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="symbol" id="symbol">✦</div>
+  <h1 id="title">Verifica del pagamento</h1>
+  <p class="status" id="message">
+    Stiamo verificando la risposta di PayPal. Non chiudere questa pagina.
+  </p>
+  <p class="status" id="order-number"></p>
+  <div id="links"></div>
+</main>
+
+<script>
+(async () => {
+  "use strict";
+
+  const CART_KEY = "fedepictures_shop_cart_v1";
+  const CUSTOM_KEY = "fedepictures_shop_customizations_v1";
+
+  const API_BASE =
+    "https://fedepictures.fedestanc-3danimator.workers.dev";
+
+  const $ = id => document.getElementById(id);
+
+  function show(title, message, symbol, links = "") {
+    $("title").textContent = title;
+    $("message").textContent = message;
+    $("symbol").textContent = symbol;
+    $("links").innerHTML = links;
+  }
+
+  function getCart() {
+    try {
+      const cart = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+      return Array.isArray(cart) ? cart : [];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function makeReferenceImages(cart) {
+    const images = [];
+
+    for (const item of cart) {
+      const customization = item.customization || {};
+
+      if (
+        customization.fileName &&
+        typeof customization.fileData === "string" &&
+        customization.fileData.startsWith("data:image/")
+      ) {
+        images.push({
+          filename: customization.fileName,
+          dataUrl: customization.fileData
+        });
+      }
+    }
+
+    return images;
+  }
+
+  const query = new URLSearchParams(location.search);
+  const paypalOrderId = query.get("token");
+  const cancelled = query.get("cancel") === "1";
+
+  if (cancelled) {
+    show(
+      "Pagamento non completato",
+      "Il pagamento è stato annullato o non è stato completato. Il carrello è rimasto salvato: puoi tornare al checkout e riprovare.",
+      "↩",
+      '<a class="button" href="carrello.html">Torna al carrello</a>'
+    );
+    return;
+  }
+
+  if (!paypalOrderId) {
+    show(
+      "Nessun pagamento da verificare",
+      "Non abbiamo ricevuto il riferimento del pagamento da PayPal. Il carrello non è stato svuotato.",
+      "!",
+      '<a class="button" href="carrello.html">Torna al carrello</a>'
+    );
+    return;
+  }
+
+  try {
+    const cart = getCart();
+
+    const response = await fetch(
+      API_BASE +
+      "/api/orders/" +
+      encodeURIComponent(paypalOrderId) +
+      "/capture",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          referenceImages: makeReferenceImages(cart)
+        })
+      }
+    );
+
+    const result = await response.json().catch(() => ({}));
+
+    if (
+      !response.ok ||
+      result.ok !== true ||
+      result.status !== "COMPLETED"
+    ) {
+      throw new Error(
+        result.error ||
+        "PayPal non ha confermato il pagamento."
+      );
+    }
+
+    // Il backend ha verificato il pagamento: ora possiamo svuotare il carrello.
+    localStorage.removeItem(CART_KEY);
+    localStorage.removeItem(CUSTOM_KEY);
+    sessionStorage.removeItem("fedepictures_pending_paypal_order");
+    sessionStorage.removeItem("fedepictures_pending_paypal_number");
+
+    show(
+      "Ordine effettuato con successo!",
+      "Il pagamento è stato confermato. Grazie per aver scelto FedePictures!",
+      "✓",
+      '<a class="button" href="shop/index.html">Torna allo shop</a>'
+    );
+
+    if (result.orderNumber) {
+      $("order-number").textContent =
+        "Numero ordine: " + result.orderNumber;
+    }
+
+    if (result.notificationSent === false) {
+      $("message").textContent =
+        "Il pagamento è stato confermato, ma l'invio della notifica email è in attesa di verifica. Conserva il numero d'ordine qui indicato.";
+    }
+
+  } catch (error) {
+    console.error("Errore durante la verifica PayPal:", error);
+
+    show(
+      "Pagamento non ancora verificato",
+      "Non possiamo confermare l'ordine in questa pagina. Non effettuare un secondo pagamento. Controlla PayPal e contatta FedePictures se il pagamento risulta già completato.",
+      "!",
+      '<a class="button" href="carrello.html">Torna al carrello</a>'
+    );
+  }
+})();
+</script>
+</body>
+</html>
