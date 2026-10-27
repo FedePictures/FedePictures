@@ -20,7 +20,7 @@
       font-family: 'Quicksand', sans-serif;
       background-color: #fff;
       color: var(--scuro);
-      scroll-behavior: smooth; /* Per uno scorrimento fluido se rientri con un'ancora */
+      scroll-behavior: smooth;
     }
 
     header {
@@ -60,9 +60,9 @@
     }
 
     nav {
-      display:flex;
-      align-items:center;
-      gap:12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     nav a {
@@ -70,6 +70,19 @@
       text-decoration: none;
       color: var(--scuro);
       font-weight: bold;
+    }
+
+    /* Pulsante Shop nella barra di navigazione, come nella Home */
+    .shop-nav-link {
+      display: inline-block;
+      margin: 0 !important;
+      text-decoration: none;
+      line-height: normal;
+      white-space: nowrap;
+    }
+
+    .shop-nav-link:hover {
+      filter: brightness(0.97);
     }
 
     .btn-back {
@@ -108,7 +121,7 @@
       margin: 0 auto 2em auto;
     }
 
-    /* Griglia per la galleria specifica */
+    /* Griglia per la galleria */
     .specific-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -123,16 +136,16 @@
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       transition: transform 0.3s ease;
-      cursor: pointer; /* Indichiamo che l'immagine è cliccabile per l'ingrandimento */
+      cursor: pointer;
     }
 
     .specific-gallery img:hover {
       transform: scale(1.03);
     }
 
-    /* Stili per il Lightbox (copiati e adattati dalla home) */
+    /* Lightbox per ingrandire le immagini */
     #lightbox {
-      display: none; /* Nascosto di default */
+      display: none;
       position: fixed;
       z-index: 2000;
       top: 0;
@@ -142,7 +155,7 @@
       background-color: rgba(0, 0, 0, 0.9);
       justify-content: center;
       align-items: center;
-      cursor: zoom-out; /* Il cursore indica che cliccando si esce */
+      cursor: zoom-out;
     }
 
     #lightbox-img {
@@ -154,19 +167,86 @@
       animation: zoomIn 0.3s forwards;
     }
 
-    
-.dropdown{position:relative;}
-.dropbtn{background:var(--viola);color:white;border:none;padding:.6em 1.2em;border-radius:8px;cursor:pointer;font-weight:bold;}
-.dropdown-content{display:none;position:absolute;right:0;background:white;min-width:230px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,.15);overflow:hidden;z-index:3000;}
-.dropdown-content.show{display:block;}
-.dropdown-content a{display:block;padding:12px;text-decoration:none;color:#333;}
-.dropdown-content a:hover{background:#f5f5f5;}
-.lang-switcher{background:var(--viola);border:none;color:white;padding:.5em 1em;border-radius:8px;cursor:pointer;font-weight:bold;margin-left:10px;}
-#prev-btn,#next-btn{position:absolute;top:50%;transform:translateY(-50%);width:60px;height:60px;border:none;border-radius:50%;background:rgba(255,255,255,.2);color:white;font-size:2rem;cursor:pointer;}
-#prev-btn{left:30px;}
-#next-btn{right:30px;}
+    .dropdown {
+      position: relative;
+    }
 
-@keyframes zoomIn {
+    .dropbtn {
+      background: var(--viola);
+      color: white;
+      border: none;
+      padding: 0.6em 1.2em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background: white;
+      min-width: 230px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      overflow: hidden;
+      z-index: 3000;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 12px;
+      text-decoration: none;
+      color: #333;
+      margin: 0;
+    }
+
+    .dropdown-content a:hover {
+      background: #f5f5f5;
+    }
+
+    .lang-switcher {
+      background: var(--viola);
+      border: none;
+      color: white;
+      padding: 0.5em 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-left: 10px;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    #prev-btn,
+    #next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    #prev-btn {
+      left: 30px;
+    }
+
+    #next-btn {
+      right: 30px;
+    }
+
+    @keyframes zoomIn {
       to {
         transform: scale(1);
       }
@@ -186,21 +266,46 @@
         height: auto;
         padding: 1em;
       }
+
       .main-logo {
         height: 80px;
         position: relative;
         top: 0;
       }
+
       .logo-link {
         width: auto;
         margin-bottom: 10px;
       }
+
       nav {
         margin-top: 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      nav a {
+        margin: 0;
+      }
+
+      #prev-btn,
+      #next-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.5rem;
+      }
+
+      #prev-btn {
+        left: 10px;
+      }
+
+      #next-btn {
+        right: 10px;
       }
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -208,40 +313,42 @@
       <img src="FedePictures_logo.png" alt="FedePictures Logo" class="main-logo">
     </a>
 
-    <nav>
+    <nav aria-label="Navigazione principale">
 
-<div class="dropdown">
+      <!-- Pulsante Shop, come nella Home -->
+      <a href="shop/index.html" class="dropbtn shop-nav-link" id="shop-nav-link">Shop</a>
 
-<button class="dropbtn" onclick="toggleMenu()">
+      <div class="dropdown">
+        <button class="dropbtn" onclick="toggleMenu()">
+          <span id="explore-label">Esplora ▼</span>
+        </button>
 
-<span id="explore-label">Esplora ▼</span>
+        <div class="dropdown-content" id="menu">
+          <a href="ritratti.html" id="menu-ritratti">Ritratti</a>
+          <a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
+          <a href="murales.html" id="menu-wall">Disegni sui muri</a>
+          <a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
+          <a href="palline.html" id="menu-balls">Palline di Natale</a>
+          <a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+          <a href="contatti.html" id="menu-contact">Contattami</a>
+        </div>
+      </div>
 
-</button>
+      <button class="lang-switcher" onclick="toggleLang()">EN</button>
 
-<div class="dropdown-content" id="menu">
-
-<a href="ritratti.html" id="menu-ritratti">Ritratti</a>
-<a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
-<a href="murales.html" id="menu-wall">Disegni sui muri</a>
-<a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
-<a href="palline.html" id="menu-balls">Palline di Natale</a>
-<a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
-<a href="contatti.html" id="menu-contact">Contattami</a>
-
-</div>
-
-</div>
-
-<button class="lang-switcher" onclick="toggleLang()">EN</button>
-
-</nav>
+    </nav>
   </header>
 
   <main class="content-container">
     <h1 id="title">Palline di Natale</h1>
-    
-  <p class="description" id="description">
-      Rendi unico il tuo Natale o fai un regalo magico a chi ami! Realizzo <strong>palline di Natale personalizzate, dipinte interamente a mano</strong> con cura e passione. Ogni decorazione può essere personalizzata con nomi, dediche, ritratti dei tuoi amici a quattro zampe o illustrazioni a tema, trasformandosi in un pezzo unico e speciale pronto da appendere per far risplendere il tuo albero di ricordi ed emozioni.
+
+    <p class="description" id="description">
+      Rendi unico il tuo Natale o fai un regalo magico a chi ami! Realizzo
+      <strong>palline di Natale personalizzate, dipinte interamente a mano</strong>
+      con cura e passione. Ogni decorazione può essere personalizzata con nomi,
+      dediche, ritratti dei tuoi amici a quattro zampe o illustrazioni a tema,
+      trasformandosi in un pezzo unico e speciale pronto da appendere per far
+      risplendere il tuo albero di ricordi ed emozioni.
     </p>
 
     <div class="specific-gallery">
@@ -258,22 +365,25 @@
   </main>
 
   <section class="contact" style="background: var(--celeste); padding: 3em; text-align: center; margin-top: 4em;">
-    <h2 id="quote-title" style="font-size: 2em; margin-bottom: 0.5em;">Richiedi un preventivo</h2>
+    <h2 id="quote-title" style="font-size: 2em; margin-bottom: 0.5em;">
+      Richiedi un preventivo
+    </h2>
+
     <p id="quote-text" style="font-size: 1.1em; max-width: 600px; margin: 0 auto 1.5em auto; line-height: 1.6;">
-      Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! 
+      Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno!
       Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.
     </p>
-    
+
     <p style="font-size: 1.1em; margin: 0.5em 0;">
-      <strong>Email:</strong> 
+      <strong>Email:</strong>
       <a href="mailto:fedepictures@libero.it" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
         fedepictures@libero.it
       </a>
     </p>
 
     <p style="font-size: 1.1em; margin: 0.5em 0;">
-      <strong>Instagram:</strong> 
-      <a href="https://www.instagram.com/fede.pictures" target="_blank" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
+      <strong>Instagram:</strong>
+      <a href="https://www.instagram.com/fede.pictures" target="_blank" rel="noopener noreferrer" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
         @fede.pictures
       </a>
     </p>
@@ -284,167 +394,144 @@
   </footer>
 
   <div id="lightbox">
-
-<button id="prev-btn">&#10094;</button>
-
-<img id="lightbox-img" src="" alt="Ingrandimento">
-
-<button id="next-btn">&#10095;</button>
-
-</div>
+    <button id="prev-btn" aria-label="Immagine precedente">&#10094;</button>
+    <img id="lightbox-img" src="" alt="Ingrandimento">
+    <button id="next-btn" aria-label="Immagine successiva">&#10095;</button>
+  </div>
 
   <script>
-const images=document.querySelectorAll(".specific-gallery img");
-const lightbox=document.getElementById("lightbox");
-const lightboxImg=document.getElementById("lightbox-img");
-const nextBtn=document.getElementById("next-btn");
-const prevBtn=document.getElementById("prev-btn");
+    const images = document.querySelectorAll(".specific-gallery img");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const nextBtn = document.getElementById("next-btn");
+    const prevBtn = document.getElementById("prev-btn");
 
-let currentIndex=0;
+    let currentIndex = 0;
 
-function showImage(i){
-currentIndex=i;
-lightboxImg.src=images[currentIndex].src;
-}
+    function showImage(i) {
+      currentIndex = i;
+      lightboxImg.src = images[currentIndex].src;
+      lightboxImg.alt = images[currentIndex].alt;
+    }
 
-images.forEach((img,i)=>{
-img.onclick=()=>{
-lightbox.style.display="flex";
-showImage(i);
-};
-});
+    images.forEach((img, i) => {
+      img.onclick = () => {
+        lightbox.style.display = "flex";
+        showImage(i);
+      };
+    });
 
-nextBtn.onclick=()=>{
-currentIndex=(currentIndex+1)%images.length;
-showImage(currentIndex);
-};
+    nextBtn.onclick = (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    };
 
-prevBtn.onclick=()=>{
-currentIndex=(currentIndex-1+images.length)%images.length;
-showImage(currentIndex);
-};
+    prevBtn.onclick = (e) => {
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    };
 
-lightbox.onclick=(e)=>{
-if(e.target===lightbox) lightbox.style.display='none';
-};
+    lightbox.onclick = (e) => {
+      if (e.target === lightbox) {
+        lightbox.style.display = "none";
+      }
+    };
 
-let startX=0;
-lightbox.addEventListener('touchstart',e=>{
-startX=e.touches[0].clientX;
-});
-lightbox.addEventListener('touchend',e=>{
-const endX=e.changedTouches[0].clientX;
-if(startX-endX>50) nextBtn.click();
-if(endX-startX>50) prevBtn.click();
-});
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.style.display === "flex") {
+        if (e.key === "ArrowRight") nextBtn.click();
+        if (e.key === "ArrowLeft") prevBtn.click();
+        if (e.key === "Escape") lightbox.style.display = "none";
+      }
+    });
 
-function toggleMenu(){
-document.getElementById("menu").classList.toggle("show");
-}
+    let startX = 0;
 
-document.addEventListener("click",(e)=>{
-if(!e.target.closest(".dropdown")){
-document.getElementById("menu").classList.remove("show");
-}
-});
+    lightbox.addEventListener("touchstart", e => {
+      startX = e.touches[0].clientX;
+    });
 
-let currentLang=localStorage.getItem('language')||'it';
+    lightbox.addEventListener("touchend", e => {
+      const endX = e.changedTouches[0].clientX;
 
+      if (startX - endX > 50) nextBtn.click();
+      if (endX - startX > 50) prevBtn.click();
+    });
 
-const translations={
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("show");
+    }
 
-it:{
-title:'Palline di Natale',
-description:'Rendi unico il tuo Natale o fai un regalo magico a chi ami! Realizzo palline di Natale personalizzate, dipinte interamente a mano con cura e passione. Ogni decorazione può essere personalizzata con nomi, dediche, ritratti dei tuoi amici a quattro zampe o illustrazioni a tema, trasformandosi in un pezzo unico e speciale pronto da appendere per far risplendere il tuo albero di ricordi ed emozioni.',
-quoteTitle:'Richiedi un preventivo',
-quoteText:'Hai un\'idea in mente o desideri un\'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.',
-explore:'Esplora ▼',
-menuPortraits:'Ritratti',
-menuDigital:'Disegni al PC',
-menuWall:'Disegni sui muri',
-menuBookmarks:'Segnalibri',
-menuBalls:'Palline di Natale',
-menuShirts:'Magliette e accessori',
-menuContact:'Contattami'
-},
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".dropdown")) {
+        document.getElementById("menu").classList.remove("show");
+      }
+    });
 
-en:{
-title:'Christmas Decorations',
-description:'Make your Christmas unique or give a magical gift to someone you love! I create personalized Christmas ornaments, hand-painted with care and passion. Each ornament can be personalized with names, dedications, portraits of your four-legged friends, or themed illustrations, transforming them into a unique and special piece, ready to hang and make your tree shine with memories and emotions.',
-quoteTitle:'Request a Quote',
-quoteText:'Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation. Tell me about your project and I will reply as soon as possible with details and prices.',
-explore:'Explore ▼',
-menuPortraits:'Portraits',
-menuDigital:'Digital Drawings',
-menuWall:'Wall Art',
-menuBookmarks:'Bookmarks',
-menuBalls:'Christmas Ornaments',
-menuShirts:'T-shirts & Accessories',
-menuContact:'Contact Me'
-}
+    let currentLang = localStorage.getItem("language") || "it";
 
-};
+    const translations = {
+      it: {
+        title: "Palline di Natale",
+        description: "Rendi unico il tuo Natale o fai un regalo magico a chi ami! Realizzo palline di Natale personalizzate, dipinte interamente a mano con cura e passione. Ogni decorazione può essere personalizzata con nomi, dediche, ritratti dei tuoi amici a quattro zampe o illustrazioni a tema, trasformandosi in un pezzo unico e speciale pronto da appendere per far risplendere il tuo albero di ricordi ed emozioni.",
+        quoteTitle: "Richiedi un preventivo",
+        quoteText: "Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.",
+        explore: "Esplora ▼",
+        menuPortraits: "Ritratti",
+        menuDigital: "Disegni al PC",
+        menuWall: "Disegni sui muri",
+        menuBookmarks: "Segnalibri",
+        menuBalls: "Palline di Natale",
+        menuShirts: "Magliette e accessori",
+        menuContact: "Contattami"
+      },
 
-function applyLanguage(){
+      en: {
+        title: "Christmas Decorations",
+        description: "Make your Christmas unique or give a magical gift to someone you love! I create personalized Christmas ornaments, hand-painted with care and passion. Each ornament can be personalized with names, dedications, portraits of your four-legged friends, or themed illustrations, transforming them into a unique and special piece, ready to hang and make your tree shine with memories and emotions.",
+        quoteTitle: "Request a Quote",
+        quoteText: "Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation. Tell me about your project and I will reply as soon as possible with details and prices.",
+        explore: "Explore ▼",
+        menuPortraits: "Portraits",
+        menuDigital: "Digital Drawings",
+        menuWall: "Wall Art",
+        menuBookmarks: "Bookmarks",
+        menuBalls: "Christmas Ornaments",
+        menuShirts: "T-shirts & Accessories",
+        menuContact: "Contact Me"
+      }
+    };
 
-document.querySelector('.lang-switcher').innerText=
-currentLang==='it'?'EN':'IT';
+    function applyLanguage() {
+      const t = translations[currentLang];
 
-document.getElementById('explore-label').innerText=
-translations[currentLang].explore;
+      document.querySelector(".lang-switcher").innerText =
+        currentLang === "it" ? "EN" : "IT";
 
-document.getElementById('title').innerText=
-translations[currentLang].title;
+      document.getElementById("explore-label").innerText = t.explore;
+      document.getElementById("title").innerText = t.title;
+      document.getElementById("description").innerHTML = t.description;
+      document.getElementById("quote-title").innerText = t.quoteTitle;
+      document.getElementById("quote-text").innerText = t.quoteText;
+      document.getElementById("menu-ritratti").innerText = t.menuPortraits;
+      document.getElementById("menu-digital").innerText = t.menuDigital;
+      document.getElementById("menu-wall").innerText = t.menuWall;
+      document.getElementById("menu-bookmarks").innerText = t.menuBookmarks;
+      document.getElementById("menu-balls").innerText = t.menuBalls;
+      document.getElementById("menu-shirts").innerText = t.menuShirts;
+      document.getElementById("menu-contact").innerText = t.menuContact;
+    }
 
-document.getElementById('description').innerHTML=
-translations[currentLang].description;
+    function toggleLang() {
+      currentLang = currentLang === "it" ? "en" : "it";
+      localStorage.setItem("language", currentLang);
+      applyLanguage();
+    }
 
-document.getElementById('quote-title').innerText=
-translations[currentLang].quoteTitle;
-
-document.getElementById('quote-text').innerText=
-translations[currentLang].quoteText;
-
-document.getElementById('menu-ritratti').innerText=
-translations[currentLang].menuPortraits;
-
-document.getElementById('menu-digital').innerText=
-translations[currentLang].menuDigital;
-
-document.getElementById('menu-wall').innerText=
-translations[currentLang].menuWall;
-
-document.getElementById('menu-bookmarks').innerText=
-translations[currentLang].menuBookmarks;
-
-document.getElementById('menu-balls').innerText=
-translations[currentLang].menuBalls;
-
-document.getElementById('menu-shirts').innerText=
-translations[currentLang].menuShirts;
-
-document.getElementById('menu-contact').innerText=
-translations[currentLang].menuContact;
-
-}
-
-function toggleLang(){
-
-currentLang=currentLang==='it'?'en':'it';
-
-localStorage.setItem(
-'language',
-currentLang
-);
-
-applyLanguage();
-
-}
-
-applyLanguage();
-
-
-</script>
+    applyLanguage();
+  </script>
 
 </body>
 </html>
