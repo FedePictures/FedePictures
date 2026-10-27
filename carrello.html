@@ -15,13 +15,16 @@
   --scuro: #333;
   --bordo: #242424;
 }
+
 * { box-sizing: border-box; }
+
 body {
   margin: 0;
   color: var(--scuro);
   background: #fff;
   font-family: 'Quicksand', sans-serif;
 }
+
 button, input, textarea { font: inherit; }
 button { cursor: pointer; }
 h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
@@ -38,6 +41,7 @@ h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
   background: var(--celeste);
   box-shadow: 0 2px 10px #0001;
 }
+
 .logo-link {
   position: absolute;
   left: 20px;
@@ -47,6 +51,7 @@ h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
   display: block;
   z-index: 51;
 }
+
 .main-logo {
   position: absolute;
   top: -4px;
@@ -57,13 +62,17 @@ h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
   object-fit: contain;
   transition: transform .3s ease;
 }
-.main-logo:hover { transform: scale(1.05) rotate(-3deg); }
+
+.main-logo:hover {
+  transform: scale(1.05) rotate(-3deg);
+}
 
 .header-actions {
   display: flex;
   align-items: center;
   gap: 8px;
 }
+
 .header-button {
   border: 0;
   border-radius: 9px;
@@ -74,6 +83,7 @@ h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
   font-size: .8rem;
   font-weight: 700;
 }
+
 .cart-count {
   display: inline-flex;
   min-width: 21px;
@@ -85,30 +95,49 @@ h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
   border-radius: 20px;
   background: white;
 }
+
 main {
   max-width: 1150px;
   margin: 0 auto;
   padding: 30px 22px 55px;
 }
-.intro { text-align: center; margin-bottom: 28px; }
-.intro h1 { margin: 0 0 4px; font-size: clamp(2rem,4vw,2.7rem); }
-.intro p { margin: 0; color: #71667d; }
+
+.intro {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.intro h1 {
+  margin: 0 0 4px;
+  font-size: clamp(2rem, 4vw, 2.7rem);
+}
+
+.intro p {
+  margin: 0;
+  color: #71667d;
+}
 
 .cart-layout {
   display: grid;
-  grid-template-columns: minmax(0,1fr) 310px;
+  grid-template-columns: minmax(0, 1fr) 310px;
   align-items: start;
   gap: 24px;
 }
-.items { display: grid; gap: 14px; }
+
+.items {
+  display: grid;
+  gap: 14px;
+}
+
 .cart-item {
   display: grid;
-  grid-template-columns: 94px minmax(0,1fr);
+  grid-template-columns: 94px minmax(0, 1fr);
   gap: 15px;
   padding: 15px;
   border: 2px solid #292929;
   border-radius: 17px;
 }
+
 .item-image {
   display: block;
   width: 94px;
@@ -117,6 +146,7 @@ main {
   border-radius: 9px;
   background: #faf7fc;
 }
+
 .item-image.empty {
   display: flex;
   align-items: center;
@@ -124,9 +154,21 @@ main {
   color: #9d83b4;
   font-size: 2rem;
 }
-.item-title { margin: 0 0 6px; font-size: 1.15rem; }
-.item-meta { color: #625a6c; font-size: .88rem; line-height: 1.5; overflow-wrap: anywhere; }
+
+.item-title {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+}
+
+.item-meta {
+  color: #625a6c;
+  font-size: .88rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .item-meta p { margin: 3px 0; }
+
 .item-bottom {
   display: flex;
   flex-wrap: wrap;
@@ -134,9 +176,26 @@ main {
   gap: 10px;
   margin-top: 12px;
 }
-.quantity-control { display: flex; align-items: center; gap: 7px; font-size: .85rem; }
-.quantity-control input { width: 65px; padding: 7px; border: 1px solid #aaa; border-radius: 7px; }
-.line-total { font-weight: 700; margin-right: auto; }
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: .85rem;
+}
+
+.quantity-control input {
+  width: 65px;
+  padding: 7px;
+  border: 1px solid #aaa;
+  border-radius: 7px;
+}
+
+.line-total {
+  font-weight: 700;
+  margin-right: auto;
+}
+
 .remove-button {
   padding: 7px 10px;
   border: 1px solid #d9b7e9;
@@ -144,19 +203,87 @@ main {
   color: #704b86;
   background: white;
 }
+
 .summary {
   position: sticky;
   top: 92px;
   padding: 20px;
   border-radius: 17px;
-  background: linear-gradient(145deg,#fff7fa,#f2faff);
+  background: linear-gradient(145deg, #fff7fa, #f2faff);
   box-shadow: 0 4px 14px #00000010;
 }
-.summary h2 { margin: 0 0 14px; font-size: 1.4rem; }
-.summary-row { display: flex; justify-content: space-between; gap: 12px; margin: 12px 0; font-size: .92rem; }
-.summary-total { padding-top: 14px; margin-top: 16px; border-top: 1px solid #d9cfe0; font-size: 1.08rem; font-weight: 700; }
-.notice { margin: 14px 0; padding: 11px; border: 1px solid #e4d9eb; border-radius: 9px; background: white; font-size: .82rem; line-height: 1.5; }
-.primary-button, .secondary-button {
+
+.summary h2 {
+  margin: 0 0 14px;
+  font-size: 1.4rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0;
+  font-size: .92rem;
+}
+
+.summary-total {
+  padding-top: 14px;
+  margin-top: 16px;
+  border-top: 1px solid #d9cfe0;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.notice {
+  margin: 14px 0;
+  padding: 11px;
+  border: 1px solid #e4d9eb;
+  border-radius: 9px;
+  background: white;
+  font-size: .82rem;
+  line-height: 1.5;
+}
+
+/* Nuova sezione per le note di personalizzazione */
+.personalization-notes-box {
+  margin: 14px 0;
+  padding: 12px;
+  border: 1px solid #d9c8e9;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.personalization-notes-box label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 700;
+  font-size: .88rem;
+}
+
+.personalization-notes-box textarea {
+  display: block;
+  width: 100%;
+  min-height: 90px;
+  padding: 9px;
+  border: 1px solid #b8acc4;
+  border-radius: 8px;
+  resize: vertical;
+  color: #28232d;
+  background: #fff;
+  font: inherit;
+  font-size: .85rem;
+}
+
+.personalization-notes-box small {
+  display: block;
+  margin-top: 6px;
+  color: #71667d;
+  font-size: .75rem;
+  line-height: 1.4;
+}
+
+.primary-button,
+.secondary-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -167,13 +294,53 @@ main {
   text-align: center;
   text-decoration: none;
 }
-.primary-button { border: 1px solid #b48bd7; color: #4f3264; background: var(--viola); }
-.secondary-button { margin-top: 9px; border: 1px solid #aaa; color: #333; background: #fff; }
-button:disabled { opacity: .45; cursor: not-allowed; }
-.empty-cart { padding: 40px 20px; border: 2px dashed #d7c7e4; border-radius: 17px; text-align: center; }
-.empty-cart a { display: inline-block; padding: 10px 16px; border-radius: 9px; color: #4f3264; background: var(--viola); text-decoration: none; }
-.gradient-band { height: 48px; margin-top: 40px; background: linear-gradient(110deg,#f7c4d4,#e3d6e8,#b2eaff); }
-footer { padding: 0 20px 25px; text-align: center; color: #746b7d; font-size: .85rem; }
+
+.primary-button {
+  border: 1px solid #b48bd7;
+  color: #4f3264;
+  background: var(--viola);
+}
+
+.secondary-button {
+  margin-top: 9px;
+  border: 1px solid #aaa;
+  color: #333;
+  background: #fff;
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.empty-cart {
+  padding: 40px 20px;
+  border: 2px dashed #d7c7e4;
+  border-radius: 17px;
+  text-align: center;
+}
+
+.empty-cart a {
+  display: inline-block;
+  padding: 10px 16px;
+  border-radius: 9px;
+  color: #4f3264;
+  background: var(--viola);
+  text-decoration: none;
+}
+
+.gradient-band {
+  height: 48px;
+  margin-top: 40px;
+  background: linear-gradient(110deg, #f7c4d4, #e3d6e8, #b2eaff);
+}
+
+footer {
+  padding: 0 20px 25px;
+  text-align: center;
+  color: #746b7d;
+  font-size: .85rem;
+}
 
 /* CHECKOUT A PASSAGGI */
 .backdrop {
@@ -186,12 +353,14 @@ footer { padding: 0 20px 25px; text-align: center; color: #746b7d; font-size: .8
   padding: 15px;
   background: #181323a8;
 }
+
 .backdrop.open { display: flex; }
+
 .checkout {
   display: grid;
-  grid-template-columns: minmax(0,1fr) 270px;
+  grid-template-columns: minmax(0, 1fr) 270px;
   gap: 20px;
-  width: min(1080px,100%);
+  width: min(1080px, 100%);
   max-height: 94vh;
   overflow: auto;
   padding: 24px;
@@ -199,10 +368,28 @@ footer { padding: 0 20px 25px; text-align: center; color: #746b7d; font-size: .8
   background: #fff;
   box-shadow: 0 18px 55px #0003;
 }
+
 .checkout-main { min-width: 0; }
-.checkout h2 { margin: 0 0 5px; font-size: 1.55rem; }
-.checkout-subtitle { margin: 0 0 18px; color: #71667d; font-size: .9rem; line-height: 1.5; }
-.steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-bottom: 22px; }
+
+.checkout h2 {
+  margin: 0 0 5px;
+  font-size: 1.55rem;
+}
+
+.checkout-subtitle {
+  margin: 0 0 18px;
+  color: #71667d;
+  font-size: .9rem;
+  line-height: 1.5;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
 .step {
   padding: 8px 4px;
   border-bottom: 3px solid #ddd2e7;
@@ -211,14 +398,41 @@ footer { padding: 0 20px 25px; text-align: center; color: #746b7d; font-size: .8
   font-size: .77rem;
   font-weight: 700;
 }
-.step.active { border-color: #9b6ec0; color: #5f3d78; }
-.step.done { border-color: #8eaa95; color: #436b4b; }
+
+.step.active {
+  border-color: #9b6ec0;
+  color: #5f3d78;
+}
+
+.step.done {
+  border-color: #8eaa95;
+  color: #436b4b;
+}
+
 .checkout-section[hidden] { display: none; }
-.form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
-.field { display: flex; flex-direction: column; min-width: 0; gap: 5px; }
-.field.full { grid-column: 1/-1; }
-.field label { font-size: .86rem; font-weight: 700; }
-.field input, .field textarea {
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 5px;
+}
+
+.field.full { grid-column: 1 / -1; }
+
+.field label {
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
   width: 100%;
   min-width: 0;
   padding: 10px;
@@ -227,8 +441,14 @@ footer { padding: 0 20px 25px; text-align: center; color: #746b7d; font-size: .8
   background: #fff;
   color: #28232d;
 }
-.field textarea { min-height: 85px; resize: vertical; }
-.shipping-choice, .payment-choice {
+
+.field textarea {
+  min-height: 85px;
+  resize: vertical;
+}
+
+.shipping-choice,
+.payment-choice {
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -239,10 +459,31 @@ footer { padding: 0 20px 25px; text-align: center; color: #746b7d; font-size: .8
   background: #fdfaff;
   cursor: pointer;
 }
-.shipping-choice input, .payment-choice input { margin-top: 4px; accent-color: #9167b3; }
-.shipping-choice strong, .payment-choice strong { display: block; margin-bottom: 4px; }
-.choice-note { display: block; color: #71667d; font-size: .81rem; line-height: 1.45; }
-.payment-options { display: grid; gap: 8px; }
+
+.shipping-choice input,
+.payment-choice input {
+  margin-top: 4px;
+  accent-color: #9167b3;
+}
+
+.shipping-choice strong,
+.payment-choice strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.choice-note {
+  display: block;
+  color: #71667d;
+  font-size: .81rem;
+  line-height: 1.45;
+}
+
+.payment-options {
+  display: grid;
+  gap: 8px;
+}
+
 .payment-details {
   margin-top: 12px;
   padding: 13px;
@@ -252,39 +493,159 @@ footer { padding: 0 20px 25px; text-align: center; color: #746b7d; font-size: .8
   font-size: .88rem;
   line-height: 1.5;
 }
+
 .payment-details[hidden] { display: none; }
 .payment-details p { margin: 5px 0; overflow-wrap: anywhere; }
-.step-error { min-height: 1.2em; margin: 10px 0 0; color: #a12828; font-size: .85rem; }
-.checkout-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+.step-error {
+  min-height: 1.2em;
+  margin: 10px 0 0;
+  color: #a12828;
+  font-size: .85rem;
+}
+
+.checkout-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 .checkout-actions button { width: auto; min-width: 125px; }
 .checkout-actions .secondary-button { margin-top: 0; }
-.checkout-aside { align-self: start; padding: 17px; border-radius: 13px; background: linear-gradient(145deg,#fff7fa,#f2faff); }
-.checkout-aside h3 { margin: 0 0 12px; font-size: 1.2rem; }
-.checkout-items { padding-left: 19px; margin: 0; font-size: .83rem; line-height: 1.5; }
+
+.checkout-aside {
+  align-self: start;
+  padding: 17px;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #fff7fa, #f2faff);
+}
+
+.checkout-aside h3 {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+}
+
+.checkout-items {
+  padding-left: 19px;
+  margin: 0;
+  font-size: .83rem;
+  line-height: 1.5;
+}
+
 .checkout-items li { margin-bottom: 7px; }
-.terms { display: flex; align-items: flex-start; gap: 9px; margin-top: 15px; font-size: .82rem; line-height: 1.5; }
+
+.terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 15px;
+  font-size: .82rem;
+  line-height: 1.5;
+}
+
 .terms input { margin-top: 4px; }
-.checkout-finish { grid-column: 1/-1; padding: 25px 10px; text-align: center; }
+
+.checkout-finish {
+  grid-column: 1 / -1;
+  padding: 25px 10px;
+  text-align: center;
+}
+
 .checkout-finish h2 { font-size: 2rem; }
 .checkout-finish p { line-height: 1.6; }
-footer { text-align: center; }
 
-@media(max-width:850px) {
+/* Schermata finale pulita, senza il carrello sullo sfondo */
+.backdrop.finished {
+  background: #fff;
+  padding: 0;
+}
+
+.backdrop.finished .checkout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  max-height: none;
+  overflow: auto;
+  padding: 24px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.backdrop.finished .checkout-finish {
+  width: min(800px, 100%);
+  margin: auto;
+  padding: 35px 20px;
+  text-align: center;
+}
+
+.backdrop.finished .checkout-finish h2 {
+  margin-bottom: 12px;
+  color: #4f3264;
+}
+
+.backdrop.finished .checkout-finish p {
+  margin-bottom: 26px;
+  line-height: 1.7;
+}
+
+.backdrop.finished .checkout-finish .primary-button {
+  width: auto;
+  min-width: 220px;
+}
+
+@media (max-width: 850px) {
   .cart-layout { grid-template-columns: 1fr; }
   .summary { position: static; }
   .checkout { grid-template-columns: 1fr; gap: 14px; padding: 17px; }
   .checkout-aside { order: -1; }
 }
-@media(max-width:560px) {
-  .site-header { height: 65px; padding: 8px 9px 8px 83px; }
-  .logo-link { left: 8px; width: 72px; height: 70px; }
-  .main-logo { height: 70px; max-width: 76px; }
+
+@media (max-width: 560px) {
+  .site-header {
+    height: 65px;
+    padding: 8px 9px 8px 83px;
+  }
+
+  .logo-link {
+    left: 8px;
+    width: 72px;
+    height: 70px;
+  }
+
+  .main-logo {
+    height: 70px;
+    max-width: 76px;
+  }
+
   .header-actions { gap: 5px; }
-  .header-button { padding: 8px 8px; font-size: .68rem; }
+
+  .header-button {
+    padding: 8px 8px;
+    font-size: .68rem;
+  }
+
   main { padding: 24px 13px 40px; }
-  .cart-item { grid-template-columns: 70px minmax(0,1fr); gap: 10px; padding: 11px; }
-  .item-image { width: 70px; height: 82px; }
-  .checkout { max-height: 96vh; padding: 15px; }
+
+  .cart-item {
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 10px;
+    padding: 11px;
+  }
+
+  .item-image {
+    width: 70px;
+    height: 82px;
+  }
+
+  .checkout {
+    max-height: 96vh;
+    padding: 15px;
+  }
+
   .form-grid { grid-template-columns: 1fr; }
   .field.full { grid-column: auto; }
   .steps { gap: 3px; }
@@ -317,7 +678,7 @@ footer { text-align: center; }
   <div class="gradient-band" aria-hidden="true"></div>
 </main>
 
-<footer>Spedizione: 5,00 €. FedePictures</footer>
+<footer>FedePictures</footer>
 
 <!-- CHECKOUT -->
 <div class="backdrop" id="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
@@ -408,8 +769,8 @@ footer { text-align: center; }
       <section class="checkout-section" data-step="4" hidden>
         <h3>Conferma i dettagli</h3>
         <div class="field">
-          <label for="customer-notes">Messaggio per FedePictures (facoltativo)</label>
-          <textarea id="customer-notes" maxlength="1200" placeholder="Aggiungi eventuali note per il tuo ordine..."></textarea>
+          <label for="customer-notes">Altre note per FedePictures (facoltative)</label>
+          <textarea id="customer-notes" maxlength="1200" placeholder="Eventuali altre informazioni per l'ordine..."></textarea>
         </div>
 
         <div class="notice" id="final-payment-note">
@@ -447,9 +808,9 @@ footer { text-align: center; }
 
   const CART_KEY = "fedepictures_shop_cart_v1";
   const CUSTOM_KEY = "fedepictures_shop_customizations_v1";
+  const PERSONALIZATION_NOTES_KEY = "fedepictures_personalization_notes_v1";
   const SHIPPING_COST = 5;
 
-  // URL del Worker mostrato nella tua dashboard Cloudflare.
   const API_BASE = "https://fedepictures-api.fedestanc-3danimator.workers.dev";
 
   const $ = id => document.getElementById(id);
@@ -498,6 +859,23 @@ footer { text-align: center; }
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
   }
 
+  function getPersonalizationNotes() {
+    try {
+      return localStorage.getItem(PERSONALIZATION_NOTES_KEY) || "";
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function savePersonalizationNotes(value) {
+    try {
+      localStorage.setItem(
+        PERSONALIZATION_NOTES_KEY,
+        String(value || "").slice(0, 1200)
+      );
+    } catch (_) {}
+  }
+
   function euro(value) {
     return new Intl.NumberFormat("it-IT", {
       style: "currency",
@@ -524,6 +902,7 @@ footer { text-align: center; }
         "mini-canvas": "Mini tela personalizzata con cavalletto"
       }[item.kind] || item.name || "Prodotto personalizzato";
     }
+
     return item.name || item.id || "Prodotto";
   }
 
@@ -543,10 +922,12 @@ footer { text-align: center; }
     if (item.type === "custom") {
       if (item.kind === "shirt") return 20;
       if (item.kind === "mini-canvas") return 8;
+
       if (item.kind === "bookmark") {
         if (item.size === "piccolo") return 5;
         if (item.size === "grande") return 10;
       }
+
       if (item.kind === "bauble") {
         if (item.size === "plastica") return 6;
         if (item.size === "vetro") return 8;
@@ -600,6 +981,7 @@ footer { text-align: center; }
     }
 
     const data = item.customization?.fileData;
+
     if (typeof data === "string" && data.startsWith("data:image/")) {
       return `<img class="item-image" src="${escapeHtml(data)}" alt="Immagine di riferimento">`;
     }
@@ -628,11 +1010,25 @@ footer { text-align: center; }
       const price = unitPrice(item);
       const details = [];
 
-      if (item.size) details.push(`<p><strong>Formato/materiale:</strong> ${escapeHtml(item.size)}</p>`);
-      if (item.shirtSize) details.push(`<p><strong>Taglia:</strong> ${escapeHtml(item.shirtSize)}</p>`);
-      if (item.backText) details.push(`<p><strong>Testo sul retro:</strong> ${escapeHtml(item.backText)}</p>`);
-      if (item.customization?.theme) details.push(`<p><strong>Tema:</strong> ${escapeHtml(item.customization.theme)}</p>`);
-      if (item.customization?.fileName) details.push(`<p><strong>File:</strong> ${escapeHtml(item.customization.fileName)}</p>`);
+      if (item.size) {
+        details.push(`<p><strong>Formato/materiale:</strong> ${escapeHtml(item.size)}</p>`);
+      }
+
+      if (item.shirtSize) {
+        details.push(`<p><strong>Taglia:</strong> ${escapeHtml(item.shirtSize)}</p>`);
+      }
+
+      if (item.backText) {
+        details.push(`<p><strong>Testo sul retro:</strong> ${escapeHtml(item.backText)}</p>`);
+      }
+
+      if (item.customization?.theme) {
+        details.push(`<p><strong>Tema:</strong> ${escapeHtml(item.customization.theme)}</p>`);
+      }
+
+      if (item.customization?.fileName) {
+        details.push(`<p><strong>File:</strong> ${escapeHtml(item.customization.fileName)}</p>`);
+      }
 
       return `
         <article class="cart-item">
@@ -660,24 +1056,57 @@ footer { text-align: center; }
           <div class="items">${cards}</div>
           <button type="button" class="secondary-button" id="clear-cart">Svuota carrello</button>
         </section>
+
         <aside class="summary">
           <h2>Riepilogo ordine</h2>
-          <div class="summary-row"><span>Prodotti (${totals.quantity})</span><strong>${cart.length}</strong></div>
-          <div class="summary-row"><span>Subtotale prodotti</span><strong>${euro(totals.subtotal)}${totals.pending ? " +" : ""}</strong></div>
-          <div class="summary-row"><span>Spedizione</span><strong>${euro(totals.shipping)}</strong></div>
-          <div class="summary-row summary-total"><span>Totale ordine</span><strong>${euro(totals.total)}${totals.pending ? " +" : ""}</strong></div>
+          <div class="summary-row">
+            <span>Prodotti (${totals.quantity})</span>
+            <strong>${cart.length}</strong>
+          </div>
+          <div class="summary-row">
+            <span>Subtotale prodotti</span>
+            <strong>${euro(totals.subtotal)}${totals.pending ? " +" : ""}</strong>
+          </div>
+          <div class="summary-row">
+            <span>Spedizione</span>
+            <strong>${euro(totals.shipping)}</strong>
+          </div>
+          <div class="summary-row summary-total">
+            <span>Totale ordine</span>
+            <strong>${euro(totals.total)}${totals.pending ? " +" : ""}</strong>
+          </div>
+
           ${totals.pending ? '<div class="notice">Almeno un prezzo è da confermare. L’ordine dovrà essere verificato prima del pagamento.</div>' : ""}
-          <div class="notice">Spedizione standard: 5,00 € per ordine.</div>
+
+          <div class="personalization-notes-box">
+            <label for="personalization-notes">Note per le personalizzazioni (facoltative)</label>
+            <textarea id="personalization-notes" maxlength="1200" placeholder="Scrivi qui eventuali dettagli, colori, nomi o preferenze per le tue personalizzazioni..."></textarea>
+            <small>Queste note verranno incluse nella richiesta d'ordine inviata a FedePictures.</small>
+          </div>
+
           <button type="button" class="primary-button" id="open-checkout">Procedi al checkout</button>
           <a class="secondary-button" href="shop/index.html#ready-heading">Torna allo shop</a>
         </aside>
       </div>`;
 
+    const personalizationNotesInput = $("personalization-notes");
+
+    if (personalizationNotesInput) {
+      personalizationNotesInput.value = getPersonalizationNotes();
+
+      personalizationNotesInput.addEventListener("input", () => {
+        savePersonalizationNotes(personalizationNotesInput.value);
+      });
+    }
+
     root.querySelectorAll("[data-quantity]").forEach(input => {
       input.addEventListener("change", () => {
         const updated = readCart();
         const index = Number(input.dataset.quantity);
-        const qty = Math.max(1, Math.min(99, Math.floor(Number(input.value) || 1)));
+        const qty = Math.max(
+          1,
+          Math.min(99, Math.floor(Number(input.value) || 1))
+        );
 
         if (updated[index]) updated[index].quantity = qty;
 
@@ -712,12 +1141,15 @@ footer { text-align: center; }
     $("checkout-items").innerHTML = cart.map(item => {
       const price = unitPrice(item);
       const qty = Math.max(1, Number(item.quantity) || 1);
+
       return `<li>${escapeHtml(productName(item))} × ${qty} — ${price === null ? "Da confermare" : euro(price * qty)}</li>`;
     }).join("");
 
     $("checkout-subtotal").textContent =
       euro(totals.subtotal) + (totals.pending ? " +" : "");
+
     $("checkout-shipping").textContent = euro(totals.shipping);
+
     $("checkout-total").textContent =
       euro(totals.total) + (totals.pending ? " +" : "");
 
@@ -726,6 +1158,9 @@ footer { text-align: center; }
 
   function openCheckout() {
     if (!readCart().length) return;
+
+    $("checkout-modal").classList.remove("finished");
+    document.body.style.overflow = "";
 
     step = 1;
     busy = false;
@@ -761,6 +1196,7 @@ footer { text-align: center; }
     });
 
     $("checkout-back").hidden = step === 1;
+
     $("checkout-next").textContent =
       step < 4 ? "Continua" :
       selectedMethod() === "bank" ? "CONFERMA ORDINE" :
@@ -782,6 +1218,18 @@ footer { text-align: center; }
   }
 
   function customerData() {
+    const personalizationNotes = getPersonalizationNotes().trim();
+    const additionalNotes = $("customer-notes").value.trim();
+
+    const notes = [
+      personalizationNotes
+        ? "NOTE PER LE PERSONALIZZAZIONI:\n" + personalizationNotes
+        : "",
+      additionalNotes
+        ? "ALTRE NOTE PER FEDEPICTURES:\n" + additionalNotes
+        : ""
+    ].filter(Boolean).join("\n\n");
+
     return {
       name: $("customer-name").value.trim(),
       email: $("customer-email").value.trim(),
@@ -789,14 +1237,17 @@ footer { text-align: center; }
       address: $("customer-address").value.trim(),
       postcode: $("customer-postcode").value.trim(),
       city: $("customer-city").value.trim(),
-      notes: $("customer-notes").value.trim()
+      notes
     };
   }
 
   function validateAddress() {
     const requiredIds = [
-      "customer-name", "customer-email",
-      "customer-address", "customer-postcode", "customer-city"
+      "customer-name",
+      "customer-email",
+      "customer-address",
+      "customer-postcode",
+      "customer-city"
     ];
 
     for (const id of requiredIds) {
@@ -842,7 +1293,9 @@ footer { text-align: center; }
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok || data.ok === false) {
-      throw new Error(data.error || "Non è stato possibile completare la richiesta.");
+      throw new Error(
+        data.error || "Non è stato possibile completare la richiesta."
+      );
     }
 
     return data;
@@ -856,6 +1309,7 @@ footer { text-align: center; }
 
     if (!cart.length) throw new Error("Il carrello è vuoto.");
     if (!method) throw new Error("Seleziona un metodo di pagamento.");
+
     if (!$("accept-terms").checked) {
       throw new Error("Conferma che i dati sono corretti prima di continuare.");
     }
@@ -866,8 +1320,10 @@ footer { text-align: center; }
 
     busy = true;
     $("checkout-next").disabled = true;
+
     $("checkout-next").textContent =
       method === "bank" ? "Invio richiesta..." : "Apertura pagamento...";
+
     $("checkout-error").textContent = "";
 
     try {
@@ -879,16 +1335,20 @@ footer { text-align: center; }
       };
 
       if (method === "bank") {
-        const result = await postJson("/api/bank-order", payload);
+        await postJson("/api/bank-order", payload);
 
-        // Svuota il carrello soltanto dopo che il backend ha accettato la richiesta.
         writeCart([]);
-        try { localStorage.removeItem(CUSTOM_KEY); } catch (_) {}
+
+        try {
+          localStorage.removeItem(CUSTOM_KEY);
+          localStorage.removeItem(PERSONALIZATION_NOTES_KEY);
+        } catch (_) {}
 
         showFinalScreen(
           "Ordine in attesa",
           "Sarai contattato una volta ricevuto e verificato il pagamento."
         );
+
         return;
       }
 
@@ -898,28 +1358,38 @@ footer { text-align: center; }
         throw new Error("PayPal non ha restituito il collegamento al pagamento.");
       }
 
-      // Salva il riferimento dell'ordine per la pagina di ritorno.
       sessionStorage.setItem("fedepictures_pending_paypal_order", result.id);
-      sessionStorage.setItem("fedepictures_pending_paypal_number", result.orderNumber || "");
+      sessionStorage.setItem(
+        "fedepictures_pending_paypal_number",
+        result.orderNumber || ""
+      );
 
-      // La pagina protetta PayPal gestisce il pagamento.
       window.location.assign(result.approvalUrl);
 
     } catch (error) {
       busy = false;
       $("checkout-next").disabled = false;
+
       $("checkout-next").textContent =
         method === "bank" ? "CONFERMA ORDINE" :
-        method === "card" ? "PAGA CON CARTA" : "PAGA ORA";
+        method === "card" ? "PAGA CON CARTA" :
+        "PAGA ORA";
 
       $("checkout-error").textContent =
         error.message || "Errore durante la richiesta. Riprova.";
     }
   }
 
+  /* Schermata finale a pagina intera */
   function showFinalScreen(title, message) {
+    const modal = $("checkout-modal");
+
+    modal.classList.add("finished", "open");
+    document.body.style.overflow = "hidden";
+
     $("checkout-box").innerHTML = `
       <section class="checkout-finish">
+        <div style="font-size: 3.5rem; color: #6e9c75;" aria-hidden="true">✓</div>
         <h2>${escapeHtml(title)}</h2>
         <p>${escapeHtml(message)}</p>
         <a class="primary-button" href="shop/index.html">Torna allo shop</a>
@@ -953,15 +1423,17 @@ footer { text-align: center; }
       if (method === "paypal") {
         $("payment-details").innerHTML =
           "<strong>PayPal</strong><p>Premendo Continua andrai alla pagina sicura PayPal per pagare l'importo finale.</p>";
+
       } else if (method === "card") {
         $("payment-details").innerHTML =
           "<strong>Pagamento con carta</strong><p>Il pagamento sarà gestito nella pagina protetta PayPal. L'opzione carta dipende dalle funzionalità abilitate sul conto PayPal.</p>";
+
       } else {
         $("payment-details").innerHTML =
           "<strong>Bonifico bancario</strong>" +
           "<p>Beneficiario: Federica Stancato</p>" +
           "<p>IBAN: IT20W03268223000EMH02563083</p>" +
-          "<p>Spedizione: 5,00 €. Attendi la conferma dell'ordine prima di effettuare il bonifico.</p>";
+          "<p>Attendi la conferma dell'ordine prima di effettuare il bonifico.</p>";
       }
 
       showStep(4);
@@ -978,12 +1450,16 @@ footer { text-align: center; }
   });
 
   $("checkout-cancel").addEventListener("click", () => {
-    if (!busy) $("checkout-modal").classList.remove("open");
+    if (!busy) {
+      $("checkout-modal").classList.remove("open");
+      document.body.style.overflow = "";
+    }
   });
 
   $("checkout-modal").addEventListener("click", event => {
     if (event.target === $("checkout-modal") && !busy) {
       $("checkout-modal").classList.remove("open");
+      document.body.style.overflow = "";
     }
   });
 
@@ -994,12 +1470,17 @@ footer { text-align: center; }
       if (input.value === "paypal") {
         $("payment-details").innerHTML =
           "<strong>PayPal</strong><p>Pagamento tramite la pagina sicura PayPal.</p>";
+
       } else if (input.value === "card") {
         $("payment-details").innerHTML =
           "<strong>Paga con carta</strong><p>La carta viene gestita da PayPal se l'opzione è disponibile per il conto e la transazione.</p>";
+
       } else {
         $("payment-details").innerHTML =
-          "<strong>Bonifico bancario</strong><p>Beneficiario: Federica Stancato</p><p>IBAN: IT20W03268223000EMH02563083</p><p>Attendi la conferma prima di pagare.</p>";
+          "<strong>Bonifico bancario</strong>" +
+          "<p>Beneficiario: Federica Stancato</p>" +
+          "<p>IBAN: IT20W03268223000EMH02563083</p>" +
+          "<p>Attendi la conferma prima di pagare.</p>";
       }
     });
   });
