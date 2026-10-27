@@ -20,7 +20,7 @@
       font-family: 'Quicksand', sans-serif;
       background-color: #fff;
       color: var(--scuro);
-      scroll-behavior: smooth; /* Per uno scorrimento fluido se rientri con un'ancora */
+      scroll-behavior: smooth;
     }
 
     header {
@@ -59,9 +59,13 @@
       transform: scale(1.05) rotate(-3deg);
     }
 
-    nav{display:flex;align-items:center;gap:12px;}
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-nav a {
+    nav a {
       margin: 0 1em;
       text-decoration: none;
       color: var(--scuro);
@@ -84,6 +88,19 @@ nav a {
       background: #be9ae6;
     }
 
+    /* Pulsante Shop: stesso stile della Home */
+    .shop-nav-link {
+      display: inline-block;
+      margin: 0 !important;
+      text-decoration: none;
+      line-height: normal;
+      white-space: nowrap;
+    }
+
+    .shop-nav-link:hover {
+      filter: brightness(0.97);
+    }
+
     .content-container {
       max-width: 1000px;
       margin: 3em auto;
@@ -104,7 +121,7 @@ nav a {
       margin: 0 auto 2em auto;
     }
 
-    /* Griglia per la galleria specifica */
+    /* Galleria */
     .specific-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -119,16 +136,16 @@ nav a {
       border-radius: 15px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.08);
       transition: transform 0.3s ease;
-      cursor: pointer; /* Indichiamo che l'immagine è cliccabile per l'ingrandimento */
+      cursor: pointer;
     }
 
     .specific-gallery img:hover {
       transform: scale(1.03);
     }
 
-    /* Stili per il Lightbox (copiati e adattati dalla home) */
+    /* Lightbox */
     #lightbox {
-      display: none; /* Nascosto di default */
+      display: none;
       position: fixed;
       z-index: 2000;
       top: 0;
@@ -138,7 +155,7 @@ nav a {
       background-color: rgba(0, 0, 0, 0.9);
       justify-content: center;
       align-items: center;
-      cursor: zoom-out; /* Il cursore indica che cliccando si esce */
+      cursor: zoom-out;
     }
 
     #lightbox-img {
@@ -150,19 +167,86 @@ nav a {
       animation: zoomIn 0.3s forwards;
     }
 
-    
-.dropdown{position:relative;}
-.dropbtn{background:var(--viola);color:white;border:none;padding:.6em 1.2em;border-radius:8px;cursor:pointer;font-weight:bold;}
-.dropdown-content{display:none;position:absolute;right:0;background:white;min-width:230px;border-radius:12px;box-shadow:0 5px 20px rgba(0,0,0,.15);overflow:hidden;z-index:3000;}
-.dropdown-content.show{display:block;}
-.dropdown-content a{display:block;padding:12px;text-decoration:none;color:#333;}
-.dropdown-content a:hover{background:#f5f5f5;}
-.lang-switcher{background:var(--viola);border:none;color:white;padding:.5em 1em;border-radius:8px;cursor:pointer;font-weight:bold;}
-#prev-btn,#next-btn{position:absolute;top:50%;transform:translateY(-50%);width:60px;height:60px;border:none;border-radius:50%;background:rgba(255,255,255,.2);color:white;font-size:2rem;cursor:pointer;}
-#prev-btn{left:30px;}
-#next-btn{right:30px;}
+    .dropdown {
+      position: relative;
+    }
 
-@keyframes zoomIn {
+    .dropbtn {
+      background: var(--viola);
+      color: white;
+      border: none;
+      padding: .6em 1.2em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: white;
+      min-width: 230px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.15);
+      overflow: hidden;
+      z-index: 3000;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 12px;
+      margin: 0;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .dropdown-content a:hover {
+      background: #f5f5f5;
+    }
+
+    .lang-switcher {
+      background: var(--viola);
+      border: none;
+      color: white;
+      padding: .5em 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: bold;
+    }
+
+    #prev-btn,
+    #next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 60px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+    }
+
+    #prev-btn {
+      left: 30px;
+    }
+
+    #next-btn {
+      right: 30px;
+    }
+
+    @keyframes zoomIn {
       to {
         transform: scale(1);
       }
@@ -182,216 +266,282 @@ nav a {
         height: auto;
         padding: 1em;
       }
+
       .main-logo {
         height: 80px;
         position: relative;
         top: 0;
       }
+
       .logo-link {
         width: auto;
         margin-bottom: 10px;
       }
+
       nav {
         margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+      }
+
+      nav a {
+        margin: 0 0.5em;
+        font-size: 0.9em;
+      }
+
+      .dropdown-content {
+        right: 50%;
+        transform: translateX(50%);
+      }
+
+      #prev-btn {
+        left: 10px;
+      }
+
+      #next-btn {
+        right: 10px;
       }
     }
   </style>
 </head>
+
 <body>
 
   <header>
-    <a href="index.html" class="logo-link">
+    <a href="index.html" class="logo-link" aria-label="FedePictures - Home">
       <img src="FedePictures_logo.png" alt="FedePictures Logo" class="main-logo">
     </a>
 
-    <nav>
+    <nav aria-label="Navigazione principale">
+
+      <!-- Pulsante Shop: stesso stile della Home -->
+      <a href="shop/index.html"
+         class="dropbtn shop-nav-link"
+         id="shop-nav-link">Shop</a>
+
       <div class="dropdown">
-<button class="dropbtn" onclick="toggleMenu()">
-<span id="explore-label">Esplora ▼</span>
-</button>
+        <button class="dropbtn" type="button" onclick="toggleMenu()">
+          <span id="explore-label">Esplora ▼</span>
+        </button>
 
-<div class="dropdown-content" id="menu">
-<a href="ritratti.html" id="menu-ritratti">Ritratti</a>
-<a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
-<a href="murales.html" id="menu-wall">Disegni sui muri</a>
-<a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
-<a href="palline.html" id="menu-balls">Palline di Natale</a>
-<a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
-<a href="contatti.html" id="menu-contact">Contattami</a>
-</div>
-</div>
+        <div class="dropdown-content" id="menu">
+          <a href="ritratti.html" id="menu-ritratti">Ritratti</a>
+          <a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
+          <a href="murales.html" id="menu-wall">Disegni sui muri</a>
+          <a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
+          <a href="palline.html" id="menu-balls">Palline di Natale</a>
+          <a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+          <a href="contatti.html" id="menu-contact">Contattami</a>
+        </div>
+      </div>
 
-<button class="lang-switcher" onclick="toggleLang()">EN</button>
+      <button class="lang-switcher" type="button" onclick="toggleLang()">EN</button>
     </nav>
   </header>
 
   <main class="content-container">
     <h1 id="title">Magliette e Accessori</h1>
-    
-   <p class="description" id="description">
-  Porta l'arte sempre con te! Realizzo <strong>magliette, shopper, calzini e accessori personalizzati</strong>, dipinti a mano. Ogni capo diventa un'opera d'arte unica da indossare o da regalare, perfetta per esprimere la tua personalità, le tue passioni o per creare un pensiero davvero speciale e su misura. 
-   </p>
+
+    <p class="description" id="description">
+      Porta l'arte sempre con te! Realizzo
+      <strong>magliette, shopper, calzini e accessori personalizzati</strong>,
+      dipinti a mano. Ogni capo diventa un'opera d'arte unica da indossare o da
+      regalare, perfetta per esprimere la tua personalità, le tue passioni o per
+      creare un pensiero davvero speciale e su misura.
+    </p>
 
     <div class="specific-gallery">
       <img src="maglietta sailor moon001.png" alt="Esempio 1">
       <img src="maglietta stormtrooper001.png" alt="Esempio 3">
       <img src="grembiule.jpg" alt="Esempio 2">
-     
     </div>
   </main>
 
   <section class="contact" style="background: var(--celeste); padding: 3em; text-align: center; margin-top: 4em;">
     <h2 id="quote-title" style="font-size: 2em; margin-bottom: 0.5em;">Richiedi un preventivo</h2>
+
     <p id="quote-text" style="font-size: 1.1em; max-width: 600px; margin: 0 auto 1.5em auto; line-height: 1.6;">
-      Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! 
+      Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno!
       Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.
     </p>
-    
+
     <p style="font-size: 1.1em; margin: 0.5em 0;">
-      <strong>Email:</strong> 
+      <strong>Email:</strong>
       <a href="mailto:fedepictures@libero.it" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
         fedepictures@libero.it
       </a>
     </p>
 
     <p style="font-size: 1.1em; margin: 0.5em 0;">
-      <strong>Instagram:</strong> 
-      <a href="https://www.instagram.com/fede.pictures" target="_blank" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
+      <strong>Instagram:</strong>
+      <a href="https://www.instagram.com/fede.pictures" target="_blank" rel="noopener noreferrer" style="color: var(--scuro); font-weight: bold; text-decoration: underline;">
         @fede.pictures
       </a>
     </p>
   </section>
 
   <footer>
-    <p>&copy; 2026 FedePictures • P. IVA 04962510618 </p>
+    <p>&copy; 2026 FedePictures • P. IVA 04962510618</p>
   </footer>
 
   <div id="lightbox">
-<button id="prev-btn">&#10094;</button>
-<img id="lightbox-img" src="" alt="Ingrandimento">
-<button id="next-btn">&#10095;</button>
-</div>
+    <button id="prev-btn" type="button" aria-label="Immagine precedente">&#10094;</button>
+    <img id="lightbox-img" src="" alt="Ingrandimento">
+    <button id="next-btn" type="button" aria-label="Immagine successiva">&#10095;</button>
+  </div>
 
-  
-<script>
-const images=document.querySelectorAll(".specific-gallery img");
-const lightbox=document.getElementById("lightbox");
-const lightboxImg=document.getElementById("lightbox-img");
-const nextBtn=document.getElementById("next-btn");
-const prevBtn=document.getElementById("prev-btn");
-let currentIndex=0;
+  <script>
+    const images = document.querySelectorAll(".specific-gallery img");
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightbox-img");
+    const nextBtn = document.getElementById("next-btn");
+    const prevBtn = document.getElementById("prev-btn");
 
-function showImage(i){
-currentIndex=i;
-lightboxImg.src=images[currentIndex].src;
-}
+    let currentIndex = 0;
 
-images.forEach((img,i)=>{
-img.onclick=()=>{
-lightbox.style.display='flex';
-showImage(i);
-};
-});
+    function showImage(index) {
+      currentIndex = index;
+      lightboxImg.src = images[currentIndex].src;
+    }
 
-nextBtn.onclick=()=>{
-currentIndex=(currentIndex+1)%images.length;
-showImage(currentIndex);
-};
+    images.forEach((img, index) => {
+      img.onclick = () => {
+        lightbox.style.display = "flex";
+        showImage(index);
+      };
+    });
 
-prevBtn.onclick=()=>{
-currentIndex=(currentIndex-1+images.length)%images.length;
-showImage(currentIndex);
-};
+    nextBtn.onclick = () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    };
 
-lightbox.onclick=(e)=>{
-if(e.target===lightbox){
-lightbox.style.display='none';
-}
-};
+    prevBtn.onclick = () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    };
 
-let startX=0;
+    lightbox.onclick = (event) => {
+      if (event.target === lightbox) {
+        lightbox.style.display = "none";
+      }
+    };
 
-lightbox.addEventListener('touchstart',e=>{
-startX=e.touches[0].clientX;
-});
+    document.addEventListener("keydown", event => {
+      if (lightbox.style.display === "flex") {
+        if (event.key === "ArrowRight") nextBtn.click();
+        if (event.key === "ArrowLeft") prevBtn.click();
+        if (event.key === "Escape") lightbox.style.display = "none";
+      }
+    });
 
-lightbox.addEventListener('touchend',e=>{
-const endX=e.changedTouches[0].clientX;
-if(startX-endX>50) nextBtn.click();
-if(endX-startX>50) prevBtn.click();
-});
+    let startX = 0;
 
-function toggleMenu(){
-document.getElementById('menu').classList.toggle('show');
-}
+    lightbox.addEventListener("touchstart", event => {
+      startX = event.touches[0].clientX;
+    });
 
-document.addEventListener('click',e=>{
-if(!e.target.closest('.dropdown')){
-document.getElementById('menu').classList.remove('show');
-}
-});
+    lightbox.addEventListener("touchend", event => {
+      const endX = event.changedTouches[0].clientX;
+      if (startX - endX > 50) nextBtn.click();
+      if (endX - startX > 50) prevBtn.click();
+    });
 
-let currentLang=localStorage.getItem('language')||'it';
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("show");
+    }
 
-const translations={
+    document.addEventListener("click", event => {
+      if (!event.target.closest(".dropdown")) {
+        document.getElementById("menu").classList.remove("show");
+      }
+    });
 
-it:{
-title:'Magliette e Accessori',
-description:"Porta l'arte sempre con te! Realizzo <strong>magliette, shopper, calzini e accessori personalizzati</strong>, dipinti a mano. Ogni capo diventa un'opera d'arte unica da indossare o da regalare, perfetta per esprimere la tua personalità, le tue passioni o per creare un pensiero davvero speciale e su misura.",
-quoteTitle:'Richiedi un preventivo',
-quoteText:"Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.",
-explore:'Esplora ▼',
-menuPortraits:'Ritratti',
-menuDigital:'Disegni al PC',
-menuWall:'Disegni sui muri',
-menuBookmarks:'Segnalibri',
-menuBalls:'Palline di Natale',
-menuShirts:'Magliette e accessori',
-menuContact:'Contattami'
-},
+    let currentLang = localStorage.getItem("language") || "it";
 
-en:{
-title:'T-shirts and Accessories',
-description:'Take art with you everywhere! I create <strong>custom t-shirts, tote bags, socks and accessories</strong>, all hand painted. Each item becomes a unique artwork to wear or give as a gift.',
-quoteTitle:'Request a Quote',
-quoteText:'Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation.',
-explore:'Explore ▼',
-menuPortraits:'Portraits',
-menuDigital:'Digital Drawings',
-menuWall:'Wall Art',
-menuBookmarks:'Bookmarks',
-menuBalls:'Christmas Ornaments',
-menuShirts:'T-shirts and Accessories',
-menuContact:'Contact Me'
-}
-};
+    const translations = {
+      it: {
+        title: "Magliette e Accessori",
+        description: "Porta l'arte sempre con te! Realizzo <strong>magliette, shopper, calzini e accessori personalizzati</strong>, dipinti a mano. Ogni capo diventa un'opera d'arte unica da indossare o da regalare, perfetta per esprimere la tua personalità, le tue passioni o per creare un pensiero davvero speciale e su misura.",
+        quoteTitle: "Richiedi un preventivo",
+        quoteText: "Hai un'idea in mente o desideri un'opera personalizzata? Contattami senza impegno! Raccontami il tuo progetto e ti risponderò il prima possibile con tutti i dettagli e i costi.",
+        explore: "Esplora ▼",
+        menuPortraits: "Ritratti",
+        menuDigital: "Disegni al PC",
+        menuWall: "Disegni sui muri",
+        menuBookmarks: "Segnalibri",
+        menuBalls: "Palline di Natale",
+        menuShirts: "Magliette e accessori",
+        menuContact: "Contattami"
+      },
 
-function applyLanguage(){
+      en: {
+        title: "T-shirts and Accessories",
+        description: "Take art with you everywhere! I create <strong>custom t-shirts, tote bags, socks and accessories</strong>, all hand painted. Each item becomes a unique artwork to wear or give as a gift.",
+        quoteTitle: "Request a Quote",
+        quoteText: "Do you have an idea in mind or would you like a custom artwork? Contact me with no obligation.",
+        explore: "Explore ▼",
+        menuPortraits: "Portraits",
+        menuDigital: "Digital Drawings",
+        menuWall: "Wall Art",
+        menuBookmarks: "Bookmarks",
+        menuBalls: "Christmas Ornaments",
+        menuShirts: "T-shirts and Accessories",
+        menuContact: "Contact Me"
+      }
+    };
 
-document.querySelector('.lang-switcher').innerText=currentLang==='it'?'EN':'IT';
-document.getElementById('explore-label').innerText=translations[currentLang].explore;
-document.getElementById('title').innerText=translations[currentLang].title;
-document.getElementById('description').innerHTML=translations[currentLang].description;
-document.getElementById('quote-title').innerText=translations[currentLang].quoteTitle;
-document.getElementById('quote-text').innerText=translations[currentLang].quoteText;
-document.getElementById('menu-ritratti').innerText=translations[currentLang].menuPortraits;
-document.getElementById('menu-digital').innerText=translations[currentLang].menuDigital;
-document.getElementById('menu-wall').innerText=translations[currentLang].menuWall;
-document.getElementById('menu-bookmarks').innerText=translations[currentLang].menuBookmarks;
-document.getElementById('menu-balls').innerText=translations[currentLang].menuBalls;
-document.getElementById('menu-shirts').innerText=translations[currentLang].menuShirts;
-document.getElementById('menu-contact').innerText=translations[currentLang].menuContact;
-}
+    function applyLanguage() {
+      document.querySelector(".lang-switcher").innerText =
+        currentLang === "it" ? "EN" : "IT";
 
-function toggleLang(){
-currentLang=currentLang==='it'?'en':'it';
-localStorage.setItem('language',currentLang);
-applyLanguage();
-}
+      document.getElementById("explore-label").innerText =
+        translations[currentLang].explore;
 
-applyLanguage();
+      document.getElementById("title").innerText =
+        translations[currentLang].title;
 
-</script>
+      document.getElementById("description").innerHTML =
+        translations[currentLang].description;
+
+      document.getElementById("quote-title").innerText =
+        translations[currentLang].quoteTitle;
+
+      document.getElementById("quote-text").innerText =
+        translations[currentLang].quoteText;
+
+      document.getElementById("menu-ritratti").innerText =
+        translations[currentLang].menuPortraits;
+
+      document.getElementById("menu-digital").innerText =
+        translations[currentLang].menuDigital;
+
+      document.getElementById("menu-wall").innerText =
+        translations[currentLang].menuWall;
+
+      document.getElementById("menu-bookmarks").innerText =
+        translations[currentLang].menuBookmarks;
+
+      document.getElementById("menu-balls").innerText =
+        translations[currentLang].menuBalls;
+
+      document.getElementById("menu-shirts").innerText =
+        translations[currentLang].menuShirts;
+
+      document.getElementById("menu-contact").innerText =
+        translations[currentLang].menuContact;
+    }
+
+    function toggleLang() {
+      currentLang = currentLang === "it" ? "en" : "it";
+      localStorage.setItem("language", currentLang);
+      applyLanguage();
+    }
+
+    applyLanguage();
+  </script>
 
 </body>
 </html>
