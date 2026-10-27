@@ -15,7 +15,9 @@
       --scuro: #333;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -86,13 +88,29 @@
       padding: .6em 1.2em;
       border-radius: 8px;
       cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
       font-weight: bold;
+      font-size: 1em;
+    }
+
+    /* Pulsante Shop: stesso stile della Home */
+    .shop-nav-link {
+      display: inline-block;
+      margin: 0 !important;
+      text-decoration: none;
+      line-height: normal;
+      white-space: nowrap;
+    }
+
+    .shop-nav-link:hover {
+      filter: brightness(0.97);
     }
 
     .dropdown-content {
       display: none;
       position: absolute;
       right: 0;
+      top: calc(100% + 8px);
       background: white;
       min-width: 230px;
       border-radius: 12px;
@@ -111,6 +129,7 @@
       margin: 0;
       text-decoration: none;
       color: #333;
+      font-weight: bold;
     }
 
     .dropdown-content a:hover {
@@ -261,8 +280,15 @@
       display: block;
     }
 
-    .success { background: #e8f8ed; color: #2f6b3f; }
-    .error { background: #fdeaea; color: #8a3333; }
+    .success {
+      background: #e8f8ed;
+      color: #2f6b3f;
+    }
+
+    .error {
+      background: #fdeaea;
+      color: #8a3333;
+    }
 
     .note {
       font-size: .9em;
@@ -298,6 +324,20 @@
 
       nav {
         margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+      }
+
+      nav a {
+        margin: 0 0.5em;
+        font-size: 0.9em;
+      }
+
+      .dropdown-content {
+        right: 50%;
+        transform: translateX(50%);
       }
 
       .contact-grid {
@@ -310,13 +350,19 @@
 <body>
 
 <header>
-  <a href="index.html" class="logo-link">
+  <a href="index.html" class="logo-link" aria-label="FedePictures - Home">
     <img src="FedePictures_logo.png" alt="FedePictures Logo" class="main-logo">
   </a>
 
-  <nav>
+  <nav aria-label="Navigazione principale">
+
+    <!-- Pulsante Shop, come nella Home -->
+    <a href="shop/index.html"
+       class="dropbtn shop-nav-link"
+       id="shop-nav-link">Shop</a>
+
     <div class="dropdown">
-      <button class="dropbtn" onclick="toggleMenu()">
+      <button class="dropbtn" type="button" onclick="toggleMenu()">
         <span id="explore-label">Esplora ▼</span>
       </button>
 
@@ -331,7 +377,7 @@
       </div>
     </div>
 
-    <button class="lang-switcher" onclick="toggleLang()">EN</button>
+    <button class="lang-switcher" type="button" onclick="toggleLang()">EN</button>
   </nav>
 </header>
 
@@ -382,6 +428,7 @@
 
         <label for="email" id="email-label">La tua email</label>
         <input type="email" id="email" name="email" data-fs-field required>
+
         <input type="hidden" name="_subject" value="Nuova richiesta dal sito FedePictures">
 
         <label for="message" id="message-label">La tua richiesta</label>
@@ -480,9 +527,6 @@
     document.getElementById("message-label").innerText = t.message;
     document.getElementById("send-btn").innerText = t.send;
     document.getElementById("form-note").innerText = t.note;
-    // I messaggi di successo/errore restano vuoti all'apertura della pagina.
-    // Formspree li mostrerà solo quando avverrà un invio o un errore.
-
 
     document.getElementById("menu-ritratti").innerText = t.menuPortraits;
     document.getElementById("menu-digital").innerText = t.menuDigital;
@@ -510,8 +554,9 @@
   });
 
   applyLanguage();
-  </script>
-  <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+</script>
+
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 </body>
 </html>
