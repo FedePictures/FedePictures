@@ -386,6 +386,24 @@ button:disabled {
   font:600 .85rem 'Quicksand',sans-serif;
   cursor:pointer;
 }
+.ready-search-control {
+  min-width:200px;
+}
+.ready-control input[type="search"] {
+  width:100%;
+  min-width:150px;
+  max-width:100%;
+  border:1px solid #9a79b2;
+  border-radius:9px;
+  background:#fff;
+  color:#333;
+  padding:9px 10px;
+  font:600 .85rem 'Quicksand',sans-serif;
+}
+.ready-control input[type="search"]:focus {
+  outline:2px solid #d2b4f2;
+  outline-offset:1px;
+}
 .ready-empty {
   margin:12px 8px 20px;
   padding:20px;
@@ -857,6 +875,10 @@ footer {
       <h2 class="section-heading" id="ready-heading">Prodotti in pronta consegna</h2>
 
       <div class="ready-toolbar" aria-label="Filtri e ordinamento prodotti">
+        <div class="ready-control ready-search-control">
+          <label for="ready-search" id="ready-search-label">Cerca</label>
+          <input type="search" id="ready-search" placeholder="Cerca un prodotto..." autocomplete="off" aria-label="Cerca un prodotto">
+        </div>
         <div class="ready-control">
           <label for="ready-filter" id="ready-filter-label">Filtra</label>
           <select id="ready-filter">
@@ -1048,7 +1070,7 @@ const translations = {
   it:{
     cart:'CARRELLO',explore:'ESPLORA ▼',home:'Home',portraits:'Ritratti',digital:'Disegni al PC',wall:'Disegni sui muri',bookmarks:'Segnalibri',balls:'Palline di Natale',shirts:'Magliette e accessori',contact:'Contattami',
     title:'Shop FedePictures',intro:'Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.',customHeading:'Ordina il tuo prodotto personalizzato',readyHeading:'Prodotti in pronta consegna',
-    readyFilter:'Filtra',allCategories:'Tutte le categorie',bookmarksCategory:'Segnalibri',canvasesCategory:'Tele',baublesCategory:'Palline',accessoriesCategory:'Accessori',objectsCategory:'Oggettistica',sortPrice:'Ordina per prezzo',sortDefault:'Ordine predefinito',sortAsc:'Dal meno caro al più caro',sortDesc:'Dal più caro al meno caro',emptyCategory:'Nessun prodotto presente in questa categoria al momento.',
+    searchProducts:'Cerca',searchPlaceholder:'Cerca un prodotto...',readyFilter:'Filtra',allCategories:'Tutte le categorie',bookmarksCategory:'Segnalibri',canvasesCategory:'Tele',baublesCategory:'Palline',accessoriesCategory:'Accessori',objectsCategory:'Oggettistica',sortPrice:'Ordina per prezzo',sortDefault:'Ordine predefinito',sortAsc:'Dal meno caro al più caro',sortDesc:'Dal più caro al meno caro',emptyCategory:'Nessun prodotto presente in questa categoria al momento.',
     bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 6 €',baubleLarge:'Vetro 8 €',
     bookmarkDesc:'Che frase o nome vuoi che scriva sul retro?',shirtSize:'Che taglia?',shirtPlaceholder:'Es. M, L, XL',shirtDesc:'Tutte le magliette sono realizzate solo su una base di colore bianco. Prezzo: 20 €.',canvasDesc:'Mini tela 7 × 7 cm con cavalletto in legno. Ideale come piccola idea regalo e come bomboniera originale. Prezzo: 8 €.',otherDesc:'Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.',
     customize:'CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE',contactButton:'CONTATTAMI',add:'Aggiungi al carrello',qty:'N°',modalTitle:'Personalizza il tuo prodotto',instructions:'Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.',upload:'Carica un’immagine (un solo file)',uploadNote:'Immagine consentita: massimo 3 MB.',or:'— oppure —',theme:'Scrivi il tema',themePlaceholder:'Es. un gatto nello spazio, stile kawaii...',cancel:'Annulla',confirm:'Conferma',
@@ -1058,7 +1080,7 @@ const translations = {
   en:{
     cart:'CART',explore:'EXPLORE ▼',home:'Home',portraits:'Portraits',digital:'Digital drawings',wall:'Wall art',bookmarks:'Bookmarks',balls:'Christmas baubles',shirts:'T-shirts & accessories',contact:'Contact me',
     title:'FedePictures Shop',intro:'Handmade creations, ready-to-gift products and personalized ideas made for you.',customHeading:'Order your personalized product',readyHeading:'Ready-to-ship products',
-    readyFilter:'Filter',allCategories:'All categories',bookmarksCategory:'Bookmarks',canvasesCategory:'Canvases',baublesCategory:'Baubles',accessoriesCategory:'Accessories',objectsCategory:'Other objects',sortPrice:'Sort by price',sortDefault:'Default order',sortAsc:'Price: low to high',sortDesc:'Price: high to low',emptyCategory:'There are currently no products in this category.',
+    searchProducts:'Search',searchPlaceholder:'Search for a product...',readyFilter:'Filter',allCategories:'All categories',bookmarksCategory:'Bookmarks',canvasesCategory:'Canvases',baublesCategory:'Baubles',accessoriesCategory:'Accessories',objectsCategory:'Other objects',sortPrice:'Sort by price',sortDefault:'Default order',sortAsc:'Price: low to high',sortDesc:'Price: high to low',emptyCategory:'There are currently no products in this category.',
     bookmark:'Bookmark',bauble:'Christmas bauble',shirt:'T-shirt',canvas:'Mini canvas',other:'Other creations',bookmarkSmall:'Small 11 cm – €5',bookmarkLarge:'Large 20 cm – €10',baubleSmall:'Plastic €6',baubleLarge:'Glass €8',
     bookmarkDesc:'What phrase or name would you like on the back?',shirtSize:'What size?',shirtPlaceholder:'E.g. M, L, XL',shirtDesc:'All T-shirts are made on a white base only. Price: €20.',canvasDesc:'7 × 7 cm mini canvas with a wooden easel. Price: €8.',otherDesc:'For all other creations, contact me and I’ll help bring your idea to life.',
     customize:'UPLOAD AN IMAGE OR WRITE A THEME; I CAN CHOOSE FOR YOU',contactButton:'CONTACT ME',add:'Add to cart',qty:'Qty',modalTitle:'Personalize your product',instructions:'Upload one image or write the theme you would like. Fill in only one of the two options.',upload:'Upload an image (one file only)',uploadNote:'Image files only. Maximum 3 MB.',or:'— or —',theme:'Write the theme',themePlaceholder:'E.g. a cat in space, kawaii style...',cancel:'Cancel',confirm:'Confirm',
@@ -1070,6 +1092,14 @@ const translations = {
 function t(key) {
   const dictionary = translations[lang] || translations.it;
   return dictionary[key] || translations.it[key] || key;
+}
+
+function normalizeSearch(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLocaleLowerCase()
+    .trim();
 }
 
 /* UTILITÀ CARRELLO */
@@ -1533,10 +1563,21 @@ function renderReadyProducts() {
 
   const filter = $('ready-filter') ? $('ready-filter').value : 'all';
   const sort = $('ready-sort') ? $('ready-sort').value : 'default';
+  const search = $('ready-search') ? normalizeSearch($('ready-search').value) : '';
 
   const filtered = readyProducts
     .map((product,index) => ({product,index}))
-    .filter(entry => filter === 'all' || entry.product.category === filter);
+    .filter(entry => filter === 'all' || entry.product.category === filter)
+    .filter(entry => {
+      if (!search) return true;
+      const searchableText = normalizeSearch([
+        entry.product.it,
+        entry.product.en,
+        entry.product.id,
+        entry.product.category
+      ].join(' '));
+      return searchableText.includes(search);
+    });
 
   if (sort === 'price-asc') {
     filtered.sort((a,b) => a.product.price - b.product.price || a.index - b.index);
@@ -1687,6 +1728,7 @@ function applyLanguage() {
   });
 
   const readyMap = {
+    'ready-search-label':'searchProducts',
     'ready-filter-label':'readyFilter',
     'filter-all':'allCategories',
     'filter-bookmarks':'bookmarksCategory',
@@ -1707,6 +1749,10 @@ function applyLanguage() {
 
   if ($('shirt-size')) $('shirt-size').placeholder = t('shirtPlaceholder');
   if ($('reference-theme')) $('reference-theme').placeholder = t('themePlaceholder');
+  if ($('ready-search')) {
+    $('ready-search').placeholder = t('searchPlaceholder');
+    $('ready-search').setAttribute('aria-label',t('searchProducts'));
+  }
 
   if ($('language-button')) {
     $('language-button').textContent = lang === 'it' ? 'EN' : 'IT';
@@ -1738,6 +1784,9 @@ function applyLanguage() {
 }
 
 /* EVENTI FILTRI, MENU, LINGUA E CAMPI */
+if ($('ready-search')) {
+  $('ready-search').addEventListener('input',renderReadyProducts);
+}
 if ($('ready-filter')) {
   $('ready-filter').addEventListener('change',renderReadyProducts);
 }
