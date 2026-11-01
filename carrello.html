@@ -916,9 +916,9 @@ footer {
   }
 
   function portraitFee(item) {
-    if (!isPortrait(item)) return 0;
-    const storedFee = Number(item.customization?.portraitFee);
-    return Number.isFinite(storedFee) && storedFee > 0 ? storedFee : 10;
+    // Il supplemento è di 10 € per ogni unità contrassegnata come ritratto.
+    // cartTotals moltiplica poi il prezzo unitario per la quantità.
+    return isPortrait(item) ? 10 : 0;
   }
 
   function portraitLabel(item) {
@@ -1055,6 +1055,10 @@ footer {
 
       if (item.size) {
         details.push(`<p><strong>Formato/materiale:</strong> ${escapeHtml(item.size)}</p>`);
+      }
+
+      if (item.color) {
+        details.push(`<p><strong>Colore:</strong> ${escapeHtml(item.color)}</p>`);
       }
 
       if (item.shirtSize) {
@@ -1326,6 +1330,70 @@ footer {
     return true;
   }
 
+  function safeFilenamePart(value) {
+    return String(value ?? "")
+      .normalize("NFC")
+      .replace(/[<>:"/\\|?*\u0000-\u001F]/g, " ")
+      .replace(/_/g, "-")
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/[. ]+$/g, "");
+  }
+
+  function attachmentExtension(item) {
+    const originalName = String(item.customization?.fileName || "");
+    const match = originalName.match(/\.([a-z0-9]{2,5})$/i);
+    if (match) {
+      const ext = match[1].toLowerCase();
+      return ext === "jpeg" ? "jpg" : ext;
+    }
+
+    const mime = String(item.customization?.fileType || "").toLowerCase();
+    const mimeExtensions = {
+      "image/jpeg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+      "image/gif": "gif",
+      "image/bmp": "bmp",
+      "image/avif": "avif"
+    };
+    return mimeExtensions[mime] || "jpg";
+  }
+
+  function attachmentFilename(item, number) {
+    const customization = item.customization || {};
+    const note = safeFilenamePart(
+      item.backText || customization.note || item.note ||
+      item.personalizationNote || customization.theme || ""
+    ).slice(0, 60);
+    const color = safeFilenamePart(
+      item.color || item.colour || item.baubleColor || item.baubleColour ||
+      customization.color || customization.colour || ""
+    ).slice(0, 30);
+
+    let parts = [];
+
+    if (item.type === "custom" && item.kind === "bookmark") {
+      const format = item.size === "grande" ? "grande" : "piccolo";
+      parts = [`segnalibro ${format}`, note];
+    } else if (item.type === "custom" && item.kind === "bauble") {
+      const material = item.size === "vetro" ? "vetro" :
+        item.size === "plastica" ? "plastica" : "personalizzata";
+      parts = [`pallina ${material}`, color, note];
+    } else if (item.type === "custom" && item.kind === "shirt") {
+      const size = safeFilenamePart(item.shirtSize);
+      parts = [size ? `maglia ${size}` : "maglia", note];
+    } else if (item.type === "custom" && item.kind === "mini-canvas") {
+      parts = ["minitela", note];
+    } else {
+      parts = [safeFilenamePart(productName(item)), note];
+    }
+
+    parts = parts.map(safeFilenamePart).filter(Boolean);
+    parts.push(String(number));
+    return `${parts.join("_")}.${attachmentExtension(item)}`;
+  }
+
   function referenceImagesFromCart(cart) {
     const result = [];
 
@@ -1338,6 +1406,7 @@ footer {
         customization.fileData.startsWith("data:image/")
       ) {
         result.push({
+          // Il nome è già stato normalizzato nel carrello destinato all'email.
           filename: customization.fileName,
           dataUrl: customization.fileData
         });
@@ -1391,26 +1460,34 @@ footer {
     $("checkout-error").textContent = "";
 
     try {
+      let attachmentNumber = 0;
       const emailCart = cart.map(item => {
         const portrait = isPortrait(item);
         const fee = portrait ? portraitFee(item) : 0;
         const label = portrait ? portraitLabel(item) : "";
         const originalName = item.name || productName(item);
+        const originalCustomization = item.customization || {};
+        const hasReferenceImage =
+          typeof originalCustomization.fileData === "string" &&
+          originalCustomization.fileData.startsWith("data:image/");
+        const renamedFile = hasReferenceImage
+          ? attachmentFilename(item, ++attachmentNumber)
+          : (originalCustomization.fileName || "");
 
         return {
           ...item,
-          // Invia all'API il prezzo unitario effettivo (base + eventuale ritratto),
-          // non il vecchio valore eventualmente salvato nel carrello.
+          // Prezzo per singola unità: base + 10 € se è stato scelto il ritratto.
+          // Subtotale e email moltiplicano questo importo per la quantità.
           unitPrice: unitPrice(item),
           pricePending: unitPrice(item) === null,
-          // Il suffisso rende l'informazione leggibile anche dai template email
-          // che mostrano il nome del prodotto, senza alterare il carrello locale.
+          // Il nome rende visibile il servizio anche nei modelli email meno recenti.
           name: portrait ? `${originalName} — ${label}` : originalName,
           portrait,
           portraitFee: fee,
           emailDetails: label,
           customization: {
-            ...(item.customization || {}),
+            ...originalCustomization,
+            fileName: renamedFile,
             portrait,
             portraitFee: fee
           }
@@ -1421,7 +1498,8 @@ footer {
         customer: customerData(),
         cart: emailCart,
         paymentMethod: method,
-        referenceImages: referenceImagesFromCart(cart)
+        // Invia gli stessi nomi file normalizzati presenti negli articoli emailCart.
+        referenceImages: referenceImagesFromCart(emailCart)
       };
 
       if (method === "bank") {
