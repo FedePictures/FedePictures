@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FedePictures | Gestione coupon</title>
+  <style>
+    :root { --lilac:#d2b4f2; --purple:#68427f; --ink:#39313f; }
+    * { box-sizing:border-box; }
+    body { margin:0; padding:28px 16px; background:#fff8fc; color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+    main { max-width:760px; margin:0 auto; padding:28px; background:#fff; border:1px solid #eadcf4; border-radius:18px; box-shadow:0 8px 28px #46364e12; }
+    h1 { margin:0 0 8px; color:var(--purple); }
+    p, li { line-height:1.6; }
+    code, pre { font-family:Consolas,monospace; }
+    pre { padding:18px; overflow:auto; border-radius:12px; background:#f7f1fb; border:1px solid #eadcf4; font-size:14px; line-height:1.55; }
+    .warning { padding:12px 14px; border-radius:10px; background:#fff3e8; color:#71451f; }
+    .note { color:#71667d; font-size:14px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Gestione coupon FedePictures</h1>
+  <p>Questo è il file centrale dei coupon dello Shop. Per creare una promozione, modifica soltanto il blocco JSON qui sotto e pubblica il file su GitHub.</p>
+  <ol>
+    <li><code>active: true</code> attiva il coupon; <code>false</code> lo disattiva.</li>
+    <li><code>type: "fixed"</code> applica uno sconto fisso in euro.</li>
+    <li><code>type: "percent"</code> applica uno sconto percentuale sul subtotale dei prodotti.</li>
+    <li><code>value</code> indica l'importo o la percentuale.</li>
+    <li><code>expiresAt</code> indica la scadenza in formato ISO; usa <code>null</code> per nessuna scadenza.</li>
+  </ol>
+  <p class="warning"><strong>Nota:</strong> questo file si trova sul sito pubblico. I codici inseriti qui possono essere letti da chiunque apra il file. Inserisci soltanto coupon che sei disposta a rendere visibili.</p>
+  <p class="note">Esempi da copiare quando vorrai creare i primi coupon:</p>
+  <pre>"FEDE10": {
+  "active": true,
+  "type": "fixed",
+  "value": 10,
+  "label": "10 € di sconto",
+  "expiresAt": null
+},
+"WELCOME15": {
+  "active": true,
+  "type": "percent",
+  "value": 15,
+  "label": "15% di sconto",
+  "expiresAt": "2026-12-31T23:59:59+01:00"
+}</pre>
+  <p class="note">Ogni coupon può essere usato una sola volta per indirizzo email. La verifica effettiva viene eseguita dal sistema ordini, non soltanto dal browser.</p>
+</main>
+
+<!--
+  MODIFICA SOLO IL JSON NELLO SCRIPT QUI SOTTO.
+  Inserisci i codici in "coupons". Se non ci sono promozioni attive, lascia {}.
+  Le chiavi (es. FEDE10) devono essere scritte in MAIUSCOLO.
+-->
+<script type="application/json" id="fedepictures-coupon-config">
+{
+  "coupons": {}
+}
+</script>
+</body>
+</html>
