@@ -167,6 +167,9 @@ h1 {
   position:relative;
   isolation:isolate;
   padding:0 18px 22px;
+  /* Spostamento progressivo a sinistra sui monitor larghi:
+     centra meglio le schede bianche senza tagliare il layout. */
+  --custom-layout-shift:clamp(-170px,calc((1310px - 100vw) / 2),0px);
 }
 .custom-order-section::before {
   content:"";
@@ -195,6 +198,7 @@ h1 {
   align-items:center;
   width:min(1310px,100%);
   margin:0 auto;
+  transform:translateX(var(--custom-layout-shift));
 }
 .coupon-art-slot {
   width:100%;
@@ -377,7 +381,7 @@ button:disabled {
   top:36px;
   bottom:0;
   left:calc(50% + 172px);
-  transform:translateX(-50%);
+  transform:translateX(calc(-50% + var(--custom-layout-shift)));
   width:min(1060px,calc(100% - 344px));
   margin:0;
   background:transparent;
@@ -690,7 +694,9 @@ footer {
 
 /* RESPONSIVE */
 @media(max-width:1100px) {
+  .custom-order-section { --custom-layout-shift:0px; }
   .custom-order-layout {
+    transform:none;
     grid-template-columns:minmax(180px,260px) minmax(0,720px);
     gap:18px;
     max-width:998px;
