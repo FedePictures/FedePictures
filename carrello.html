@@ -479,6 +479,45 @@ footer {
   line-height: 1.45;
 }
 
+.coupon-panel {
+  padding: 15px;
+  border: 1px solid #d9c8e9;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #fffaff, #f8f4ff);
+}
+.coupon-panel p {
+  margin: 0 0 10px;
+  color: #71667d;
+  font-size: .86rem;
+  line-height: 1.5;
+}
+.coupon-entry {
+  display: flex;
+  gap: 8px;
+}
+.coupon-entry input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 10px 11px;
+  border: 1px solid #b8acc4;
+  border-radius: 8px;
+  text-transform: uppercase;
+}
+.coupon-entry button {
+  flex: 0 0 auto;
+  width: auto;
+  margin: 0;
+  padding: 10px 14px;
+}
+.coupon-feedback {
+  min-height: 1.2em;
+  margin-top: 9px;
+  font-size: .83rem;
+  line-height: 1.4;
+}
+.coupon-feedback.success { color: #347447; }
+.coupon-feedback.error { color: #a12828; }
+
 .payment-options {
   display: grid;
   gap: 8px;
@@ -512,6 +551,10 @@ footer {
 
 .checkout-actions button { width: auto; min-width: 125px; }
 .checkout-actions .secondary-button { margin-top: 0; }
+@media (max-width: 560px) {
+  .coupon-entry { flex-direction: column; }
+  .coupon-entry button { width: 100%; }
+}
 
 .checkout-aside {
   align-self: start;
@@ -689,7 +732,7 @@ footer {
 
       <div class="steps" aria-label="Passaggi del checkout">
         <div class="step active" data-step-indicator="1">1. Indirizzo</div>
-        <div class="step" data-step-indicator="2">2. Spedizione</div>
+        <div class="step" data-step-indicator="2">2. Coupon</div>
         <div class="step" data-step-indicator="3">3. Pagamento</div>
         <div class="step" data-step-indicator="4">4. Conferma</div>
       </div>
@@ -725,14 +768,17 @@ footer {
       </section>
 
       <section class="checkout-section" data-step="2" hidden>
-        <h3>Metodo di spedizione</h3>
-        <label class="shipping-choice">
-          <input type="radio" name="shipping-method" value="standard" checked>
-          <span>
-            <strong>Spedizione standard — 5,00 €</strong>
-            <span class="choice-note">Costo fisso per ordine. La consegna viene concordata dopo la conferma.</span>
-          </span>
-        </label>
+        <h3>Hai un coupon?</h3>
+        <div class="coupon-panel">
+          <p>Inserisci il tuo codice promozionale per applicare lo sconto al tuo ordine.</p>
+          <div class="coupon-entry">
+            <input id="coupon-code" type="text" maxlength="40" autocomplete="off" placeholder="Inserisci il coupon" aria-label="Codice coupon">
+            <button class="primary-button" type="button" id="apply-coupon">Applica coupon</button>
+          </div>
+          <div class="coupon-feedback" id="coupon-feedback" aria-live="polite"></div>
+          <p style="margin:10px 0 0">Ogni coupon può essere utilizzato una sola volta per indirizzo email.</p>
+          <p style="margin:10px 0 0">La spedizione viene calcolata automaticamente. È gratuita per ordini con subtotale prodotti superiore a 100 €.</p>
+        </div>
       </section>
 
       <section class="checkout-section" data-step="3" hidden>
@@ -796,6 +842,7 @@ footer {
       <h3>Riepilogo ordine</h3>
       <ul class="checkout-items" id="checkout-items"></ul>
       <div class="summary-row"><span>Subtotale prodotti</span><strong id="checkout-subtotal">0,00 €</strong></div>
+      <div class="summary-row" id="checkout-discount-row" hidden><span id="checkout-discount-label">Sconto coupon</span><strong id="checkout-discount">- 0,00 €</strong></div>
       <div class="summary-row"><span>Spedizione</span><strong id="checkout-shipping">5,00 €</strong></div>
       <div class="summary-row summary-total"><span>Totale ordine</span><strong id="checkout-total">5,00 €</strong></div>
     </aside>
@@ -812,10 +859,14 @@ footer {
   const SHIPPING_COST = 5;
 
   const API_BASE = "https://fedepictures-api.fedestanc-3danimator.workers.dev";
+  // File centrale modificabile: i codici attivi vengono letti da coupon.html.
+  const COUPON_CONFIG_URL = new URL("coupon.html", window.location.href).toString();
 
   const $ = id => document.getElementById(id);
   let step = 1;
   let busy = false;
+  let couponState = { code: "", discount: 0, valid: false, email: "", label: "" };
+  let couponBusy = false;
 
   const readyPrices = {
     dumbo: 10,
@@ -994,10 +1045,13 @@ footer {
       else subtotal += price * qty;
     }
 
+    // La soglia si valuta sul subtotale dei prodotti, prima dello sconto coupon.
+    const shipping = !cart.length ? 0 : subtotal > 100 ? 0 : SHIPPING_COST;
+
     return {
       subtotal,
-      shipping: cart.length ? SHIPPING_COST : 0,
-      total: subtotal + (cart.length ? SHIPPING_COST : 0),
+      shipping,
+      total: subtotal + shipping,
       pending,
       quantity
     };
@@ -1120,7 +1174,7 @@ footer {
           </div>
           <div class="summary-row">
             <span>Spedizione</span>
-            <strong>${euro(totals.shipping)}</strong>
+            <strong>${totals.shipping === 0 && cart.length ? "Gratuita" : euro(totals.shipping)}</strong>
           </div>
           <div class="summary-row summary-total">
             <span>Totale ordine</span>
@@ -1128,6 +1182,7 @@ footer {
           </div>
 
           ${totals.pending ? '<div class="notice">Almeno un prezzo è da confermare. L’ordine dovrà essere verificato prima del pagamento.</div>' : ""}
+          <div class="notice">Spedizione gratuita per ordini superiori a 100 €.</div>
 
           <div class="personalization-notes-box">
             <label for="personalization-notes">Note per le personalizzazioni (facoltative)</label>
@@ -1191,6 +1246,26 @@ footer {
     $("open-checkout").addEventListener("click", openCheckout);
   }
 
+  function updateCheckoutTotals(totals) {
+    const discount = couponState.valid ? Number(couponState.discount) || 0 : 0;
+    const finalTotal = Math.max(0, totals.subtotal + totals.shipping - discount);
+
+    $("checkout-subtotal").textContent =
+      euro(totals.subtotal) + (totals.pending ? " +" : "");
+
+    $("checkout-shipping").textContent =
+      totals.shipping === 0 && readCart().length ? "Gratuita" : euro(totals.shipping);
+
+    $("checkout-discount-row").hidden = !couponState.valid;
+    $("checkout-discount-label").textContent = couponState.valid
+      ? `Coupon ${couponState.code}`
+      : "Sconto coupon";
+    $("checkout-discount").textContent = `− ${euro(discount)}`;
+
+    $("checkout-total").textContent =
+      euro(finalTotal) + (totals.pending ? " +" : "");
+  }
+
   function populateCheckoutSummary() {
     const cart = readCart();
     const totals = cartTotals(cart);
@@ -1198,20 +1273,119 @@ footer {
     $("checkout-items").innerHTML = cart.map(item => {
       const price = unitPrice(item);
       const qty = Math.max(1, Number(item.quantity) || 1);
+      const portraitText = isPortrait(item)
+        ? ` — ${escapeHtml(portraitLabel(item))}`
+        : "";
 
-      const portraitText = isPortrait(item) ? ` — ${escapeHtml(portraitLabel(item))}` : "";
       return `<li>${escapeHtml(productName(item))}${portraitText} × ${qty} — ${price === null ? "Da confermare" : euro(price * qty)}</li>`;
     }).join("");
 
-    $("checkout-subtotal").textContent =
-      euro(totals.subtotal) + (totals.pending ? " +" : "");
-
-    $("checkout-shipping").textContent = euro(totals.shipping);
-
-    $("checkout-total").textContent =
-      euro(totals.total) + (totals.pending ? " +" : "");
-
+    updateCheckoutTotals(totals);
     return totals;
+  }
+
+  async function readCouponConfigFile() {
+    const url = new URL(COUPON_CONFIG_URL);
+    url.searchParams.set("v", String(Date.now()));
+
+    const response = await fetch(url.toString(), { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error("Non è possibile leggere il file coupon.html. Riprova più tardi.");
+    }
+
+    const html = await response.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const configElement = doc.getElementById("fedepictures-coupon-config");
+
+    if (!configElement) {
+      throw new Error("Il file coupon.html non contiene una configurazione valida.");
+    }
+
+    const parsed = JSON.parse(configElement.textContent || "{}");
+    if (!parsed.coupons || typeof parsed.coupons !== "object" || Array.isArray(parsed.coupons)) {
+      throw new Error("La configurazione dei coupon non è valida.");
+    }
+
+    return parsed.coupons;
+  }
+
+  async function applyCoupon() {
+    const input = $("coupon-code");
+    const feedback = $("coupon-feedback");
+    const code = String(input.value || "").trim().toUpperCase();
+    const email = $("customer-email").value.trim();
+
+    if (!code) {
+      couponState = { code: "", discount: 0, valid: false, email: "", label: "" };
+      feedback.textContent = "Inserisci un codice coupon.";
+      feedback.className = "coupon-feedback error";
+      updateCheckoutTotals(cartTotals(readCart()));
+      return false;
+    }
+
+    if (!email || !$("customer-email").checkValidity()) {
+      feedback.textContent = "Inserisci prima un indirizzo email valido nel passaggio Indirizzo.";
+      feedback.className = "coupon-feedback error";
+      return false;
+    }
+
+    if (couponBusy) return false;
+    couponBusy = true;
+    $("apply-coupon").disabled = true;
+    $("apply-coupon").textContent = "Verifica...";
+    feedback.textContent = "Verifica del coupon in corso...";
+    feedback.className = "coupon-feedback";
+
+    try {
+      // Primo controllo sul file coupon.html richiamato dal checkout.
+      // Il Worker ripete la verifica lato server prima di accettare l'ordine.
+      const coupons = await readCouponConfigFile();
+      const localCoupon = coupons[code];
+      const localExpiry = localCoupon?.expiresAt
+        ? Date.parse(localCoupon.expiresAt)
+        : null;
+
+      if (
+        !localCoupon ||
+        localCoupon.active !== true ||
+        (localExpiry !== null && (!Number.isFinite(localExpiry) || Date.now() > localExpiry))
+      ) {
+        throw new Error("Coupon errato o scaduto");
+      }
+
+      const result = await postJson("/api/coupons/validate", {
+        couponCode: code,
+        customer: { email },
+        cart: readCart()
+      });
+
+      couponState = {
+        code: result.coupon.code,
+        discount: Number(result.discount) || 0,
+        valid: true,
+        email,
+        label: result.coupon.label || ""
+      };
+
+      feedback.textContent = result.coupon.label
+        ? `Coupon applicato: ${result.coupon.label}. Risparmi ${euro(couponState.discount)}.`
+        : `Coupon applicato. Risparmi ${euro(couponState.discount)}.`;
+      feedback.className = "coupon-feedback success";
+      populateCheckoutSummary();
+      return true;
+
+    } catch (error) {
+      couponState = { code: "", discount: 0, valid: false, email: "", label: "" };
+      feedback.textContent = error.message || "Coupon non valido.";
+      feedback.className = "coupon-feedback error";
+      updateCheckoutTotals(cartTotals(readCart()));
+      return false;
+
+    } finally {
+      couponBusy = false;
+      $("apply-coupon").disabled = false;
+      $("apply-coupon").textContent = "Applica coupon";
+    }
   }
 
   function openCheckout() {
@@ -1222,6 +1396,11 @@ footer {
 
     step = 1;
     busy = false;
+    couponBusy = false;
+    couponState = { code: "", discount: 0, valid: false, email: "", label: "" };
+    $("coupon-code").value = "";
+    $("coupon-feedback").textContent = "";
+    $("coupon-feedback").className = "coupon-feedback";
     $("checkout-error").textContent = "";
     $("accept-terms").checked = false;
 
@@ -1239,6 +1418,16 @@ footer {
     showStep(1);
     $("checkout-modal").classList.add("open");
   }
+
+  $("apply-coupon").addEventListener("click", applyCoupon);
+  $("coupon-code").addEventListener("input", () => {
+    if (couponState.valid) {
+      couponState = { code: "", discount: 0, valid: false, email: "", label: "" };
+      $("coupon-feedback").textContent = "Codice modificato: applica nuovamente il coupon.";
+      $("coupon-feedback").className = "coupon-feedback";
+      updateCheckoutTotals(cartTotals(readCart()));
+    }
+  });
 
   function showStep(value) {
     step = value;
@@ -1264,10 +1453,13 @@ footer {
     $("checkout-error").textContent = "";
 
     if (step === 4) {
+      const couponNote = couponState.valid
+        ? ` Coupon ${couponState.code} applicato: sconto ${euro(couponState.discount)}.`
+        : "";
       $("final-payment-note").textContent =
-        selectedMethod() === "bank"
+        (selectedMethod() === "bank"
           ? "Conferma la richiesta. L’ordine resterà in attesa finché non sarà verificato il bonifico."
-          : "Dopo aver verificato l’ordine, si aprirà PayPal per completare il pagamento.";
+          : "Dopo aver verificato l’ordine, si aprirà PayPal per completare il pagamento.") + couponNote;
     }
   }
 
@@ -1498,6 +1690,7 @@ footer {
         customer: customerData(),
         cart: emailCart,
         paymentMethod: method,
+        couponCode: couponState.valid ? couponState.code : "",
         // Invia gli stessi nomi file normalizzati presenti negli articoli emailCart.
         referenceImages: referenceImagesFromCart(emailCart)
       };
@@ -1574,6 +1767,19 @@ footer {
     }
 
     if (step === 2) {
+      const enteredCode = String($("coupon-code").value || "").trim();
+      if (enteredCode && !couponState.valid) {
+        $("checkout-error").textContent = "Applica il coupon prima di continuare, oppure cancella il codice.";
+        return;
+      }
+      if (couponState.valid && couponState.email.toLowerCase() !== $("customer-email").value.trim().toLowerCase()) {
+        couponState = { code: "", discount: 0, valid: false, email: "", label: "" };
+        $("coupon-feedback").textContent = "L'email è cambiata: verifica nuovamente il coupon.";
+        $("coupon-feedback").className = "coupon-feedback error";
+        updateCheckoutTotals(cartTotals(readCart()));
+        $("checkout-error").textContent = "Verifica nuovamente il coupon per questa email.";
+        return;
+      }
       showStep(3);
       return;
     }
