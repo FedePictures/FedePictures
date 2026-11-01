@@ -926,6 +926,45 @@ footer {
   }
 
   function unitPrice(item) {
+    // Per i prodotti personalizzati il prezzo viene ricalcolato dal formato,
+    // poi viene aggiunto l'eventuale supplemento ritratto. In questo modo
+    // correggiamo anche articoli già presenti nel carrello con un vecchio
+    // unitPrice che non comprendeva ancora i 10 €.
+    if (item.type === "custom") {
+      let basePrice = null;
+
+      if (item.kind === "shirt") basePrice = 20;
+      if (item.kind === "mini-canvas") basePrice = 8;
+
+      if (item.kind === "bookmark") {
+        if (item.size === "piccolo") basePrice = 5;
+        if (item.size === "grande") basePrice = 10;
+      }
+
+      if (item.kind === "bauble") {
+        if (item.size === "plastica") basePrice = 6;
+        if (item.size === "vetro") basePrice = 8;
+      }
+
+      if (basePrice !== null) {
+        return basePrice + portraitFee(item);
+      }
+
+      // Fallback per eventuali futuri prodotti personalizzati non elencati.
+      if (
+        item.unitPrice !== undefined &&
+        item.unitPrice !== null &&
+        Number.isFinite(Number(item.unitPrice))
+      ) {
+        const storedPrice = Number(item.unitPrice);
+        return isPortrait(item)
+          ? Math.max(0, storedPrice - portraitFee(item)) + portraitFee(item)
+          : storedPrice;
+      }
+
+      return null;
+    }
+
     if (
       item.unitPrice !== undefined &&
       item.unitPrice !== null &&
@@ -936,21 +975,6 @@ footer {
 
     if (item.type === "ready" && readyPrices[item.id] !== undefined) {
       return readyPrices[item.id];
-    }
-
-    if (item.type === "custom") {
-      if (item.kind === "shirt") return 20;
-      if (item.kind === "mini-canvas") return 8;
-
-      if (item.kind === "bookmark") {
-        if (item.size === "piccolo") return 5;
-        if (item.size === "grande") return 10;
-      }
-
-      if (item.kind === "bauble") {
-        if (item.size === "plastica") return 6;
-        if (item.size === "vetro") return 8;
-      }
     }
 
     return null;
@@ -1375,6 +1399,10 @@ footer {
 
         return {
           ...item,
+          // Invia all'API il prezzo unitario effettivo (base + eventuale ritratto),
+          // non il vecchio valore eventualmente salvato nel carrello.
+          unitPrice: unitPrice(item),
+          pricePending: unitPrice(item) === null,
           // Il suffisso rende l'informazione leggibile anche dai template email
           // che mostrano il nome del prodotto, senza alterare il carrello locale.
           name: portrait ? `${originalName} — ${label}` : originalName,
