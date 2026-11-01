@@ -119,6 +119,23 @@ button { cursor:pointer; }
 }
 .dropdown-content a:hover { background:#f5f0fa; }
 
+/* BANNER SPEDIZIONE GRATUITA */
+.shipping-promo-banner {
+  width: 100%;
+  min-height: 34px;
+  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  background: #c9afe8;
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .2px;
+  line-height: 1.35;
+}
+
 /* TITOLO INTRODUTTIVO */
 main {
   width:100%;
@@ -755,6 +772,10 @@ footer {
   </nav>
 </header>
 
+<div class="shipping-promo-banner" id="shipping-banner">
+  Spedizione gratuita per ordini superiori a 100€
+</div>
+
 <main>
   <section class="intro">
     <h1 id="page-title">Shop FedePictures</h1>
@@ -812,8 +833,8 @@ footer {
 
         <p class="card-description" id="bauble-description">Che frase o nome vuoi che scriva sul retro?</p>
         <input class="back-text-input" id="bauble-back-text" maxlength="120" placeholder="Scrivi..." aria-label="Frase o nome sul retro della pallina">
-        <label class="card-description" id="bauble-color-label" for="bauble-color">Colore desiderato pallina *</label>
-        <input class="back-text-input" id="bauble-color" maxlength="50" placeholder="Es. rosso, blu, oro..." aria-label="Colore desiderato pallina">
+        <label class="card-description" id="bauble-color-label" for="bauble-color">Colore desiderato della pallina *</label>
+        <input class="back-text-input" id="bauble-color" maxlength="50" placeholder="Es. rosso, blu, oro..." aria-label="Colore desiderato della pallina">
 
         <button class="customize-button" type="button" data-customize="bauble" id="bauble-customize">CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE</button>
         <p class="custom-state" id="bauble-state" aria-live="polite"></p>
@@ -1106,17 +1127,17 @@ const products = {
 
 const translations = {
   it:{
-    cart:'CARRELLO',explore:'ESPLORA ▼',home:'Home',portraits:'Ritratti',digital:'Disegni al PC',wall:'Disegni sui muri',bookmarks:'Segnalibri',balls:'Palline di Natale',shirts:'Magliette e accessori',contact:'Contattami',
+    cart:'CARRELLO',explore:'ESPLORA ▼',home:'Home',portraits:'Ritratti',digital:'Disegni al PC',wall:'Disegni sui muri',bookmarks:'Segnalibri',balls:'Palline di Natale',shirts:'Magliette e accessori',contact:'Contattami',shippingBanner:'Spedizione gratuita per ordini superiori a 100€',
     title:'Shop FedePictures',intro:'Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.',customHeading:'Ordina il tuo prodotto personalizzato',readyHeading:'Prodotti in pronta consegna',
     searchProducts:'Cerca',searchPlaceholder:'Cerca un prodotto...',readyFilter:'Filtra',allCategories:'Tutte le categorie',bookmarksCategory:'Segnalibri',canvasesCategory:'Tele',baublesCategory:'Palline',accessoriesCategory:'Accessori',objectsCategory:'Oggettistica',sortPrice:'Ordina per prezzo',sortDefault:'Ordine predefinito',sortAsc:'Dal meno caro al più caro',sortDesc:'Dal più caro al meno caro',emptyCategory:'Nessun prodotto presente in questa categoria al momento.',
-    bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',baubleColorLabel:'Colore desiderato pallina *',baubleColorPlaceholder:'Es. rosso, blu, oro...',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 6 €',baubleLarge:'Vetro 8 €',
+    bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',baubleColorLabel:'Colore desiderato della pallina *',baubleColorPlaceholder:'Es. rosso, blu, oro...',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 6 €',baubleLarge:'Vetro 8 €',
     bookmarkDesc:'Che frase o nome vuoi che scriva sul retro?',shirtSize:'Che taglia?',shirtPlaceholder:'Es. M, L, XL',shirtDesc:'Tutte le magliette sono realizzate solo su una base di colore bianco. Prezzo: 20 €.',canvasDesc:'Mini tela 7 × 7 cm con cavalletto in legno. Ideale come piccola idea regalo e come bomboniera originale. Prezzo: 8 €.',otherDesc:'Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.',
     customize:'CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE',contactButton:'CONTATTAMI',add:'Aggiungi al carrello',qty:'N°',modalTitle:'Personalizza il tuo prodotto',instructions:'Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.',upload:'Carica un’immagine (un solo file)',uploadNote:'Immagine consentita: massimo 3 MB.',or:'— oppure —',theme:'Scrivi il tema',themePlaceholder:'Es. un gatto nello spazio, stile kawaii...',portraitLabel:'È un ritratto (+10 €)',portraitNote:'Seleziona questa opzione se desideri un ritratto. In caso contrario, la tua immagine verrà reinterpretata e stilizzata in versione cartoon.',cancel:'Annulla',confirm:'Conferma',
-    needOne:'Carica un’immagine oppure scrivi un tema, non entrambi.',needBaubleColor:'Indica il colore desiderato pallina.',needCustom:'Prima conferma un’immagine o un tema.',needQty:'Inserisci una quantità maggiore di zero.',needSize:'Scegli una dimensione.',needShirtSize:'Inserisci la taglia della maglietta.',added:'Prodotto aggiunto al carrello in questo browser.',fileLarge:'Il file supera 3 MB.',fileType:'Il file deve essere un’immagine.',photo:'Foto del prodotto',
+    needOne:'Carica un’immagine oppure scrivi un tema, non entrambi.',needBaubleColor:'Indica il colore desiderato della pallina.',needCustom:'Prima conferma un’immagine o un tema.',needQty:'Inserisci una quantità maggiore di zero.',needSize:'Scegli una dimensione.',needShirtSize:'Inserisci la taglia della maglietta.',added:'Prodotto aggiunto al carrello in questo browser.',fileLarge:'Il file supera 3 MB.',fileType:'Il file deve essere un’immagine.',photo:'Foto del prodotto',
     contactHeading:'Hai un’idea speciale?',contactCopy:'Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.',contactCta:'Vai ai contatti'
   },
   en:{
-    cart:'CART',explore:'EXPLORE ▼',home:'Home',portraits:'Portraits',digital:'Digital drawings',wall:'Wall art',bookmarks:'Bookmarks',balls:'Christmas baubles',shirts:'T-shirts & accessories',contact:'Contact me',
+    cart:'CART',explore:'EXPLORE ▼',home:'Home',portraits:'Portraits',digital:'Digital drawings',wall:'Wall art',bookmarks:'Bookmarks',balls:'Christmas baubles',shirts:'T-shirts & accessories',contact:'Contact me',shippingBanner:'Free shipping on orders over €100',
     title:'FedePictures Shop',intro:'Handmade creations, ready-to-gift products and personalized ideas made for you.',customHeading:'Order your personalized product',readyHeading:'Ready-to-ship products',
     searchProducts:'Search',searchPlaceholder:'Search for a product...',readyFilter:'Filter',allCategories:'All categories',bookmarksCategory:'Bookmarks',canvasesCategory:'Canvases',baublesCategory:'Baubles',accessoriesCategory:'Accessories',objectsCategory:'Other objects',sortPrice:'Sort by price',sortDefault:'Default order',sortAsc:'Price: low to high',sortDesc:'Price: high to low',emptyCategory:'There are currently no products in this category.',
     bookmark:'Bookmark',bauble:'Christmas bauble',shirt:'T-shirt',canvas:'Mini canvas',other:'Other creations',baubleColorLabel:'Desired bauble colour *',baubleColorPlaceholder:'E.g. red, blue, gold...',bookmarkSmall:'Small 11 cm – €5',bookmarkLarge:'Large 20 cm – €10',baubleSmall:'Plastic €6',baubleLarge:'Glass €8',
@@ -1753,6 +1774,7 @@ function applyLanguage() {
     'menu-balls':'balls',
     'menu-shirts':'shirts',
     'menu-contact':'contact',
+    'shipping-banner':'shippingBanner',
 
     'page-title':'title',
     'page-intro':'intro',
