@@ -529,6 +529,32 @@ footer {
   padding:10px;
   background:#fbf8ff;
 }
+.portrait-option {
+  display:flex !important;
+  align-items:flex-start;
+  gap:9px;
+  margin:16px 0 4px !important;
+  padding:12px;
+  border:1px solid #d2b4f2;
+  border-radius:10px;
+  background:#fbf8ff;
+  font-weight:600;
+  line-height:1.4;
+}
+.portrait-option input {
+  flex:0 0 auto;
+  margin:4px 0 0;
+  accent-color:#9c70bf;
+}
+.portrait-option span { display:block; }
+.portrait-option small {
+  display:block;
+  margin-top:4px;
+  color:#666;
+  font-size:.78rem;
+  font-weight:500;
+  line-height:1.4;
+}
 .modal textarea {
   width:100%;
   min-height:100px;
@@ -937,6 +963,14 @@ footer {
       <label for="reference-theme" id="theme-label">Scrivi il tema</label>
       <textarea id="reference-theme" maxlength="600" placeholder="Es. un gatto nello spazio, stile kawaii..."></textarea>
 
+      <label class="portrait-option" for="portrait-option">
+        <input type="checkbox" id="portrait-option">
+        <span>
+          <span id="portrait-label">È un ritratto (+10 €)</span>
+          <small id="portrait-note">Seleziona questa opzione se desideri un ritratto. In caso contrario, la tua immagine verrà reinterpretata e stilizzata in versione cartoon.</small>
+        </span>
+      </label>
+
       <p class="form-error" id="modal-error" aria-live="polite"></p>
 
       <div class="modal-actions">
@@ -1073,7 +1107,7 @@ const translations = {
     searchProducts:'Cerca',searchPlaceholder:'Cerca un prodotto...',readyFilter:'Filtra',allCategories:'Tutte le categorie',bookmarksCategory:'Segnalibri',canvasesCategory:'Tele',baublesCategory:'Palline',accessoriesCategory:'Accessori',objectsCategory:'Oggettistica',sortPrice:'Ordina per prezzo',sortDefault:'Ordine predefinito',sortAsc:'Dal meno caro al più caro',sortDesc:'Dal più caro al meno caro',emptyCategory:'Nessun prodotto presente in questa categoria al momento.',
     bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 6 €',baubleLarge:'Vetro 8 €',
     bookmarkDesc:'Che frase o nome vuoi che scriva sul retro?',shirtSize:'Che taglia?',shirtPlaceholder:'Es. M, L, XL',shirtDesc:'Tutte le magliette sono realizzate solo su una base di colore bianco. Prezzo: 20 €.',canvasDesc:'Mini tela 7 × 7 cm con cavalletto in legno. Ideale come piccola idea regalo e come bomboniera originale. Prezzo: 8 €.',otherDesc:'Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.',
-    customize:'CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE',contactButton:'CONTATTAMI',add:'Aggiungi al carrello',qty:'N°',modalTitle:'Personalizza il tuo prodotto',instructions:'Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.',upload:'Carica un’immagine (un solo file)',uploadNote:'Immagine consentita: massimo 3 MB.',or:'— oppure —',theme:'Scrivi il tema',themePlaceholder:'Es. un gatto nello spazio, stile kawaii...',cancel:'Annulla',confirm:'Conferma',
+    customize:'CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE',contactButton:'CONTATTAMI',add:'Aggiungi al carrello',qty:'N°',modalTitle:'Personalizza il tuo prodotto',instructions:'Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.',upload:'Carica un’immagine (un solo file)',uploadNote:'Immagine consentita: massimo 3 MB.',or:'— oppure —',theme:'Scrivi il tema',themePlaceholder:'Es. un gatto nello spazio, stile kawaii...',portraitLabel:'È un ritratto (+10 €)',portraitNote:'Seleziona questa opzione se desideri un ritratto. In caso contrario, la tua immagine verrà reinterpretata e stilizzata in versione cartoon.',cancel:'Annulla',confirm:'Conferma',
     needOne:'Carica un’immagine oppure scrivi un tema, non entrambi.',needCustom:'Prima conferma un’immagine o un tema.',needQty:'Inserisci una quantità maggiore di zero.',needSize:'Scegli una dimensione.',needShirtSize:'Inserisci la taglia della maglietta.',added:'Prodotto aggiunto al carrello in questo browser.',fileLarge:'Il file supera 3 MB.',fileType:'Il file deve essere un’immagine.',photo:'Foto del prodotto',
     contactHeading:'Hai un’idea speciale?',contactCopy:'Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.',contactCta:'Vai ai contatti'
   },
@@ -1083,7 +1117,7 @@ const translations = {
     searchProducts:'Search',searchPlaceholder:'Search for a product...',readyFilter:'Filter',allCategories:'All categories',bookmarksCategory:'Bookmarks',canvasesCategory:'Canvases',baublesCategory:'Baubles',accessoriesCategory:'Accessories',objectsCategory:'Other objects',sortPrice:'Sort by price',sortDefault:'Default order',sortAsc:'Price: low to high',sortDesc:'Price: high to low',emptyCategory:'There are currently no products in this category.',
     bookmark:'Bookmark',bauble:'Christmas bauble',shirt:'T-shirt',canvas:'Mini canvas',other:'Other creations',bookmarkSmall:'Small 11 cm – €5',bookmarkLarge:'Large 20 cm – €10',baubleSmall:'Plastic €6',baubleLarge:'Glass €8',
     bookmarkDesc:'What phrase or name would you like on the back?',shirtSize:'What size?',shirtPlaceholder:'E.g. M, L, XL',shirtDesc:'All T-shirts are made on a white base only. Price: €20.',canvasDesc:'7 × 7 cm mini canvas with a wooden easel. Price: €8.',otherDesc:'For all other creations, contact me and I’ll help bring your idea to life.',
-    customize:'UPLOAD AN IMAGE OR WRITE A THEME; I CAN CHOOSE FOR YOU',contactButton:'CONTACT ME',add:'Add to cart',qty:'Qty',modalTitle:'Personalize your product',instructions:'Upload one image or write the theme you would like. Fill in only one of the two options.',upload:'Upload an image (one file only)',uploadNote:'Image files only. Maximum 3 MB.',or:'— or —',theme:'Write the theme',themePlaceholder:'E.g. a cat in space, kawaii style...',cancel:'Cancel',confirm:'Confirm',
+    customize:'UPLOAD AN IMAGE OR WRITE A THEME; I CAN CHOOSE FOR YOU',contactButton:'CONTACT ME',add:'Add to cart',qty:'Qty',modalTitle:'Personalize your product',instructions:'Upload one image or write the theme you would like. Fill in only one of the two options.',upload:'Upload an image (one file only)',uploadNote:'Image files only. Maximum 3 MB.',or:'— or —',theme:'Write the theme',themePlaceholder:'E.g. a cat in space, kawaii style...',portraitLabel:'This is a portrait (+€10)',portraitNote:'Select this option if you would like a portrait. Otherwise, your image will be reinterpreted and stylized as a cartoon character.',cancel:'Cancel',confirm:'Confirm',
     needOne:'Upload an image or write a theme, not both.',needCustom:'Confirm an image or a theme first.',needQty:'Enter a quantity greater than zero.',needSize:'Choose a size.',needShirtSize:'Enter the T-shirt size.',added:'Product added to the cart in this browser.',fileLarge:'The file is over 3 MB.',fileType:'The selected file must be an image.',photo:'Product photo',
     contactHeading:'Have a special idea?',contactCopy:'For special requests or custom creations, tell me what you have in mind.',contactCta:'Contact me'
   }
@@ -1270,6 +1304,7 @@ function openModal(kind) {
   if (existing && existing.theme) {
     $('reference-theme').value = existing.theme;
   }
+  $('portrait-option').checked = Boolean(existing && existing.portrait);
 
   $('modal-title').textContent = t('modalTitle') + ': ' + products[kind].name[lang];
   $('modal-instructions').textContent = t('instructions');
@@ -1277,6 +1312,8 @@ function openModal(kind) {
   $('upload-note').textContent = t('uploadNote');
   $('or-label').textContent = t('or');
   $('theme-label').textContent = t('theme');
+  $('portrait-label').textContent = t('portraitLabel');
+  $('portrait-note').textContent = t('portraitNote');
   $('reference-theme').placeholder = t('themePlaceholder');
   $('cancel-custom').textContent = t('cancel');
   $('confirm-custom').textContent = t('confirm');
@@ -1374,6 +1411,7 @@ $('remove-saved-custom').addEventListener('click', () => {
   delete saved[activeKind];
   $('reference-file').value = '';
   $('reference-theme').value = '';
+  $('portrait-option').checked = false;
   pendingFileData = null;
   fileReading = false;
   $('confirm-custom').disabled = false;
@@ -1428,6 +1466,8 @@ $('custom-form').addEventListener('submit', event => {
     return;
   }
 
+  saved[kind].portrait = $('portrait-option').checked;
+
   try {
     localStorage.setItem(CUSTOM_KEY,JSON.stringify(saved));
   } catch (error) {
@@ -1475,7 +1515,7 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
     }
 
     /* Prezzi prodotti personalizzati: maglietta 20 €, mini tela 8 € */
-    const price = size
+    const basePrice = size
       ? size.price
       : kind === 'shirt'
         ? 20
@@ -1484,6 +1524,10 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
           : null;
 
     const customization = saved[kind];
+    const isPortrait = Boolean(customization.portrait);
+    const price = basePrice === null
+      ? null
+      : basePrice + (isPortrait ? 10 : 0);
 
     const item = {
       id:'custom-' + kind + '-' + Date.now(),
@@ -1502,7 +1546,9 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
         theme:customization.theme || '',
         fileName:customization.fileName || '',
         fileType:customization.fileType || '',
-        fileData:customization.fileData || ''
+        fileData:customization.fileData || '',
+        portrait:isPortrait,
+        portraitFee:isPortrait ? 10 : 0
       }
     };
 
@@ -1749,6 +1795,8 @@ function applyLanguage() {
 
   if ($('shirt-size')) $('shirt-size').placeholder = t('shirtPlaceholder');
   if ($('reference-theme')) $('reference-theme').placeholder = t('themePlaceholder');
+  if ($('portrait-label')) $('portrait-label').textContent = t('portraitLabel');
+  if ($('portrait-note')) $('portrait-note').textContent = t('portraitNote');
   if ($('ready-search')) {
     $('ready-search').placeholder = t('searchPlaceholder');
     $('ready-search').setAttribute('aria-label',t('searchProducts'));
