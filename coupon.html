@@ -5,57 +5,177 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FedePictures | Gestione coupon</title>
   <style>
-    :root { --lilac:#d2b4f2; --purple:#68427f; --ink:#39313f; }
-    * { box-sizing:border-box; }
-    body { margin:0; padding:28px 16px; background:#fff8fc; color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
-    main { max-width:760px; margin:0 auto; padding:28px; background:#fff; border:1px solid #eadcf4; border-radius:18px; box-shadow:0 8px 28px #46364e12; }
-    h1 { margin:0 0 8px; color:var(--purple); }
-    p, li { line-height:1.6; }
-    code, pre { font-family:Consolas,monospace; }
-    pre { padding:18px; overflow:auto; border-radius:12px; background:#f7f1fb; border:1px solid #eadcf4; font-size:14px; line-height:1.55; }
-    .warning { padding:12px 14px; border-radius:10px; background:#fff3e8; color:#71451f; }
-    .note { color:#71667d; font-size:14px; }
+    :root {
+      --lilac: #d8c0ee;
+      --purple: #68427f;
+      --ink: #39313f;
+      --green: #32764a;
+      --red: #a33c54;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 28px 16px;
+      background: #fff8fc;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 28px;
+      background: #fff;
+      border: 1px solid #eadcf4;
+      border-radius: 18px;
+      box-shadow: 0 8px 28px #46364e12;
+    }
+    h1, h2 { color: var(--purple); }
+    h1 { margin: 0 0 8px; }
+    h2 { margin: 0 0 12px; font-size: 19px; }
+    p, li { line-height: 1.6; }
+    code, pre { font-family: Consolas, monospace; }
+    pre {
+      padding: 18px;
+      overflow: auto;
+      border-radius: 12px;
+      background: #f7f1fb;
+      border: 1px solid #eadcf4;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .panel {
+      margin: 0 0 24px;
+      padding: 18px;
+      border: 1px solid #dfcbed;
+      border-radius: 14px;
+      background: #faf6fd;
+    }
+    .status-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .status {
+      display: inline-block;
+      min-width: 58px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: .5px;
+    }
+    .status.on { background: var(--green); }
+    .status.off { background: var(--red); }
+    .note { color: #71667d; font-size: 14px; }
+    .warning {
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #fff3e8;
+      color: #71451f;
+    }
+    .coupon-card {
+      padding: 16px;
+      border: 1px solid #eadcf4;
+      border-radius: 12px;
+      background: #fff;
+    }
+    .coupon-code {
+      display: inline-block;
+      margin: 3px 0 8px;
+      padding: 7px 13px;
+      border-radius: 8px;
+      background: #f0e4fb;
+      color: #5d3975;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    @media (max-width: 560px) {
+      main { padding: 20px 16px; }
+    }
   </style>
 </head>
 <body>
 <main>
   <h1>Gestione coupon FedePictures</h1>
-  <p>Questo è il file centrale dei coupon dello Shop. Per creare una promozione, modifica soltanto il blocco JSON qui sotto e pubblica il file su GitHub.</p>
-  <ol>
-    <li><code>active: true</code> attiva il coupon; <code>false</code> lo disattiva.</li>
-    <li><code>type: "fixed"</code> applica uno sconto fisso in euro.</li>
-    <li><code>type: "percent"</code> applica uno sconto percentuale sul subtotale dei prodotti.</li>
-    <li><code>value</code> indica l'importo o la percentuale.</li>
-    <li><code>expiresAt</code> indica la scadenza in formato ISO; usa <code>null</code> per nessuna scadenza.</li>
-  </ol>
-  <p class="warning"><strong>Nota:</strong> questo file si trova sul sito pubblico. I codici inseriti qui possono essere letti da chiunque apra il file. Inserisci soltanto coupon che sei disposta a rendere visibili.</p>
-  <p class="note">Esempi da copiare quando vorrai creare i primi coupon:</p>
-  <pre>"FEDE10": {
-  "active": true,
-  "type": "fixed",
-  "value": 10,
-  "label": "10 € di sconto",
-  "expiresAt": null
-},
-"WELCOME15": {
-  "active": true,
-  "type": "percent",
-  "value": 15,
-  "label": "15% di sconto",
-  "expiresAt": "2026-12-31T23:59:59+01:00"
-}</pre>
-  <p class="note">Ogni coupon può essere usato una sola volta per indirizzo email. La verifica effettiva viene eseguita dal sistema ordini, non soltanto dal browser.</p>
+  <p>Da questa pagina puoi gestire le promozioni dello Shop modificando la configurazione qui sotto e pubblicando nuovamente il file su GitHub.</p>
+
+  <section class="panel" aria-labelledby="global-switch-title">
+    <h2 id="global-switch-title">1. Attivazione generale coupon</h2>
+    <div class="status-line">
+      <strong>Stato attuale:</strong>
+      <span id="global-status" class="status on">ON</span>
+    </div>
+    <p class="note" id="global-status-help">ON: i coupon attivi possono essere utilizzati.</p>
+    <p><strong>Per cambiare stato:</strong> nel blocco JSON in fondo al file, modifica il primo valore <code>"enabled"</code>:</p>
+    <pre>"enabled": true</pre>
+    <p class="note">Usa <code>true</code> per ON e <code>false</code> per OFF. OFF disattiva temporaneamente tutti i coupon senza eliminarli.</p>
+  </section>
+
+  <section class="panel">
+    <h2>2. Coupon attualmente configurato</h2>
+    <div class="coupon-card">
+      <div class="coupon-code">CONAFFETTO</div>
+      <p><strong>Sconto:</strong> 3 € per ogni unità con personalizzazione ritratto.</p>
+      <p><strong>Validità:</strong> su tutte le tipologie di prodotto per cui il cliente ha selezionato l'opzione ritratto.</p>
+      <p><strong>Limite:</strong> una sola utilizzazione per indirizzo email.</p>
+      <p class="note">I prodotti senza ritratto non ricevono questo sconto. Se nel carrello non c'è almeno un ritratto, il coupon non viene applicato.</p>
+    </div>
+  </section>
+
+  <p class="warning"><strong>Attenzione:</strong> questo file è pubblicato sul sito e la sua configurazione può essere letta da chiunque. I codici coupon non sono segreti. La verifica del prezzo e dell'utilizzo viene comunque ripetuta dal Worker prima di accettare l'ordine.</p>
+
+  <h2>3. Configurazione dei coupon</h2>
+  <p>Modifica soltanto il JSON nello script qui sotto. Per disattivare soltanto CONAFFETTO, imposta <code>"active": false</code>. Per disattivare tutti i coupon, usa l'interruttore generale <code>"enabled": false</code>.</p>
 </main>
 
 <!--
-  MODIFICA SOLO IL JSON NELLO SCRIPT QUI SOTTO.
-  Inserisci i codici in "coupons". Se non ci sono promozioni attive, lascia {}.
-  Le chiavi (es. FEDE10) devono essere scritte in MAIUSCOLO.
+  CONFIGURAZIONE LETTA DAL WORKER.
+  enabled: true = ON; enabled: false = OFF per tutti i coupon.
+  active: true/false attiva o disattiva il singolo coupon.
 -->
 <script type="application/json" id="fedepictures-coupon-config">
 {
-  "coupons": {}
+  "enabled": true,
+  "coupons": {
+    "CONAFFETTO": {
+      "active": true,
+      "type": "fixed",
+      "value": 3,
+      "scope": "portrait",
+      "perUnit": true,
+      "label": "3 € di sconto per ogni unità con personalizzazione ritratto",
+      "expiresAt": null
+    }
+  }
 }
+</script>
+<script>
+  (function () {
+    const configElement = document.getElementById("fedepictures-coupon-config");
+    const statusElement = document.getElementById("global-status");
+    const helpElement = document.getElementById("global-status-help");
+
+    try {
+      const config = JSON.parse(configElement.textContent);
+      const enabled = config.enabled === true;
+
+      statusElement.textContent = enabled ? "ON" : "OFF";
+      statusElement.classList.toggle("on", enabled);
+      statusElement.classList.toggle("off", !enabled);
+      helpElement.textContent = enabled
+        ? "ON: i coupon attivi possono essere utilizzati."
+        : "OFF: tutti i coupon sono temporaneamente disattivati.";
+    } catch (_) {
+      statusElement.textContent = "ERRORE";
+      statusElement.classList.remove("on");
+      statusElement.classList.add("off");
+      helpElement.textContent = "La configurazione JSON non è valida.";
+    }
+  })();
 </script>
 </body>
 </html>
