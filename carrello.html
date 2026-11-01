@@ -906,6 +906,25 @@ footer {
     return item.name || item.id || "Prodotto";
   }
 
+  // La scelta del ritratto viene salvata dallo Shop in customization.portrait.
+  // portraitFee è un dato esplicito utile anche al sistema che genera le email.
+  function isPortrait(item) {
+    const customization = item && item.customization ? item.customization : {};
+    return item?.type === "custom" && (
+      customization.portrait === true || Number(customization.portraitFee) > 0
+    );
+  }
+
+  function portraitFee(item) {
+    if (!isPortrait(item)) return 0;
+    const storedFee = Number(item.customization?.portraitFee);
+    return Number.isFinite(storedFee) && storedFee > 0 ? storedFee : 10;
+  }
+
+  function portraitLabel(item) {
+    return isPortrait(item) ? `Ritratto (+${euro(portraitFee(item))})` : "";
+  }
+
   function unitPrice(item) {
     if (
       item.unitPrice !== undefined &&
@@ -1030,6 +1049,10 @@ footer {
         details.push(`<p><strong>File:</strong> ${escapeHtml(item.customization.fileName)}</p>`);
       }
 
+      if (isPortrait(item)) {
+        details.push(`<p><strong>Personalizzazione:</strong> ${escapeHtml(portraitLabel(item))}</p>`);
+      }
+
       return `
         <article class="cart-item">
           ${imageMarkup(item)}
@@ -1148,7 +1171,8 @@ footer {
       const price = unitPrice(item);
       const qty = Math.max(1, Number(item.quantity) || 1);
 
-      return `<li>${escapeHtml(productName(item))} × ${qty} — ${price === null ? "Da confermare" : euro(price * qty)}</li>`;
+      const portraitText = isPortrait(item) ? ` — ${escapeHtml(portraitLabel(item))}` : "";
+      return `<li>${escapeHtml(productName(item))}${portraitText} × ${qty} — ${price === null ? "Da confermare" : euro(price * qty)}</li>`;
     }).join("");
 
     $("checkout-subtotal").textContent =
@@ -1226,8 +1250,18 @@ footer {
   function customerData() {
     const personalizationNotes = getPersonalizationNotes().trim();
     const additionalNotes = $("customer-notes").value.trim();
+    const portraitNotes = readCart()
+      .filter(isPortrait)
+      .map(item => {
+        const format = item.size ? ` (${item.size})` : "";
+        return `- ${productName(item)}${format}: ${portraitLabel(item)}`;
+      })
+      .join("\n");
 
     const notes = [
+      portraitNotes
+        ? "PERSONALIZZAZIONI RITRATTO:\n" + portraitNotes
+        : "",
       personalizationNotes
         ? "NOTE PER LE PERSONALIZZAZIONI:\n" + personalizationNotes
         : "",
@@ -1333,9 +1367,31 @@ footer {
     $("checkout-error").textContent = "";
 
     try {
+      const emailCart = cart.map(item => {
+        const portrait = isPortrait(item);
+        const fee = portrait ? portraitFee(item) : 0;
+        const label = portrait ? portraitLabel(item) : "";
+        const originalName = item.name || productName(item);
+
+        return {
+          ...item,
+          // Il suffisso rende l'informazione leggibile anche dai template email
+          // che mostrano il nome del prodotto, senza alterare il carrello locale.
+          name: portrait ? `${originalName} — ${label}` : originalName,
+          portrait,
+          portraitFee: fee,
+          emailDetails: label,
+          customization: {
+            ...(item.customization || {}),
+            portrait,
+            portraitFee: fee
+          }
+        };
+      });
+
       const payload = {
         customer: customerData(),
-        cart,
+        cart: emailCart,
         paymentMethod: method,
         referenceImages: referenceImagesFromCart(cart)
       };
