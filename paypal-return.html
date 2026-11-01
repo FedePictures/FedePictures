@@ -78,7 +78,8 @@ p { line-height: 1.6; }
   const CART_KEY = "fedepictures_shop_cart_v1";
   const CUSTOM_KEY = "fedepictures_shop_customizations_v1";
 
-  const API_BASE = "https://fedepictures-api.fedestanc-3danimator.workers.dev";
+  const API_BASE =
+    "https://fedepictures-api.fedestanc-3danimator.workers.dev";
 
   const $ = id => document.getElementById(id);
 
@@ -98,8 +99,68 @@ p { line-height: 1.6; }
     }
   }
 
+  function safeFilenamePart(value) {
+    return String(value ?? "")
+      .normalize("NFC")
+      .replace(/[<>:"/\\|?*\u0000-\u001F]/g, " ")
+      .replace(/_/g, "-")
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/[. ]+$/g, "");
+  }
+
+  function attachmentExtension(item) {
+    const originalName = String(item.customization?.fileName || "");
+    const match = originalName.match(/\.([a-z0-9]{2,5})$/i);
+    if (match) {
+      const ext = match[1].toLowerCase();
+      return ext === "jpeg" ? "jpg" : ext;
+    }
+
+    const mime = String(item.customization?.fileType || "").toLowerCase();
+    const extensions = {
+      "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp",
+      "image/gif": "gif", "image/bmp": "bmp", "image/avif": "avif"
+    };
+    return extensions[mime] || "jpg";
+  }
+
+  function attachmentFilename(item, number) {
+    const customization = item.customization || {};
+    const note = safeFilenamePart(
+      item.backText || customization.note || item.note ||
+      item.personalizationNote || customization.theme || ""
+    ).slice(0, 60);
+    const color = safeFilenamePart(
+      item.color || item.colour || item.baubleColor || item.baubleColour ||
+      customization.color || customization.colour || ""
+    ).slice(0, 30);
+
+    let parts = [];
+
+    if (item.type === "custom" && item.kind === "bookmark") {
+      parts = [`segnalibro ${item.size === "grande" ? "grande" : "piccolo"}`, note];
+    } else if (item.type === "custom" && item.kind === "bauble") {
+      const material = item.size === "vetro" ? "vetro" :
+        item.size === "plastica" ? "plastica" : "personalizzata";
+      parts = [`pallina ${material}`, color, note];
+    } else if (item.type === "custom" && item.kind === "shirt") {
+      const size = safeFilenamePart(item.shirtSize);
+      parts = [size ? `maglia ${size}` : "maglia", note];
+    } else if (item.type === "custom" && item.kind === "mini-canvas") {
+      parts = ["minitela", note];
+    } else {
+      parts = [safeFilenamePart(item.name || item.id || "prodotto"), note];
+    }
+
+    parts = parts.map(safeFilenamePart).filter(Boolean);
+    parts.push(String(number));
+    return `${parts.join("_")}.${attachmentExtension(item)}`;
+  }
+
   function makeReferenceImages(cart) {
     const images = [];
+    let attachmentNumber = 0;
 
     for (const item of cart) {
       const customization = item.customization || {};
@@ -109,8 +170,10 @@ p { line-height: 1.6; }
         typeof customization.fileData === "string" &&
         customization.fileData.startsWith("data:image/")
       ) {
+        attachmentNumber += 1;
         images.push({
-          filename: customization.fileName,
+          // Deve corrispondere al fileName salvato nell'ordine PayPal dal Worker.
+          filename: attachmentFilename(item, attachmentNumber),
           dataUrl: customization.fileData
         });
       }
