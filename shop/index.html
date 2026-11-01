@@ -186,6 +186,38 @@ h1 {
   line-height:1.3;
   font-weight:700;
 }
+.custom-order-layout {
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns:minmax(220px,320px) minmax(0,966px);
+  gap:24px;
+  align-items:center;
+  width:min(1310px,100%);
+  margin:0 auto;
+}
+.coupon-art-slot {
+  width:100%;
+  max-width:320px;
+  aspect-ratio:16 / 9;
+  margin:8px auto 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
+  border:0;
+  padding:0;
+  overflow:hidden;
+}
+.coupon-art-image {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center;
+  background:transparent;
+  border:0;
+}
 .custom-grid {
   position:relative;
   z-index:1;
@@ -195,7 +227,7 @@ h1 {
   align-items:stretch;
   width:100%;
   max-width:966px;
-  margin:0 auto;
+  margin:0;
 }
 .custom-card {
   border:2px solid #111;
@@ -344,9 +376,9 @@ button:disabled {
   pointer-events:none;
   top:36px;
   bottom:0;
-  left:50%;
+  left:calc(50% + 172px);
   transform:translateX(-50%);
-  width:min(1060px,calc(100% - 4px));
+  width:min(1060px,calc(100% - 344px));
   margin:0;
   background:transparent;
 }
@@ -658,6 +690,12 @@ footer {
 
 /* RESPONSIVE */
 @media(max-width:1100px) {
+  .custom-order-layout {
+    grid-template-columns:minmax(180px,260px) minmax(0,720px);
+    gap:18px;
+    max-width:998px;
+  }
+  .coupon-art-slot { max-width:260px; }
   .custom-grid {
     grid-template-columns:repeat(3,minmax(0,1fr));
     max-width:720px;
@@ -696,6 +734,22 @@ footer {
   .custom-order-section { padding:0 12px 20px; }
   .section-heading,.ready-section .section-heading { font-size:1.25rem; }
   .section-heading { margin-bottom:18px; }
+  .custom-order-layout {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:14px;
+    width:100%;
+  }
+  .coupon-art-slot {
+    width:min(320px,100%);
+    max-width:100%;
+    margin:0 auto;
+  }
+  .custom-grid {
+    width:100%;
+    max-width:none;
+  }
   .custom-grid,.ready-grid {
     grid-template-columns:repeat(2,minmax(0,1fr));
     gap:12px;
@@ -785,7 +839,18 @@ footer {
   <section class="custom-order-section" aria-labelledby="custom-heading">
     <h2 class="section-heading" id="custom-heading">Ordina il tuo prodotto personalizzato</h2>
 
-    <div class="custom-grid">
+    <div class="custom-order-layout">
+      <div class="coupon-art-slot" aria-label="Immagine promozionale coupon FedePictures">
+        <img
+          class="coupon-art-image"
+          src="../couponfedepictures.jpg"
+          alt="Promozione coupon FedePictures"
+          loading="lazy"
+          onerror="this.hidden=true"
+        >
+      </div>
+
+      <div class="custom-grid">
 
       <!-- SEGNALIBRO PERSONALIZZATO -->
       <article class="custom-card" data-kind="bookmark">
@@ -909,6 +974,7 @@ footer {
         <a class="customize-button" id="contact-button" href="../contatti.html" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;text-decoration:none;color:inherit;margin-top:auto">CONTATTAMI</a>
       </article>
 
+      </div>
     </div>
 
     <div class="custom-gradient-band" aria-hidden="true">
