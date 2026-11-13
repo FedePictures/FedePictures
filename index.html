@@ -89,13 +89,25 @@
       font-size: 1em;
     }
 
-    /* Pulsante Shop nella barra di navigazione */
+    /* Pulsante Shop con piccola icona per evidenziare l'acquisto */
     .shop-nav-link {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
       margin: 0 !important;
       text-decoration: none;
       line-height: normal;
       white-space: nowrap;
+    }
+
+    .shop-nav-icon {
+      display: block;
+      width: 27px;
+      height: 25px;
+      flex: 0 0 auto;
+      object-fit: contain;
+      background: transparent;
     }
 
     .shop-nav-link:hover {
@@ -151,7 +163,7 @@
       padding: 6em 1em 4em 1em;
     }
 
-    /* IMMAGINI DECORATIVE LATERALI: invisibili se i file non esistono */
+    /* IMMAGINI DECORATIVE LATERALI */
     .hero-side-image {
       position: absolute;
       z-index: 0;
@@ -163,6 +175,8 @@
       object-position: center;
       transform: translateY(-50%);
       pointer-events: none;
+      display: block;
+      background: transparent;
     }
 
     .hero-side-image-left {
@@ -177,10 +191,6 @@
     .hero > :not(.hero-side-image) {
       position: relative;
       z-index: 1;
-    }
-
-    .hero-side-image[hidden] {
-      display: none !important;
     }
 
     .video-container {
@@ -423,8 +433,11 @@
     </a>
 
     <nav>
-      <!-- Pulsante Shop: apre la pagina Shop -->
-      <a href="shop/index.html" class="dropbtn shop-nav-link" id="shop-nav-link">Shop</a>
+      <!-- Pulsante Shop: icona piccola + testo -->
+      <a href="shop/index.html" class="dropbtn shop-nav-link" id="shop-nav-link">
+        <img src="./iconshop.png" class="shop-nav-icon" alt="" aria-hidden="true" onerror="this.remove()">
+        <span>Shop</span>
+      </a>
 
       <div class="dropdown">
         <button class="dropbtn" onclick="toggleMenu()">
@@ -447,28 +460,24 @@
   </header>
 
   <section class="hero" id="hero">
-    <!--
-      Immagini decorative opzionali con sfondo trasparente.
-      Per mostrarle, carica nella cartella principale del sito:
-      - home-hero-sinistra.png
-      - home-hero-destra.png
-      Se uno dei file non è presente, la relativa area resta completamente invisibile.
-    -->
+    <!-- Immagini decorative opzionali: caricale nella cartella principale,
+         accanto a index.html. Se un file manca, l'immagine viene rimossa
+         automaticamente senza lasciare riquadri o spazi visibili. -->
     <img
       class="hero-side-image hero-side-image-left"
-      src="home-hero-sinistra.png"
+      src="./home-hero-sinistra.png"
       alt=""
       aria-hidden="true"
-      hidden
       decoding="async"
+      onerror="this.remove()"
     >
     <img
       class="hero-side-image hero-side-image-right"
-      src="home-hero-destra.png"
+      src="./home-hero-destra.png"
       alt=""
       aria-hidden="true"
-      hidden
       decoding="async"
+      onerror="this.remove()"
     >
 
     <div class="video-container">
@@ -619,26 +628,6 @@
   </div>
 
   <script>
-    // Mostra un'immagine laterale solo se il relativo file è disponibile.
-    // In assenza del file, lo spazio resta completamente fantasma.
-    document.querySelectorAll('.hero-side-image').forEach(img => {
-      const revealIfLoaded = () => {
-        if (img.naturalWidth > 0) {
-          img.hidden = false;
-        }
-      };
-
-      img.addEventListener('load', revealIfLoaded, { once: true });
-      img.addEventListener('error', () => {
-        img.hidden = true;
-      }, { once: true });
-
-      // Gestisce anche immagini già presenti nella cache del browser.
-      if (img.complete && img.naturalWidth > 0) {
-        revealIfLoaded();
-      }
-    });
-
     const images = document.querySelectorAll('.gallery-scroll img');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
