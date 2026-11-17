@@ -796,7 +796,7 @@ footer {
             <input type="radio" name="payment-method" value="card">
             <span>
               <strong>Paga con carta</strong>
-              <span class="choice-note">Si apre il checkout PayPal. L'opzione carta è disponibile se abilitata per il conto e per la transazione.</span>
+              <span class="choice-note">Paga in modo sicuro con carta tramite Stripe.</span>
             </span>
           </label>
 
@@ -1715,6 +1715,16 @@ footer {
 
       const result = await postJson("/api/orders", payload);
 
+      if (method === "card") {
+        if (!result.checkoutUrl || !result.sessionId) {
+          throw new Error("Stripe non ha restituito il collegamento al pagamento.");
+        }
+        sessionStorage.setItem("fedepictures_pending_stripe_session", result.sessionId);
+        sessionStorage.setItem("fedepictures_pending_stripe_number", result.orderNumber || "");
+        window.location.assign(result.checkoutUrl);
+        return;
+      }
+
       if (!result.approvalUrl || !result.id) {
         throw new Error("PayPal non ha restituito il collegamento al pagamento.");
       }
@@ -1800,7 +1810,7 @@ footer {
 
       } else if (method === "card") {
         $("payment-details").innerHTML =
-          "<strong>Pagamento con carta</strong><p>Il pagamento sarà gestito nella pagina protetta PayPal. L'opzione carta dipende dalle funzionalità abilitate sul conto PayPal.</p>";
+          "<strong>Pagamento con carta</strong><p>Premendo Continua si aprirà Stripe, dove potrai inserire i dati della carta in una pagina sicura.</p>";
 
       } else {
         $("payment-details").innerHTML =
@@ -1847,7 +1857,7 @@ footer {
 
       } else if (input.value === "card") {
         $("payment-details").innerHTML =
-          "<strong>Paga con carta</strong><p>La carta viene gestita da PayPal se l'opzione è disponibile per il conto e la transazione.</p>";
+          "<strong>Paga con carta</strong><p>Il pagamento sarà gestito da Stripe tramite una pagina sicura.</p>";
 
       } else {
         $("payment-details").innerHTML =
