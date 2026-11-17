@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento FedePictures</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:#fff8fc;color:#39313f;font-family:Arial,Helvetica,sans-serif}
+    main{width:min(560px,100%);padding:34px 28px;text-align:center;background:#fff;border:1px solid #eac9f5;border-radius:18px;box-shadow:0 12px 40px #5b3d6b18}
+    h1{color:#684783;font-size:1.8rem}p{line-height:1.7;color:#655b70}.mark{font-size:3rem;color:#6e9c75}
+    a{display:inline-block;margin-top:14px;padding:12px 20px;border-radius:9px;background:#e8d7f8;color:#4f3264;text-decoration:none;font-weight:bold}
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark" id="mark" aria-hidden="true">✓</div>
+    <h1 id="title">Pagamento</h1>
+    <p id="message">Stiamo verificando il pagamento.</p>
+    <a href="shop/index.html">Torna allo shop</a>
+  </main>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      const success = params.get("status") === "success";
+      if (success) {
+        document.getElementById("title").textContent = "Grazie per il tuo acquisto!";
+        document.getElementById("message").textContent = "Stripe ha ricevuto il pagamento. La conferma definitiva dell'ordine e le email arriveranno dopo la verifica automatica. Se non ricevi l'email, contatta FedePictures indicando il numero d'ordine.";
+        try {
+          localStorage.removeItem("fedepictures_shop_cart_v1");
+          localStorage.removeItem("fedepictures_shop_customizations_v1");
+          localStorage.removeItem("fedepictures_personalization_notes_v1");
+          sessionStorage.removeItem("fedepictures_pending_stripe_session");
+          sessionStorage.removeItem("fedepictures_pending_stripe_number");
+        } catch (_) {}
+      } else {
+        document.getElementById("mark").textContent = "↩";
+        document.getElementById("mark").style.color = "#a06b35";
+        document.getElementById("title").textContent = "Pagamento non completato";
+        document.getElementById("message").textContent = "Non è stato effettuato alcun addebito. Il carrello è rimasto disponibile: puoi tornare indietro e riprovare.";
+      }
+    })();
+  </script>
+</body>
+</html>
