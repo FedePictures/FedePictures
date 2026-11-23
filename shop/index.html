@@ -594,6 +594,19 @@ footer {
   font-weight:600;
   line-height:1.4;
 }
+.portrait-option.is-disabled {
+  background:#eeeeee;
+  border-color:#cccccc;
+  color:#999999;
+  opacity:.8;
+  cursor:not-allowed;
+}
+.portrait-option.is-disabled small {
+  color:#999999;
+}
+.portrait-option.is-disabled input {
+  cursor:not-allowed;
+}
 .portrait-option input {
   flex:0 0 auto;
   margin:4px 0 0;
@@ -911,7 +924,7 @@ footer {
           <label>
             <input type="radio" name="bauble-size" value="glitter" data-price="10">
             <span id="bauble-glitter">Glitter 10 €</span>
-        </label>
+          </label>
       </div>
 
         <p class="card-description" id="bauble-description">Che frase o nome vuoi che scriva sul retro?</p>
@@ -1229,7 +1242,7 @@ const translations = {
     cart:'CARRELLO',explore:'ESPLORA ▼',home:'Home',portraits:'Ritratti',digital:'Disegni al PC',wall:'Disegni sui muri',bookmarks:'Segnalibri',balls:'Palline di Natale',shirts:'Magliette e accessori',contact:'Contattami',shippingBanner:'Spedizione gratuita per ordini superiori a 100€',
     title:'Shop FedePictures',intro:'Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.',customHeading:'Ordina il tuo prodotto personalizzato',readyHeading:'Prodotti in pronta consegna',
     searchProducts:'Cerca',searchPlaceholder:'Cerca un prodotto...',readyFilter:'Filtra',allCategories:'Tutte le categorie',bookmarksCategory:'Segnalibri',canvasesCategory:'Tele',baublesCategory:'Palline',accessoriesCategory:'Accessori',objectsCategory:'Oggettistica',sortPrice:'Ordina per prezzo',sortDefault:'Ordine predefinito',sortAsc:'Dal meno caro al più caro',sortDesc:'Dal più caro al meno caro',emptyCategory:'Nessun prodotto presente in questa categoria al momento.',
-    bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',baubleColorLabel:'Colore della pallina *',baubleColorPlaceholder:'Es. rosso, blu, oro...',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 6 €',baubleLarge:'Vetro 8 €',
+    bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',baubleColorLabel:'Colore della pallina *',baubleColorPlaceholder:'Es. rosso, blu, oro...',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 6 €',baubleLarge:'Vetro 8 €',baubleGlitter:'Glitter 10 €',
     bookmarkDesc:'Che frase o nome vuoi che scriva sul retro?',shirtSize:'Che taglia?',shirtPlaceholder:'Es. M, L, XL',shirtDesc:'Tutte le magliette sono realizzate solo su una base di colore bianco. Prezzo: 20 €.',canvasDesc:'Mini tela 7 × 7 cm con cavalletto in legno. Ideale come piccola idea regalo e come bomboniera originale. Prezzo: 8 €.',otherDesc:'Per tutte le altre creazioni contattami e ti aiuterò a realizzare la tua idea.',
     customize:'CARICA IMMAGINE O SCRIVI IL TEMA, SCEGLIERÒ IO PER TE',contactButton:'CONTATTAMI',add:'Aggiungi al carrello',qty:'N°',modalTitle:'Personalizza il tuo prodotto',instructions:'Carica una sola immagine oppure scrivi il tema che vorresti. Compila una sola delle due opzioni.',upload:'Carica un’immagine (un solo file)',uploadNote:'Immagine consentita: massimo 3 MB.',or:'— oppure —',theme:'Scrivi il tema',themePlaceholder:'Es. un gatto nello spazio, stile kawaii...',portraitLabel:'È un ritratto (+10 €)',portraitNote:'Seleziona questa opzione se desideri un ritratto. In caso contrario, la tua immagine verrà reinterpretata e stilizzata in versione cartoon.',cancel:'Annulla',confirm:'Conferma',
     needOne:'Carica un’immagine oppure scrivi un tema, non entrambi.',needBaubleColor:'Indica il colore desiderato della pallina.',needCustom:'Prima conferma un’immagine o un tema.',needQty:'Inserisci una quantità maggiore di zero.',needSize:'Scegli una dimensione.',needShirtSize:'Inserisci la taglia della maglietta.',added:'Prodotto aggiunto al carrello in questo browser.',fileLarge:'Il file supera 3 MB.',fileType:'Il file deve essere un’immagine.',photo:'Foto del prodotto',
@@ -1239,7 +1252,7 @@ const translations = {
     cart:'CART',explore:'EXPLORE ▼',home:'Home',portraits:'Portraits',digital:'Digital drawings',wall:'Wall art',bookmarks:'Bookmarks',balls:'Christmas baubles',shirts:'T-shirts & accessories',contact:'Contact me',shippingBanner:'Free shipping on orders over €100',
     title:'FedePictures Shop',intro:'Handmade creations, ready-to-gift products and personalized ideas made for you.',customHeading:'Order your personalized product',readyHeading:'Ready-to-ship products',
     searchProducts:'Search',searchPlaceholder:'Search for a product...',readyFilter:'Filter',allCategories:'All categories',bookmarksCategory:'Bookmarks',canvasesCategory:'Canvases',baublesCategory:'Baubles',accessoriesCategory:'Accessories',objectsCategory:'Other objects',sortPrice:'Sort by price',sortDefault:'Default order',sortAsc:'Price: low to high',sortDesc:'Price: high to low',emptyCategory:'There are currently no products in this category.',
-    bookmark:'Bookmark',bauble:'Christmas bauble',shirt:'T-shirt',canvas:'Mini canvas',other:'Other creations',baubleColorLabel:'Desired bauble colour *',baubleColorPlaceholder:'E.g. red, blue, gold...',bookmarkSmall:'Small 11 cm – €5',bookmarkLarge:'Large 20 cm – €10',baubleSmall:'Plastic €6',baubleLarge:'Glass €8',
+    bookmark:'Bookmark',bauble:'Christmas bauble',shirt:'T-shirt',canvas:'Mini canvas',other:'Other creations',baubleColorLabel:'Desired bauble colour *',baubleColorPlaceholder:'E.g. red, blue, gold...',bookmarkSmall:'Small 11 cm – €5',bookmarkLarge:'Large 20 cm – €10',baubleSmall:'Plastic €6',baubleLarge:'Glass €8',baubleGlitter:'Glitter €10',
     bookmarkDesc:'What phrase or name would you like on the back?',shirtSize:'What size?',shirtPlaceholder:'E.g. M, L, XL',shirtDesc:'All T-shirts are made on a white base only. Price: €20.',canvasDesc:'7 × 7 cm mini canvas with a wooden easel. Price: €8.',otherDesc:'For all other creations, contact me and I’ll help bring your idea to life.',
     customize:'UPLOAD AN IMAGE OR WRITE A THEME; I CAN CHOOSE FOR YOU',contactButton:'CONTACT ME',add:'Add to cart',qty:'Qty',modalTitle:'Personalize your product',instructions:'Upload one image or write the theme you would like. Fill in only one of the two options.',upload:'Upload an image (one file only)',uploadNote:'Image files only. Maximum 3 MB.',or:'— or —',theme:'Write the theme',themePlaceholder:'E.g. a cat in space, kawaii style...',portraitLabel:'This is a portrait (+€10)',portraitNote:'Select this option if you would like a portrait. Otherwise, your image will be reinterpreted and stylized as a cartoon character.',cancel:'Cancel',confirm:'Confirm',
     needOne:'Upload an image or write a theme, not both.',needBaubleColor:'Enter the desired colour for the bauble.',needCustom:'Confirm an image or a theme first.',needQty:'Enter a quantity greater than zero.',needSize:'Choose a size.',needShirtSize:'Enter the T-shirt size.',added:'Product added to the cart in this browser.',fileLarge:'The file is over 3 MB.',fileType:'The selected file must be an image.',photo:'Product photo',
@@ -1306,6 +1319,28 @@ document.querySelectorAll('.cart-icon-button').forEach(button => {
 function getSize(kind) {
   const radio = document.querySelector('input[name="' + kind + '-size"]:checked');
   return radio ? {value:radio.value,price:Number(radio.dataset.price)} : null;
+}
+
+function isGlitterBaubleSelected() {
+  const selected = document.querySelector('input[name="bauble-size"]:checked');
+  return Boolean(selected && selected.value === 'glitter');
+}
+
+/* Disabilita il supplemento ritratto esclusivamente per le palline Glitter. */
+function updatePortraitAvailability() {
+  const checkbox = $('portrait-option');
+  const label = checkbox ? checkbox.closest('.portrait-option') : null;
+  if (!checkbox || !label) return;
+
+  const disablePortrait = activeKind === 'bauble' && isGlitterBaubleSelected();
+
+  checkbox.disabled = disablePortrait;
+
+  if (disablePortrait) {
+    checkbox.checked = false;
+  }
+
+  label.classList.toggle('is-disabled', disablePortrait);
 }
 
 function quantity(kind) {
@@ -1429,6 +1464,8 @@ function openModal(kind) {
     $('reference-theme').value = existing.theme;
   }
   $('portrait-option').checked = Boolean(existing && existing.portrait);
+
+  updatePortraitAvailability();
 
   $('modal-title').textContent = t('modalTitle') + ': ' + products[kind].name[lang];
   $('modal-instructions').textContent = t('instructions');
@@ -1590,7 +1627,9 @@ $('custom-form').addEventListener('submit', event => {
     return;
   }
 
-  saved[kind].portrait = $('portrait-option').checked;
+  saved[kind].portrait = kind === 'bauble' && isGlitterBaubleSelected()
+    ? false
+    : $('portrait-option').checked;
 
   try {
     localStorage.setItem(CUSTOM_KEY,JSON.stringify(saved));
@@ -1654,7 +1693,8 @@ document.querySelectorAll('[data-add-custom]').forEach(button => {
           : null;
 
     const customization = saved[kind];
-    const isPortrait = Boolean(customization.portrait);
+    const isGlitter = kind === 'bauble' && size && size.value === 'glitter';
+    const isPortrait = Boolean(customization.portrait) && !isGlitter;
     const price = basePrice === null
       ? null
       : basePrice + (isPortrait ? 10 : 0);
@@ -1890,6 +1930,7 @@ function applyLanguage() {
     'bookmark-large':'bookmarkLarge',
     'bauble-small':'baubleSmall',
     'bauble-large':'baubleLarge',
+    'bauble-glitter':'baubleGlitter',
 
     'bookmark-description':'bookmarkDesc',
     'bauble-description':'bookmarkDesc',
@@ -2022,6 +2063,9 @@ document.addEventListener('input',event => {
 
 document.addEventListener('change',event => {
   if (event.target.matches('.quantity-row input, .size-input, input[type="radio"][name$="-size"]')) {
+    if (event.target.matches('input[name="bauble-size"]')) {
+      updatePortraitAvailability();
+    }
     Object.keys(products).forEach(updateCustomButton);
   }
 });
