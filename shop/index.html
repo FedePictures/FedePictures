@@ -213,6 +213,14 @@ h1 {
   padding:0;
   overflow:hidden;
 }
+.custom-order-layout.coupon-hidden {
+  grid-template-columns:minmax(0,966px);
+  width:min(966px,100%);
+  max-width:966px;
+  transform:none;
+}
+.coupon-art-slot[hidden] { display:none !important; }
+
 .coupon-art-image {
   display:block;
   width:100%;
@@ -837,6 +845,7 @@ footer {
         <a href="../segnalibri.html" id="menu-bookmarks">Segnalibri</a>
         <a href="../palline.html" id="menu-balls">Palline di Natale</a>
         <a href="../magliette.html" id="menu-shirts">Magliette e accessori</a>
+        <a href="../recensioni.html" id="menu-reviews">Recensioni</a>
         <a href="../contatti.html" id="menu-contact">Contattami</a>
       </div>
     </div>
@@ -1239,7 +1248,7 @@ const products = {
 
 const translations = {
   it:{
-    cart:'CARRELLO',explore:'ESPLORA ▼',home:'Home',portraits:'Ritratti',digital:'Disegni al PC',wall:'Disegni sui muri',bookmarks:'Segnalibri',balls:'Palline di Natale',shirts:'Magliette e accessori',contact:'Contattami',shippingBanner:'Spedizione gratuita per ordini superiori a 100€',
+    cart:'CARRELLO',explore:'ESPLORA ▼',home:'Home',portraits:'Ritratti',digital:'Disegni al PC',wall:'Disegni sui muri',bookmarks:'Segnalibri',balls:'Palline di Natale',shirts:'Magliette e accessori',reviews:'Recensioni',contact:'Contattami',shippingBanner:'Spedizione gratuita per ordini superiori a 100€',
     title:'Shop FedePictures',intro:'Piccole creazioni fatte a mano, prodotti pronti da regalare e idee personalizzate create per te.',customHeading:'Ordina il tuo prodotto personalizzato',readyHeading:'Prodotti in pronta consegna',
     searchProducts:'Cerca',searchPlaceholder:'Cerca un prodotto...',readyFilter:'Filtra',allCategories:'Tutte le categorie',bookmarksCategory:'Segnalibri',canvasesCategory:'Tele',baublesCategory:'Palline',accessoriesCategory:'Accessori',objectsCategory:'Oggettistica',sortPrice:'Ordina per prezzo',sortDefault:'Ordine predefinito',sortAsc:'Dal meno caro al più caro',sortDesc:'Dal più caro al meno caro',emptyCategory:'Nessun prodotto presente in questa categoria al momento.',
     bookmark:'Segnalibro',bauble:'Pallina',shirt:'Maglietta',canvas:'Mini tela',other:'Altre creazioni',baubleColorLabel:'Colore della pallina *',baubleColorPlaceholder:'Es. rosso, blu, oro...',bookmarkSmall:'Piccolo 11 cm – 5 €',bookmarkLarge:'Grande 20 cm – 10 €',baubleSmall:'Plastica 6 €',baubleLarge:'Vetro 8 €',baubleGlitter:'Glitter 10 €',
@@ -1249,7 +1258,7 @@ const translations = {
     contactHeading:'Hai un’idea speciale?',contactCopy:'Per richieste particolari o creazioni su misura, raccontami cosa hai in mente.',contactCta:'Vai ai contatti'
   },
   en:{
-    cart:'CART',explore:'EXPLORE ▼',home:'Home',portraits:'Portraits',digital:'Digital drawings',wall:'Wall art',bookmarks:'Bookmarks',balls:'Christmas baubles',shirts:'T-shirts & accessories',contact:'Contact me',shippingBanner:'Free shipping on orders over €100',
+    cart:'CART',explore:'EXPLORE ▼',home:'Home',portraits:'Portraits',digital:'Digital drawings',wall:'Wall art',bookmarks:'Bookmarks',balls:'Christmas baubles',shirts:'T-shirts & accessories',reviews:'Reviews',contact:'Contact me',shippingBanner:'Free shipping on orders over €100',
     title:'FedePictures Shop',intro:'Handmade creations, ready-to-gift products and personalized ideas made for you.',customHeading:'Order your personalized product',readyHeading:'Ready-to-ship products',
     searchProducts:'Search',searchPlaceholder:'Search for a product...',readyFilter:'Filter',allCategories:'All categories',bookmarksCategory:'Bookmarks',canvasesCategory:'Canvases',baublesCategory:'Baubles',accessoriesCategory:'Accessories',objectsCategory:'Other objects',sortPrice:'Sort by price',sortDefault:'Default order',sortAsc:'Price: low to high',sortDesc:'Price: high to low',emptyCategory:'There are currently no products in this category.',
     bookmark:'Bookmark',bauble:'Christmas bauble',shirt:'T-shirt',canvas:'Mini canvas',other:'Other creations',baubleColorLabel:'Desired bauble colour *',baubleColorPlaceholder:'E.g. red, blue, gold...',bookmarkSmall:'Small 11 cm – €5',bookmarkLarge:'Large 20 cm – €10',baubleSmall:'Plastic €6',baubleLarge:'Glass €8',baubleGlitter:'Glitter €10',
@@ -1912,6 +1921,7 @@ function applyLanguage() {
     'menu-bookmarks':'bookmarks',
     'menu-balls':'balls',
     'menu-shirts':'shirts',
+    'menu-reviews':'reviews',
     'menu-contact':'contact',
     'shipping-banner':'shippingBanner',
 
@@ -2070,6 +2080,49 @@ document.addEventListener('change',event => {
   }
 });
 
+/* VISIBILITÀ PROMOZIONE COUPON
+   La configurazione è gestita dalla pagina coupon.html nella root del sito.
+   In caso di errore di lettura, l'immagine resta nascosta per sicurezza. */
+const COUPON_CONFIG_URL = 'https://fedepictures.github.io/FedePictures/coupon.html';
+
+async function updateCouponArtworkVisibility() {
+  const layout = document.querySelector('.custom-order-layout');
+  const artwork = document.querySelector('.coupon-art-slot');
+  if (!layout || !artwork) return;
+
+  // Stato predefinito: coupon non attivo, quindi immagine nascosta.
+  layout.classList.add('coupon-hidden');
+  artwork.hidden = true;
+  artwork.setAttribute('aria-hidden', 'true');
+
+  try {
+    const response = await fetch(COUPON_CONFIG_URL, { cache: 'no-store' });
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+
+    const pageHtml = await response.text();
+    const parsedPage = new DOMParser().parseFromString(pageHtml, 'text/html');
+    const configElement = parsedPage.getElementById('fedepictures-coupon-config');
+    if (!configElement) throw new Error('Configurazione coupon non trovata');
+
+    const config = JSON.parse(configElement.textContent);
+    const coupon = config && config.coupons
+      ? config.coupons.CONAFFETTO
+      : null;
+
+    const couponIsActive = config.enabled === true && coupon && coupon.active === true;
+
+    if (couponIsActive) {
+      layout.classList.remove('coupon-hidden');
+      artwork.hidden = false;
+      artwork.setAttribute('aria-hidden', 'false');
+    }
+  } catch (error) {
+    // Se la configurazione non è raggiungibile o non è valida,
+    // non mostriamo una promozione che potrebbe essere disattivata.
+    console.warn('Stato coupon non verificabile: immagine promozionale nascosta.', error);
+  }
+}
+
 /* AVVIO PAGINA */
 try {
   updateCartCount();
@@ -2104,6 +2157,8 @@ try {
     console.error('Impossibile mostrare la griglia prodotti:',renderError);
   }
 }
+updateCouponArtworkVisibility();
+
 </script>
 
 </body>
