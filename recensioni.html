@@ -554,6 +554,30 @@
     const REVIEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbcgjKnb7E5Ra8QwkDtiByZpSAlRr1eJadnW8cIDYoh8k2duQcMBgAuweUR4ffZVeO_q4JWOYrSMPU/pub?gid=443923898&single=true&output=csv";
 
     function parseCSV(text) {
+      // Google Sheets può pubblicare CSV con separatore virgola o punto e virgola,
+      // in base alle impostazioni locali. Rileviamo il separatore dalla prima riga.
+      text = String(text || "").replace(/^\uFEFF/, "");
+      const firstLine = (text.split(/\r?\n/)[0] || "");
+      function countOutsideQuotes(line, separator) {
+        let quoted = false;
+        let count = 0;
+        for (let i = 0; i < line.length; i++) {
+          if (line[i] === '"' && quoted && line[i + 1] === '"') {
+            i++;
+          } else if (line[i] === '"') {
+            quoted = !quoted;
+          } else if (line[i] === separator && !quoted) {
+            count++;
+          }
+        }
+        return count;
+      }
+
+      const separators = [",", ";", "\t"];
+      const delimiter = separators
+        .map(separator => ({ separator, count: countOutsideQuotes(firstLine, separator) }))
+        .sort((a, b) => b.count - a.count)[0].separator;
+
       const rows = [];
       let row = [];
       let value = "";
@@ -568,7 +592,7 @@
           i++;
         } else if (char === '"') {
           quoted = !quoted;
-        } else if (char === "," && !quoted) {
+        } else if (char === delimiter && !quoted) {
           row.push(value);
           value = "";
         } else if ((char === "\n" || char === "\r") && !quoted) {
@@ -686,7 +710,7 @@
 
       const reviews = rows.slice(1).filter(row => {
         const status = String(row[STATUS_INDEX] || "").trim().toLowerCase();
-        const approved = status === "approvata" || status === "approved";
+        const approved = status.includes("approvat") || status.includes("approved");
         const hasContent = String(row[NAME_INDEX] || "").trim() !== "" ||
           String(row[REVIEW_INDEX] || "").trim() !== "";
         return approved && hasContent;
