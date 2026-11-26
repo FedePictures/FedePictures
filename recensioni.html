@@ -669,45 +669,43 @@
       loading.hidden = true;
       error.hidden = true;
 
-      const headers = (rows[0] || []).map(value => String(value || "").trim().toLowerCase());
+      /*
+       * Indici basati sulle colonne effettive del foglio Form_Responses:
+       * A = timestamp (0)
+       * B = nome (1)
+       * C = stelle (2)
+       * D = testo recensione (3)
+       * E = link foto (4)
+       * F = stato pubblicazione (5)
+       */
+      const NAME_INDEX = 1;
+      const RATING_INDEX = 2;
+      const REVIEW_INDEX = 3;
+      const PHOTO_INDEX = 4;
+      const STATUS_INDEX = 5;
 
-      // Prima prova a riconoscere le colonne dai titoli reali del modulo.
-      let nameIndex = headers.findIndex(h => /come ti chiami|nome/.test(h));
-      let ratingIndex = headers.findIndex(h => /quante stelle|stelle|valutazione/.test(h));
-      let reviewIndex = headers.findIndex(h => /raccontaci|esperienza|recensione/.test(h));
-      let photoIndex = headers.findIndex(h => /vuoi condividere una foto|foto|immagin|file upload|carica/.test(h));
-
-      // Fallback per il CSV pubblicato con le sole tre colonne recensione + foto.
-      if (nameIndex < 0) nameIndex = 0;
-      if (ratingIndex < 0) ratingIndex = 1;
-      if (reviewIndex < 0) reviewIndex = 2;
-
-      const reviews = rows.slice(1).filter(row =>
-        row.length > Math.max(nameIndex, ratingIndex, reviewIndex) &&
-        [row[nameIndex], row[ratingIndex], row[reviewIndex]]
-          .some(cell => String(cell || "").trim() !== "")
-      );
+      const reviews = rows.slice(1).filter(row => {
+        const status = String(row[STATUS_INDEX] || "").trim().toLowerCase();
+        const approved = status === "approvata" || status === "approved";
+        const hasContent = String(row[NAME_INDEX] || "").trim() !== "" ||
+          String(row[REVIEW_INDEX] || "").trim() !== "";
+        return approved && hasContent;
+      });
 
       allReviewItems = reviews.map(row => {
-        const ratingText = String(row[ratingIndex] || "");
+        const ratingText = String(row[RATING_INDEX] || "");
         const ratingMatch = ratingText.match(/[1-5]/);
-        const rating = ratingMatch ? Math.max(1, Math.min(5, Number(ratingMatch[0]))) : 5;
+        const rating = ratingMatch
+          ? Math.max(1, Math.min(5, Number(ratingMatch[0])))
+          : 5;
 
-        // Non ci affidiamo soltanto all'indice della colonna: cerchiamo il link
-        // Drive in tutta la riga, perché alcuni CSV cambiano ordine/esportazione.
-        let photoValue = photoIndex >= 0 ? row[photoIndex] : "";
-        if (!getReviewPhotoInfo(photoValue)) {
-          photoValue = row.find(cell => {
-            const text = String(cell || "");
-            return /drive\.google\.com/i.test(text) || /^[a-zA-Z0-9_-]{25,}$/.test(text.trim());
-          }) || "";
-        }
+        const photoValue = String(row[PHOTO_INDEX] || "").trim();
 
         return {
           row,
           rating,
-          nameIndex,
-          reviewIndex,
+          nameIndex: NAME_INDEX,
+          reviewIndex: REVIEW_INDEX,
           photoValue
         };
       });
