@@ -238,6 +238,67 @@
       white-space: pre-wrap;
     }
 
+    .review-photo-button {
+      display: inline-block;
+      margin-top: 1em;
+      padding: 0;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      cursor: zoom-in;
+      line-height: 0;
+    }
+
+    .review-photo-thumb {
+      display: block;
+      width: 112px;
+      height: 112px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid #eadcf7;
+      box-shadow: 0 3px 10px rgba(80, 55, 100, .12);
+      transition: transform .2s ease;
+    }
+
+    .review-photo-button:hover .review-photo-thumb {
+      transform: scale(1.04);
+    }
+
+    .photo-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      padding: 2em;
+      background: rgba(0, 0, 0, .88);
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .photo-lightbox.show { display: flex; }
+
+    .photo-lightbox img {
+      display: block;
+      max-width: min(92vw, 1100px);
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 8px 35px rgba(0,0,0,.4);
+    }
+
+    .photo-lightbox-close {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      border: 0;
+      background: transparent;
+      color: white;
+      font-size: 2.5rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
     .reviews-loading, .reviews-error {
       margin: 1.5em auto 0;
       color: #666;
@@ -398,6 +459,12 @@
       </div>
     </section>
   </main>
+
+  <div class="photo-lightbox" id="photo-lightbox" role="dialog" aria-modal="true" aria-label="Foto della recensione">
+    <button class="photo-lightbox-close" id="photo-lightbox-close" type="button" aria-label="Chiudi">&times;</button>
+    <img id="photo-lightbox-image" src="" alt="Foto della recensione ingrandita">
+  </div>
+
   <footer>
     <p>&copy; 2026 FedePictures • P. IVA 04962510618.</p>
   </footer>
@@ -484,6 +551,50 @@
       return rows;
     }
 
+    function getReviewPhotoUrl(value) {
+      if (!value) return "";
+      const raw = String(value).trim();
+      if (!/^https?:\/\//i.test(raw)) return "";
+
+      // Google Forms file uploads are usually Drive links. Convert them to an
+      // embeddable thumbnail URL; the original link is used for the enlarged view.
+      const driveIdMatch =
+        raw.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) ||
+        raw.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+
+      if (driveIdMatch && /drive\.google\.com/i.test(raw)) {
+        return "https://drive.google.com/thumbnail?id=" +
+          encodeURIComponent(driveIdMatch[1]) + "&sz=w1000";
+      }
+
+      return raw;
+    }
+
+    function openPhotoLightbox(src, alt) {
+      const overlay = document.getElementById("photo-lightbox");
+      const image = document.getElementById("photo-lightbox-image");
+      image.src = src;
+      image.alt = alt || "Foto della recensione ingrandita";
+      overlay.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closePhotoLightbox() {
+      const overlay = document.getElementById("photo-lightbox");
+      const image = document.getElementById("photo-lightbox-image");
+      overlay.classList.remove("show");
+      image.src = "";
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("photo-lightbox").addEventListener("click", function(event) {
+      if (event.target === this) closePhotoLightbox();
+    });
+    document.getElementById("photo-lightbox-close").addEventListener("click", closePhotoLightbox);
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape") closePhotoLightbox();
+    });
+
     function renderReviews(rows) {
       const list = document.getElementById("reviews-list");
       const loading = document.getElementById("reviews-loading");
@@ -494,7 +605,13 @@
       loading.hidden = true;
       error.hidden = true;
 
-      // La prima riga del CSV contiene le intestazioni: le successive sono le recensioni.
+      // La prima riga del CSV contiene le intestazioni.
+      const headers = rows[0] || [];
+      let photoIndex = headers.findIndex(header =>
+        /foto|immagin|file\s*upload|carica/i.test(String(header || ""))
+      );
+      if (photoIndex < 0) photoIndex = 3; // Quarta colonna: eventuale foto caricata nel modulo.
+
       const reviews = rows.slice(1).filter(row =>
         row.length >= 3 && row.slice(0, 3).some(cell => cell.trim() !== "")
       );
@@ -528,6 +645,33 @@
         comment.textContent = (reviewText || "").trim();
 
         card.append(stars, customer, comment);
+
+        const photoCell = row[photoIndex] || "";
+        const photoUrl = getReviewPhotoUrl(photoCell);
+        if (photoUrl) {
+          const photoButton = document.createElement("button");
+          photoButton.type = "button";
+          photoButton.className = "review-photo-button";
+          photoButton.setAttribute("aria-label", currentLang === "it"
+            ? "Ingrandisci la foto della recensione"
+            : "Enlarge review photo");
+
+          const photo = document.createElement("img");
+          photo.className = "review-photo-thumb";
+          photo.src = photoUrl;
+          photo.alt = currentLang === "it" ? "Foto caricata con la recensione" : "Photo uploaded with the review";
+          photo.loading = "lazy";
+          photo.onerror = function() {
+            photoButton.remove();
+          };
+
+          photoButton.addEventListener("click", () =>
+            openPhotoLightbox(photoUrl, photo.alt)
+          );
+          photoButton.appendChild(photo);
+          card.appendChild(photoButton);
+        }
+
         list.appendChild(card);
       });
     }
