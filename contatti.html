@@ -93,13 +93,31 @@
       font-size: 1em;
     }
 
-    /* Pulsante Shop: stesso stile della Home */
+    /* Il PNG contiene già icona, sfondo viola e scritta Shop */
     .shop-nav-link {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 123px;
+      width: 123px;
+      height: 58px;
       margin: 0 !important;
+      padding: 0;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
       text-decoration: none;
       line-height: normal;
       white-space: nowrap;
+      overflow: visible;
+    }
+
+    .shop-nav-link img {
+      display: block;
+      width: 123px;
+      height: 58px;
+      max-width: none;
+      object-fit: fill;
     }
 
     .shop-nav-link:hover {
@@ -356,10 +374,13 @@
 
   <nav aria-label="Navigazione principale">
 
-    <!-- Pulsante Shop, come nella Home -->
+    <!-- Pulsante Shop con l'immagine delle buste -->
     <a href="shop/index.html"
-       class="dropbtn shop-nav-link"
-       id="shop-nav-link">Shop</a>
+       class="shop-nav-link"
+       id="shop-nav-link"
+       aria-label="Shop">
+      <img src="iconshop.png" alt="Shop" width="123" height="58">
+    </a>
 
     <div class="dropdown">
       <button class="dropbtn" type="button" onclick="toggleMenu()">
