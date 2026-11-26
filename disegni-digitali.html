@@ -74,11 +74,24 @@
 
     /* Pulsante Shop: stesso stile della Home */
     .shop-nav-link {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       margin: 0 !important;
+      padding: 0;
       text-decoration: none;
-      line-height: normal;
+      line-height: 0;
       white-space: nowrap;
+      background: transparent;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .shop-nav-link img {
+      display: block;
+      width: 123px;
+      height: 58px;
+      object-fit: contain;
     }
 
     .shop-nav-link:hover {
@@ -312,8 +325,10 @@
 
       <!-- Pulsante Shop: come nella Home -->
       <a href="shop/index.html"
-         class="dropbtn shop-nav-link"
-         id="shop-nav-link">Shop</a>
+         class="shop-nav-link"
+         id="shop-nav-link" aria-label="Shop">
+        <img src="iconshop.png" alt="Shop">
+      </a>
 
       <div class="dropdown">
         <button class="dropbtn" type="button" onclick="toggleMenu()">
@@ -327,6 +342,8 @@
           <a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
           <a href="palline.html" id="menu-balls">Palline di Natale</a>
           <a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+          <a href="shop/index.html" id="menu-drawing-shop">Disegno shop</a>
+          <a href="recensioni.html" id="menu-reviews">Recensioni</a>
           <a href="contatti.html" id="menu-contact">Contattami</a>
         </div>
       </div>
@@ -476,6 +493,8 @@
         menuBookmarks: "Segnalibri",
         menuBalls: "Palline di Natale",
         menuShirts: "Magliette e accessori",
+        menuDrawingShop: "Disegno shop",
+        menuReviews: "Recensioni",
         menuContact: "Contattami"
       },
 
@@ -491,6 +510,8 @@
         menuBookmarks: "Bookmarks",
         menuBalls: "Christmas Ornaments",
         menuShirts: "T-shirts & Accessories",
+        menuDrawingShop: "Art Shop",
+        menuReviews: "Reviews",
         menuContact: "Contact Me"
       }
     };
@@ -531,6 +552,12 @@
 
       document.getElementById("menu-shirts").innerText =
         translations[currentLang].menuShirts;
+
+      document.getElementById("menu-drawing-shop").innerText =
+        translations[currentLang].menuDrawingShop;
+
+      document.getElementById("menu-reviews").innerText =
+        translations[currentLang].menuReviews;
 
       document.getElementById("menu-contact").innerText =
         translations[currentLang].menuContact;
