@@ -197,6 +197,53 @@
       line-height: 1.7;
     }
 
+
+    .reviews-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.2em;
+      margin-top: 2em;
+      text-align: left;
+    }
+
+    .review-card {
+      background: #fff;
+      border: 1px solid #eadcf7;
+      border-radius: 20px;
+      padding: 1.5em;
+      box-shadow: 0 5px 18px rgba(80, 55, 100, .08);
+      overflow-wrap: anywhere;
+    }
+
+    .review-card:nth-child(3n + 1) { border-top: 5px solid var(--rosa); }
+    .review-card:nth-child(3n + 2) { border-top: 5px solid var(--celeste); }
+    .review-card:nth-child(3n) { border-top: 5px solid var(--viola); }
+
+    .review-card-stars {
+      color: #e6a23c;
+      font-size: 1.25rem;
+      letter-spacing: .08em;
+      margin-bottom: .55em;
+    }
+
+    .review-card-name {
+      font-family: 'Baloo 2', cursive;
+      font-size: 1.2rem;
+      margin: 0 0 .5em;
+    }
+
+    .review-card-text {
+      line-height: 1.7;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .reviews-loading, .reviews-error {
+      margin: 1.5em auto 0;
+      color: #666;
+      line-height: 1.6;
+    }
+
     .leave-review {
       background: linear-gradient(110deg, #fff0f5, #eef9ff);
       padding: 3.5em 1.5em;
@@ -325,7 +372,9 @@
       <h2 id="reviews-list-title">Le recensioni</h2>
       <p id="reviews-list-intro">Le vostre esperienze saranno raccolte qui.</p>
 
-      <div class="empty-reviews">
+      <p class="reviews-loading" id="reviews-loading">Sto caricando le recensioni...</p>
+      <div class="reviews-list" id="reviews-list" aria-live="polite"></div>
+      <div class="empty-reviews" id="empty-review-state" hidden>
         <div class="empty-stars" aria-hidden="true">★★★★★</div>
         <p id="empty-title"><strong>La prima recensione potrebbe essere la tua!</strong></p>
         <p id="empty-text">
@@ -333,6 +382,7 @@
           con FedePictures, mi farebbe piacere conoscere la tua opinione.
         </p>
       </div>
+      <p class="reviews-error" id="reviews-error" hidden></p>
     </section>
 
     <section class="leave-review">
@@ -398,6 +448,109 @@
       }
     };
 
+    const REVIEWS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbcgjKnb7E5Ra8QwkDtiByZpSAlRr1eJadnW8cIDYoh8k2duQcMBgAuweUR4ffZVeO_q4JWOYrSMPU/pub?gid=443923898&single=true&output=csv";
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let value = "";
+      let quoted = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && quoted && next === '"') {
+          value += '"';
+          i++;
+        } else if (char === '"') {
+          quoted = !quoted;
+        } else if (char === "," && !quoted) {
+          row.push(value);
+          value = "";
+        } else if ((char === "\n" || char === "\r") && !quoted) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(value);
+          if (row.some(cell => cell.trim() !== "")) rows.push(row);
+          row = [];
+          value = "";
+        } else {
+          value += char;
+        }
+      }
+
+      row.push(value);
+      if (row.some(cell => cell.trim() !== "")) rows.push(row);
+      return rows;
+    }
+
+    function renderReviews(rows) {
+      const list = document.getElementById("reviews-list");
+      const loading = document.getElementById("reviews-loading");
+      const empty = document.getElementById("empty-review-state");
+      const error = document.getElementById("reviews-error");
+
+      list.replaceChildren();
+      loading.hidden = true;
+      error.hidden = true;
+
+      // La prima riga del CSV contiene le intestazioni: le successive sono le recensioni.
+      const reviews = rows.slice(1).filter(row =>
+        row.length >= 3 && row.slice(0, 3).some(cell => cell.trim() !== "")
+      );
+
+      if (reviews.length === 0) {
+        empty.hidden = false;
+        return;
+      }
+
+      empty.hidden = true;
+
+      reviews.forEach(row => {
+        const [name, ratingText, reviewText] = row;
+        const card = document.createElement("article");
+        card.className = "review-card";
+
+        const stars = document.createElement("div");
+        stars.className = "review-card-stars";
+        stars.setAttribute("aria-label", currentLang === "it" ? "Valutazione" : "Rating");
+
+        const ratingMatch = (ratingText || "").match(/[1-5]/);
+        const rating = ratingMatch ? Math.max(1, Math.min(5, Number(ratingMatch[0]))) : 5;
+        stars.textContent = "★".repeat(rating) + "☆".repeat(5 - rating);
+
+        const customer = document.createElement("h3");
+        customer.className = "review-card-name";
+        customer.textContent = (name || "").trim();
+
+        const comment = document.createElement("p");
+        comment.className = "review-card-text";
+        comment.textContent = (reviewText || "").trim();
+
+        card.append(stars, customer, comment);
+        list.appendChild(card);
+      });
+    }
+
+    async function loadReviews() {
+      const loading = document.getElementById("reviews-loading");
+      const error = document.getElementById("reviews-error");
+
+      try {
+        const response = await fetch(REVIEWS_CSV_URL, { cache: "no-store" });
+        if (!response.ok) throw new Error("HTTP " + response.status);
+        const csvText = await response.text();
+        renderReviews(parseCSV(csvText));
+      } catch (err) {
+        loading.hidden = true;
+        error.hidden = false;
+        error.textContent = currentLang === "it"
+          ? "Al momento non è possibile caricare le recensioni. Riprova più tardi."
+          : "Reviews cannot be loaded right now. Please try again later.";
+        console.error("Errore nel caricamento delle recensioni:", err);
+      }
+    }
+
     let currentLang = localStorage.getItem("language") || "it";
 
     function applyLanguage() {
@@ -440,6 +593,7 @@
     });
 
     applyLanguage();
+    loadReviews();
   </script>
 </body>
 </html>
