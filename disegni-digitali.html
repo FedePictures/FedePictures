@@ -72,26 +72,25 @@
       font-weight: bold;
     }
 
-    /* Pulsante Shop: stesso stile della Home */
+    /* Pulsante Shop: identico alla barra superiore della Home */
     .shop-nav-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 7px;
       margin: 0 !important;
-      padding: 0;
       text-decoration: none;
-      line-height: 0;
+      line-height: normal;
       white-space: nowrap;
-      background: transparent;
-      border-radius: 8px;
-      overflow: hidden;
     }
 
-    .shop-nav-link img {
+    .shop-nav-icon {
       display: block;
-      width: 123px;
-      height: 58px;
+      width: 27px;
+      height: 25px;
+      flex: 0 0 auto;
       object-fit: contain;
+      background: transparent;
     }
 
     .shop-nav-link:hover {
@@ -324,10 +323,9 @@
     <nav aria-label="Navigazione principale">
 
       <!-- Pulsante Shop: come nella Home -->
-      <a href="shop/index.html"
-         class="shop-nav-link"
-         id="shop-nav-link" aria-label="Shop">
-        <img src="iconshop.png" alt="Shop">
+      <a href="shop/index.html" class="dropbtn shop-nav-link" id="shop-nav-link">
+        <img src="./iconshop.png" class="shop-nav-icon" alt="" aria-hidden="true" onerror="this.remove()">
+        <span>Shop</span>
       </a>
 
       <div class="dropdown">
