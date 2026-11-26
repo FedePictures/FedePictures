@@ -587,26 +587,55 @@
       return rows;
     }
 
-    function getReviewPhotoUrl(value) {
+    function estraiDriveFileId(value) {
       if (!value) return "";
       const raw = String(value).trim();
-      if (!/^https?:\/\//i.test(raw)) return "";
-
-      // Google Forms file uploads are usually Drive links. Convert them to an
-      // embeddable thumbnail URL; the original link is used for the enlarged view.
-      const driveIdMatch =
+      const match =
         raw.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) ||
-        raw.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+        raw.match(/[?&]id=([a-zA-Z0-9_-]+)/) ||
+        raw.match(/drive\.google\.com\/uc(?:\?.*?id=)([a-zA-Z0-9_-]+)/);
+      if (match) return match[1];
 
-      if (driveIdMatch && /drive\.google\.com/i.test(raw)) {
-        return "https://drive.google.com/thumbnail?id=" +
-          encodeURIComponent(driveIdMatch[1]) + "&sz=w1000";
-      }
-
-      return raw;
+      // Alcuni CSV esportati da Google Sheets possono contenere solo l'ID.
+      if (/^[a-zA-Z0-9_-]{20,}$/.test(raw)) return raw;
+      return "";
     }
 
-    function openPhotoLightbox(src, alt) {
+    function getReviewPhotoInfo(value) {
+      if (!value) return null;
+      const raw = String(value).trim();
+      const id = estraiDriveFileId(raw);
+
+      if (id) {
+        return {
+          thumb: "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w600",
+          full: "https://drive.google.com/uc?export=view&id=" + encodeURIComponent(id),
+          fallback: "https://lh3.googleusercontent.com/d/" + encodeURIComponent(id)
+        };
+      }
+
+      if (/^https?:\/\//i.test(raw)) {
+        return { thumb: raw, full: raw, fallback: "" };
+      }
+      return null;
+    }
+
+    function openPhotoLightbox(src, alt, fallback) {
+      const overlay = document.getElementById("photo-lightbox");
+      const image = document.getElementById("photo-lightbox-image");
+      image.onerror = function() {
+        if (fallback && image.src !== fallback) {
+          image.onerror = null;
+          image.src = fallback;
+        }
+      };
+      image.src = src;
+      image.alt = alt || "Foto della recensione ingrandita";
+      overlay.classList.add("show");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closePhotoLightbox() {
       const overlay = document.getElementById("photo-lightbox");
       const image = document.getElementById("photo-lightbox-image");
       image.src = src;
@@ -640,22 +669,47 @@
       loading.hidden = true;
       error.hidden = true;
 
-      // La prima riga del CSV contiene le intestazioni.
-      const headers = rows[0] || [];
-      let photoIndex = headers.findIndex(header =>
-        /foto|immagin|file\s*upload|carica/i.test(String(header || ""))
-      );
-      if (photoIndex < 0) photoIndex = 3;
+      const headers = (rows[0] || []).map(value => String(value || "").trim().toLowerCase());
+
+      // Prima prova a riconoscere le colonne dai titoli reali del modulo.
+      let nameIndex = headers.findIndex(h => /come ti chiami|nome/.test(h));
+      let ratingIndex = headers.findIndex(h => /quante stelle|stelle|valutazione/.test(h));
+      let reviewIndex = headers.findIndex(h => /raccontaci|esperienza|recensione/.test(h));
+      let photoIndex = headers.findIndex(h => /vuoi condividere una foto|foto|immagin|file upload|carica/.test(h));
+
+      // Fallback per il CSV pubblicato con le sole tre colonne recensione + foto.
+      if (nameIndex < 0) nameIndex = 0;
+      if (ratingIndex < 0) ratingIndex = 1;
+      if (reviewIndex < 0) reviewIndex = 2;
 
       const reviews = rows.slice(1).filter(row =>
-        row.length >= 3 && row.slice(0, 3).some(cell => cell.trim() !== "")
+        row.length > Math.max(nameIndex, ratingIndex, reviewIndex) &&
+        [row[nameIndex], row[ratingIndex], row[reviewIndex]]
+          .some(cell => String(cell || "").trim() !== "")
       );
 
       allReviewItems = reviews.map(row => {
-        const ratingText = row[1] || "";
+        const ratingText = String(row[ratingIndex] || "");
         const ratingMatch = ratingText.match(/[1-5]/);
         const rating = ratingMatch ? Math.max(1, Math.min(5, Number(ratingMatch[0]))) : 5;
-        return { row, rating, photoIndex };
+
+        // Non ci affidiamo soltanto all'indice della colonna: cerchiamo il link
+        // Drive in tutta la riga, perché alcuni CSV cambiano ordine/esportazione.
+        let photoValue = photoIndex >= 0 ? row[photoIndex] : "";
+        if (!getReviewPhotoInfo(photoValue)) {
+          photoValue = row.find(cell => {
+            const text = String(cell || "");
+            return /drive\.google\.com/i.test(text) || /^[a-zA-Z0-9_-]{25,}$/.test(text.trim());
+          }) || "";
+        }
+
+        return {
+          row,
+          rating,
+          nameIndex,
+          reviewIndex,
+          photoValue
+        };
       });
 
       if (allReviewItems.length === 0) {
@@ -699,7 +753,8 @@
       empty.hidden = true;
       visibleReviews.forEach(item => {
         const row = item.row;
-        const [name, ratingText, reviewText] = row;
+        const name = row[item.nameIndex] || "";
+        const reviewText = row[item.reviewIndex] || "";
         const card = document.createElement("article");
         card.className = "review-card";
 
@@ -717,22 +772,33 @@
         comment.textContent = (reviewText || "").trim();
         card.append(stars, customer, comment);
 
-        const photoCell = row[item.photoIndex] || "";
-        const photoUrl = getReviewPhotoUrl(photoCell);
-        if (photoUrl) {
+        const photoInfo = getReviewPhotoInfo(item.photoValue);
+        if (photoInfo) {
           const photoButton = document.createElement("button");
           photoButton.type = "button";
           photoButton.className = "review-photo-button";
           photoButton.setAttribute("aria-label", currentLang === "it"
             ? "Ingrandisci la foto della recensione"
             : "Enlarge review photo");
+
           const photo = document.createElement("img");
           photo.className = "review-photo-thumb";
-          photo.src = photoUrl;
-          photo.alt = currentLang === "it" ? "Foto caricata con la recensione" : "Photo uploaded with the review";
+          photo.src = photoInfo.thumb;
+          photo.alt = currentLang === "it"
+            ? "Foto caricata con la recensione"
+            : "Photo uploaded with the review";
           photo.loading = "lazy";
-          photo.onerror = function() { photoButton.remove(); };
-          photoButton.addEventListener("click", () => openPhotoLightbox(photoUrl, photo.alt));
+          photo.onerror = function() {
+            if (photoInfo.fallback && photo.src !== photoInfo.fallback) {
+              photo.src = photoInfo.fallback;
+            } else {
+              photoButton.remove();
+            }
+          };
+
+          photoButton.addEventListener("click", () =>
+            openPhotoLightbox(photoInfo.full, photo.alt, photoInfo.fallback)
+          );
           photoButton.appendChild(photo);
           card.appendChild(photoButton);
         }
