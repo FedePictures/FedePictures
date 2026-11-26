@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recensioni | FedePictures</title>
+  <link rel="icon" href="volpe.png" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Quicksand&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --rosa: #ffc0cb;
+      --celeste: #b2eaff;
+      --viola: #d2b4f2;
+      --scuro: #333;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: #fff;
+      color: var(--scuro);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--celeste);
+      padding: 0.8em 2em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      height: 60px;
+    }
+
+    .logo-link {
+      text-decoration: none;
+      display: block;
+      position: relative;
+      width: 150px;
+    }
+
+    .main-logo {
+      display: block;
+      height: 130px;
+      width: auto;
+      position: absolute;
+      top: -15px;
+      left: 0;
+      z-index: 1010;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+
+    .main-logo:hover { transform: scale(1.05) rotate(-3deg); }
+
+    nav { display: flex; align-items: center; gap: 8px; }
+
+    nav a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: var(--scuro);
+      font-weight: bold;
+    }
+
+    .dropdown { position: relative; display: inline-block; }
+
+    .dropbtn {
+      background: var(--viola);
+      color: white;
+      border: none;
+      padding: .6em 1.2em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .shop-nav-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin: 0 !important;
+      text-decoration: none;
+      line-height: normal;
+      white-space: nowrap;
+    }
+
+    .shop-nav-icon {
+      display: block;
+      width: 27px;
+      height: 25px;
+      flex: 0 0 auto;
+      object-fit: contain;
+      background: transparent;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      background: white;
+      min-width: 230px;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,.15);
+      overflow: hidden;
+      z-index: 3000;
+    }
+
+    .dropdown-content.show { display: block; }
+
+    .dropdown-content a {
+      display: block;
+      padding: 12px;
+      margin: 0;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .dropdown-content a:hover { background: #f5f5f5; }
+
+    .lang-switcher {
+      background: var(--viola);
+      border: none;
+      color: white;
+      padding: 0.3em 1em;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    main { flex: 1; }
+
+    .reviews-hero {
+      background: linear-gradient(110deg, var(--rosa), var(--celeste));
+      text-align: center;
+      padding: 4.5em 1.5em 4em;
+    }
+
+    .reviews-hero h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: clamp(2.2rem, 5vw, 3.3rem);
+      margin: 0 0 .25em;
+      color: #333;
+    }
+
+    .reviews-hero p {
+      max-width: 680px;
+      margin: 0 auto;
+      font-size: 1.12rem;
+      line-height: 1.7;
+    }
+
+    .reviews-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3.5em 1.5em;
+      text-align: center;
+    }
+
+    .reviews-section h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 2rem;
+      margin: 0 0 .5em;
+    }
+
+    .empty-reviews {
+      max-width: 680px;
+      margin: 1.8em auto 0;
+      padding: 2.2em 1.5em;
+      background: #fbf7ff;
+      border: 2px dashed #d2b4f2;
+      border-radius: 22px;
+    }
+
+    .empty-stars {
+      color: #e6a23c;
+      font-size: 2rem;
+      letter-spacing: .12em;
+      margin-bottom: .3em;
+    }
+
+    .empty-reviews p {
+      margin: .3em auto;
+      line-height: 1.7;
+    }
+
+    .leave-review {
+      background: linear-gradient(110deg, #fff0f5, #eef9ff);
+      padding: 3.5em 1.5em;
+      text-align: center;
+    }
+
+    .leave-review-inner { max-width: 760px; margin: 0 auto; }
+
+    .leave-review h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 2rem;
+      margin: 0 0 .4em;
+    }
+
+    .leave-review p {
+      line-height: 1.7;
+      margin: 0 auto 1.5em;
+      max-width: 650px;
+    }
+
+    .review-button {
+      display: inline-block;
+      background: var(--viola);
+      color: white;
+      text-decoration: none;
+      border: 0;
+      border-radius: 12px;
+      padding: .9em 1.8em;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+      transition: transform .2s ease, filter .2s ease;
+    }
+
+    .review-button:hover { transform: translateY(-3px); filter: brightness(.97); }
+
+    footer {
+      background: var(--scuro);
+      color: white;
+      text-align: center;
+      padding: 1.5em;
+    }
+
+    footer p { margin: 0; }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        height: auto;
+        padding: 1em;
+      }
+
+      .main-logo {
+        height: 80px;
+        position: relative;
+        top: 0;
+      }
+
+      .logo-link { width: auto; margin-bottom: 10px; }
+
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+      }
+
+      nav a { margin: 0 0.5em; font-size: 0.9em; }
+
+      .dropdown-content {
+        right: 50%;
+        transform: translateX(50%);
+      }
+
+      .reviews-hero { padding: 3.2em 1.2em; }
+      .reviews-section { padding: 2.8em 1.2em; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="#hero" class="logo-link">
+      <img src="FedePictures_logo.png" alt="FedePictures Logo" class="main-logo">
+    </a>
+
+    <nav>
+      <!-- Pulsante Shop: icona piccola + testo -->
+      <a href="shop/index.html" class="dropbtn shop-nav-link" id="shop-nav-link">
+        <img src="./iconshop.png" class="shop-nav-icon" alt="" aria-hidden="true" onerror="this.remove()">
+        <span>Shop</span>
+      </a>
+
+      <div class="dropdown">
+        <button class="dropbtn" onclick="toggleMenu()">
+          <span id="explore-label">Esplora ▼</span>
+        </button>
+
+        <div class="dropdown-content" id="menu">
+          <a href="ritratti.html" id="menu-ritratti">Ritratti</a>
+          <a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
+          <a href="murales.html" id="menu-wall">Disegni sui muri</a>
+          <a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
+          <a href="palline.html" id="menu-balls">Palline di Natale</a>
+          <a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+          <a href="recensioni.html" id="menu-reviews">Recensioni</a>
+          <a href="contatti.html" id="menu-contact">Contattami</a>
+        </div>
+      </div>
+
+      <button class="lang-switcher" onclick="toggleLang()">EN</button>
+    </nav>
+  </header>
+  <main>
+    <section class="reviews-hero">
+      <h1 id="reviews-title">Le vostre parole, la mia soddisfazione</h1>
+      <p id="reviews-intro">
+        Ogni creazione nasce con cura e passione. Qui potrai leggere le esperienze
+        di chi ha scelto FedePictures e condividere la tua!
+      </p>
+    </section>
+
+    <section class="reviews-section">
+      <h2 id="reviews-list-title">Le recensioni</h2>
+      <p id="reviews-list-intro">Le vostre esperienze saranno raccolte qui.</p>
+
+      <div class="empty-reviews">
+        <div class="empty-stars" aria-hidden="true">★★★★★</div>
+        <p id="empty-title"><strong>La prima recensione potrebbe essere la tua!</strong></p>
+        <p id="empty-text">
+          Non ci sono ancora recensioni pubblicate. Se hai già avuto un'esperienza
+          con FedePictures, mi farebbe piacere conoscere la tua opinione.
+        </p>
+      </div>
+    </section>
+
+    <section class="leave-review">
+      <div class="leave-review-inner">
+        <h2 id="leave-title">Hai qualcosa da raccontare?</h2>
+        <p id="leave-text">
+          Lascia una recensione: bastano pochi minuti per condividere la tua
+          esperienza e aiutare altre persone a conoscere FedePictures.
+        </p>
+        <a class="review-button" id="review-form-button" href="#" target="_blank" rel="noopener">
+          <span id="leave-button-text">Lascia una recensione</span>
+        </a>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2026 FedePictures • P. IVA 04962510618.</p>
+  </footer>
+  <script>
+    // Quando avrai creato il Google Form, incolla qui il suo link pubblico.
+    const GOOGLE_FORM_URL = "";
+
+    const translations = {
+      it: {
+        "explore-label": "Esplora ▼",
+        "menu-ritratti": "Ritratti",
+        "menu-digital": "Disegni al PC",
+        "menu-wall": "Disegni sui muri",
+        "menu-bookmarks": "Segnalibri",
+        "menu-balls": "Palline di Natale",
+        "menu-shirts": "Magliette e accessori",
+        "menu-reviews": "Recensioni",
+        "menu-contact": "Contattami",
+        "reviews-title": "Le vostre parole, la mia soddisfazione",
+        "reviews-intro": "Ogni creazione nasce con cura e passione. Qui potrai leggere le esperienze di chi ha scelto FedePictures e condividere la tua!",
+        "reviews-list-title": "Le recensioni",
+        "reviews-list-intro": "Le vostre esperienze saranno raccolte qui.",
+        "empty-title": "La prima recensione potrebbe essere la tua!",
+        "empty-text": "Non ci sono ancora recensioni pubblicate. Se hai già avuto un'esperienza con FedePictures, mi farebbe piacere conoscere la tua opinione.",
+        "leave-title": "Hai qualcosa da raccontare?",
+        "leave-text": "Lascia una recensione: bastano pochi minuti per condividere la tua esperienza e aiutare altre persone a conoscere FedePictures.",
+        "leave-button-text": "Lascia una recensione"
+      },
+      en: {
+        "explore-label": "Explore ▼",
+        "menu-ritratti": "Portraits",
+        "menu-digital": "Digital Drawings",
+        "menu-wall": "Wall Art",
+        "menu-bookmarks": "Bookmarks",
+        "menu-balls": "Christmas Ornaments",
+        "menu-shirts": "T-shirts and Accessories",
+        "menu-reviews": "Reviews",
+        "menu-contact": "Contact Me",
+        "reviews-title": "Your words, my greatest satisfaction",
+        "reviews-intro": "Every creation is made with care and passion. Here you can read the experiences of people who chose FedePictures and share yours!",
+        "reviews-list-title": "Reviews",
+        "reviews-list-intro": "Your experiences will be collected here.",
+        "empty-title": "Your review could be the first!",
+        "empty-text": "There are no published reviews yet. If you have already had an experience with FedePictures, I would love to hear your thoughts.",
+        "leave-title": "Do you have something to share?",
+        "leave-text": "Leave a review: it only takes a few minutes to share your experience and help others discover FedePictures.",
+        "leave-button-text": "Leave a review"
+      }
+    };
+
+    let currentLang = localStorage.getItem("language") || "it";
+
+    function applyLanguage() {
+      const texts = translations[currentLang] || translations.it;
+      for (const id in texts) {
+        const element = document.getElementById(id);
+        if (element) element.innerText = texts[id];
+      }
+      document.querySelector(".lang-switcher").innerText = currentLang === "it" ? "EN" : "IT";
+      document.documentElement.lang = currentLang;
+    }
+
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("show");
+    }
+
+    document.addEventListener("click", function(event) {
+      if (!event.target.closest(".dropdown")) {
+        document.getElementById("menu").classList.remove("show");
+      }
+    });
+
+    function toggleLang() {
+      currentLang = currentLang === "it" ? "en" : "it";
+      localStorage.setItem("language", currentLang);
+      applyLanguage();
+    }
+
+    document.getElementById("review-form-button").addEventListener("click", function(event) {
+      if (!GOOGLE_FORM_URL || !/^https:\/\/docs\.google\.com\/forms\//.test(GOOGLE_FORM_URL)) {
+        event.preventDefault();
+        alert(currentLang === "it"
+          ? "Il modulo per le recensioni sarà disponibile a breve. Stiamo preparando Google Forms!"
+          : "The review form will be available soon. We are setting up Google Forms!");
+        return;
+      }
+      this.href = GOOGLE_FORM_URL;
+    });
+
+    applyLanguage();
+  </script>
+</body>
+</html>
