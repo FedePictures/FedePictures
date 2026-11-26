@@ -694,26 +694,20 @@
       error.hidden = true;
 
       /*
-       * Indici basati sulle colonne effettive del foglio Form_Responses:
-       * A = timestamp (0)
-       * B = nome (1)
-       * C = stelle (2)
-       * D = testo recensione (3)
-       * E = link foto (4)
-       * F = stato pubblicazione (5)
+       * Il CSV proviene dal foglio "Recensioni pubblicate", che mostra
+       * soltanto le recensioni approvate e contiene queste 4 colonne:
+       * A = nome (0), B = stelle (1), C = testo recensione (2), D = link foto (3).
+       * Lo stato non va filtrato qui perché è già gestito dalla QUERY nel foglio.
        */
-      const NAME_INDEX = 1;
-      const RATING_INDEX = 2;
-      const REVIEW_INDEX = 3;
-      const PHOTO_INDEX = 4;
-      const STATUS_INDEX = 5;
+      const NAME_INDEX = 0;
+      const RATING_INDEX = 1;
+      const REVIEW_INDEX = 2;
+      const PHOTO_INDEX = 3;
 
       const reviews = rows.slice(1).filter(row => {
-        const status = String(row[STATUS_INDEX] || "").trim().toLowerCase();
-        const approved = status.includes("approvat") || status.includes("approved");
         const hasContent = String(row[NAME_INDEX] || "").trim() !== "" ||
           String(row[REVIEW_INDEX] || "").trim() !== "";
-        return approved && hasContent;
+        return hasContent;
       });
 
       allReviewItems = reviews.map(row => {
