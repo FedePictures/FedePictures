@@ -353,7 +353,7 @@
   </footer>
   <script>
     // Quando avrai creato il Google Form, incolla qui il suo link pubblico.
-    const GOOGLE_FORM_URL = "";
+    const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeuSeSvFahR1vTv4C3JF8yWmt-zxTpUiOmI_8Rk__Ox7cmwMg/viewform?usp=publish-editor";
 
     const translations = {
       it: {
@@ -425,6 +425,8 @@
       localStorage.setItem("language", currentLang);
       applyLanguage();
     }
+
+    if (GOOGLE_FORM_URL) document.getElementById("review-form-button").href = GOOGLE_FORM_URL;
 
     document.getElementById("review-form-button").addEventListener("click", function(event) {
       if (!GOOGLE_FORM_URL || !/^https:\/\/docs\.google\.com\/forms\//.test(GOOGLE_FORM_URL)) {
