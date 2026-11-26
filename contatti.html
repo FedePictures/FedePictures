@@ -367,12 +367,14 @@
       </button>
 
       <div class="dropdown-content" id="menu">
+        <a href="shop/index.html" id="menu-shop">Disegno shop</a>
         <a href="ritratti.html" id="menu-ritratti">Ritratti</a>
         <a href="disegni-digitali.html" id="menu-digital">Disegni al PC</a>
         <a href="murales.html" id="menu-wall">Disegni sui muri</a>
         <a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
         <a href="palline.html" id="menu-balls">Palline di Natale</a>
         <a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+        <a href="recensioni.html" id="menu-reviews">Recensioni</a>
         <a href="contatti.html" id="menu-contact">Contattami</a>
       </div>
     </div>
@@ -484,6 +486,8 @@
       menuBookmarks: "Segnalibri",
       menuBalls: "Palline di Natale",
       menuShirts: "Magliette e accessori",
+      menuShop: "Disegno shop",
+      menuReviews: "Recensioni",
       menuContact: "Contattami"
     },
     en: {
@@ -505,6 +509,8 @@
       menuBookmarks: "Bookmarks",
       menuBalls: "Christmas Ornaments",
       menuShirts: "T-shirts & Accessories",
+      menuShop: "Shop",
+      menuReviews: "Reviews",
       menuContact: "Contact Me"
     }
   };
@@ -534,6 +540,8 @@
     document.getElementById("menu-bookmarks").innerText = t.menuBookmarks;
     document.getElementById("menu-balls").innerText = t.menuBalls;
     document.getElementById("menu-shirts").innerText = t.menuShirts;
+    document.getElementById("menu-shop").innerText = t.menuShop;
+    document.getElementById("menu-reviews").innerText = t.menuReviews;
     document.getElementById("menu-contact").innerText = t.menuContact;
   }
 
