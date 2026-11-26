@@ -96,6 +96,44 @@ h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
   background: white;
 }
 
+/* Menu Esplora a tendina */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 100;
+  min-width: 220px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 20px #0002;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 11px 15px;
+  color: #68427f;
+  background: #fff;
+  text-decoration: none;
+  font-size: .88rem;
+  font-weight: 600;
+}
+
+.dropdown-content a:hover,
+.dropdown-content a:focus-visible {
+  background: #f5f0fa;
+  outline: none;
+}
+
 main {
   max-width: 1150px;
   margin: 0 auto;
@@ -706,9 +744,22 @@ footer {
       onerror="this.onerror=null;this.src='FedePictures%20logo.png';">
   </a>
   <nav class="header-actions" aria-label="Navigazione">
-    <a class="header-button" href="carrello.html">CARRELLO <span class="cart-count" id="header-count">0</span></a>
     <a class="header-button" href="shop/index.html">SHOP</a>
-    <a class="header-button" href="index.html#esplora">ESPLORA</a>
+    <div class="dropdown">
+      <button class="header-button" id="explore-button" type="button"
+        aria-expanded="false" aria-controls="explore-menu">ESPLORA ▼</button>
+      <div class="dropdown-content" id="explore-menu">
+        <a href="index.html">Home</a>
+        <a href="ritratti.html">Ritratti</a>
+        <a href="disegni-digitali.html">Disegni al PC</a>
+        <a href="murales.html">Disegni sui muri</a>
+        <a href="segnalibri.html">Segnalibri</a>
+        <a href="palline.html">Palline di Natale</a>
+        <a href="magliette.html">Magliette e accessori</a>
+        <a href="recensioni.html">Recensioni</a>
+        <a href="contatti.html">Contattami</a>
+      </div>
+    </div>
   </nav>
 </header>
 
@@ -1058,7 +1109,10 @@ footer {
   }
 
   function updateHeader() {
-    $("header-count").textContent = readCart().reduce(
+    const counter = $("header-count");
+    if (!counter) return;
+
+    counter.textContent = readCart().reduce(
       (total, item) => total + (Number(item.quantity) || 0),
       0
     );
@@ -1868,6 +1922,40 @@ footer {
       }
     });
   });
+
+  // Apertura/chiusura del menu Esplora.
+  const exploreButton = $("explore-button");
+  const exploreMenu = $("explore-menu");
+
+  if (exploreButton && exploreMenu) {
+    exploreButton.addEventListener("click", event => {
+      event.stopPropagation();
+      const isOpen = exploreMenu.classList.toggle("show");
+      exploreButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+
+    exploreMenu.addEventListener("click", event => {
+      if (event.target.closest("a")) {
+        exploreMenu.classList.remove("show");
+        exploreButton.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("click", event => {
+      if (!event.target.closest(".dropdown")) {
+        exploreMenu.classList.remove("show");
+        exploreButton.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        exploreMenu.classList.remove("show");
+        exploreButton.setAttribute("aria-expanded", "false");
+        exploreButton.focus();
+      }
+    });
+  }
 
   renderCart();
 })();
