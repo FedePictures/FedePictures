@@ -62,7 +62,7 @@
     nav {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
     }
 
     nav a {
@@ -88,13 +88,25 @@
       background: #be9ae6;
     }
 
-    /* Pulsante Shop: stesso stile della Home */
+    /* Pulsante Shop: stessa icona + scritta della Home */
     .shop-nav-link {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
       margin: 0 !important;
       text-decoration: none;
       line-height: normal;
       white-space: nowrap;
+    }
+
+    .shop-nav-icon {
+      display: block;
+      width: 27px;
+      height: 25px;
+      flex: 0 0 auto;
+      object-fit: contain;
+      background: transparent;
     }
 
     .shop-nav-link:hover {
@@ -316,10 +328,11 @@
 
     <nav aria-label="Navigazione principale">
 
-      <!-- Pulsante Shop: stesso stile della Home -->
-      <a href="shop/index.html"
-         class="dropbtn shop-nav-link"
-         id="shop-nav-link">Shop</a>
+      <!-- Pulsante Shop: icona piccola + testo, come nella Home -->
+      <a href="shop/index.html" class="dropbtn shop-nav-link" id="shop-nav-link">
+        <img src="./iconshop.png" class="shop-nav-icon" alt="" aria-hidden="true" onerror="this.remove()">
+        <span>Shop</span>
+      </a>
 
       <div class="dropdown">
         <button class="dropbtn" type="button" onclick="toggleMenu()">
@@ -333,6 +346,8 @@
           <a href="segnalibri.html" id="menu-bookmarks">Segnalibri</a>
           <a href="palline.html" id="menu-balls">Palline di Natale</a>
           <a href="magliette.html" id="menu-shirts">Magliette e accessori</a>
+          <a href="shop/index.html" id="menu-drawing-shop">Disegno shop</a>
+          <a href="recensioni.html" id="menu-reviews">Recensioni</a>
           <a href="contatti.html" id="menu-contact">Contattami</a>
         </div>
       </div>
@@ -474,6 +489,8 @@
         menuBookmarks: "Segnalibri",
         menuBalls: "Palline di Natale",
         menuShirts: "Magliette e accessori",
+        menuDrawingShop: "Disegno shop",
+        menuReviews: "Recensioni",
         menuContact: "Contattami"
       },
 
@@ -489,6 +506,8 @@
         menuBookmarks: "Bookmarks",
         menuBalls: "Christmas Ornaments",
         menuShirts: "T-shirts and Accessories",
+        menuDrawingShop: "Art Shop",
+        menuReviews: "Reviews",
         menuContact: "Contact Me"
       }
     };
@@ -529,6 +548,12 @@
 
       document.getElementById("menu-shirts").innerText =
         translations[currentLang].menuShirts;
+
+      document.getElementById("menu-drawing-shop").innerText =
+        translations[currentLang].menuDrawingShop;
+
+      document.getElementById("menu-reviews").innerText =
+        translations[currentLang].menuReviews;
 
       document.getElementById("menu-contact").innerText =
         translations[currentLang].menuContact;
