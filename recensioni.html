@@ -198,6 +198,34 @@
     }
 
 
+    .reviews-filter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: .7em;
+      margin: 1.6em auto 0;
+    }
+
+    .reviews-filter label { font-weight: bold; }
+
+    .reviews-filter select {
+      font: inherit;
+      color: var(--scuro);
+      background: white;
+      border: 1px solid #d2b4f2;
+      border-radius: 10px;
+      padding: .65em 1em;
+      cursor: pointer;
+      min-width: 190px;
+    }
+
+    .reviews-filter-count {
+      color: #666;
+      font-size: .92rem;
+      margin: .7em 0 0;
+    }
+
     .reviews-list {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -431,9 +459,19 @@
 
     <section class="reviews-section">
       <h2 id="reviews-list-title">Le recensioni</h2>
-      <p id="reviews-list-intro">Le vostre esperienze saranno raccolte qui.</p>
-
-      <p class="reviews-loading" id="reviews-loading">Sto caricando le recensioni...</p>
+<p class="reviews-loading" id="reviews-loading">Sto caricando le recensioni...</p>
+      <div class="reviews-filter" id="reviews-filter" hidden>
+        <label for="star-filter" id="star-filter-label">Filtra per stelle:</label>
+        <select id="star-filter">
+          <option value="0">Tutte le recensioni</option>
+          <option value="5">★★★★★ – 5 stelle</option>
+          <option value="4">★★★★ – 4 stelle</option>
+          <option value="3">★★★ – 3 stelle</option>
+          <option value="2">★★ – 2 stelle</option>
+          <option value="1">★ – 1 stella</option>
+        </select>
+      </div>
+      <p class="reviews-filter-count" id="reviews-filter-count" hidden></p>
       <div class="reviews-list" id="reviews-list" aria-live="polite"></div>
       <div class="empty-reviews" id="empty-review-state" hidden>
         <div class="empty-stars" aria-hidden="true">★★★★★</div>
@@ -486,7 +524,6 @@
         "reviews-title": "Le vostre parole, la mia soddisfazione",
         "reviews-intro": "Ogni creazione nasce con cura e passione. Qui potrai leggere le esperienze di chi ha scelto FedePictures e condividere la tua!",
         "reviews-list-title": "Le recensioni",
-        "reviews-list-intro": "Le vostre esperienze saranno raccolte qui.",
         "empty-title": "La prima recensione potrebbe essere la tua!",
         "empty-text": "Non ci sono ancora recensioni pubblicate. Se hai già avuto un'esperienza con FedePictures, mi farebbe piacere conoscere la tua opinione.",
         "leave-title": "Hai qualcosa da raccontare?",
@@ -506,7 +543,6 @@
         "reviews-title": "Your words, my greatest satisfaction",
         "reviews-intro": "Every creation is made with care and passion. Here you can read the experiences of people who chose FedePictures and share yours!",
         "reviews-list-title": "Reviews",
-        "reviews-list-intro": "Your experiences will be collected here.",
         "empty-title": "Your review could be the first!",
         "empty-text": "There are no published reviews yet. If you have already had an experience with FedePictures, I would love to hear your thoughts.",
         "leave-title": "Do you have something to share?",
@@ -595,13 +631,12 @@
       if (event.key === "Escape") closePhotoLightbox();
     });
 
-    function renderReviews(rows) {
-      const list = document.getElementById("reviews-list");
-      const loading = document.getElementById("reviews-loading");
-      const empty = document.getElementById("empty-review-state");
-      const error = document.getElementById("reviews-error");
+    let allReviewItems = [];
+    let activeStarFilter = 0;
 
-      list.replaceChildren();
+    function renderReviews(rows) {
+      const loading = document.getElementById("reviews-loading");
+      const error = document.getElementById("reviews-error");
       loading.hidden = true;
       error.hidden = true;
 
@@ -610,20 +645,60 @@
       let photoIndex = headers.findIndex(header =>
         /foto|immagin|file\s*upload|carica/i.test(String(header || ""))
       );
-      if (photoIndex < 0) photoIndex = 3; // Quarta colonna: eventuale foto caricata nel modulo.
+      if (photoIndex < 0) photoIndex = 3;
 
       const reviews = rows.slice(1).filter(row =>
         row.length >= 3 && row.slice(0, 3).some(cell => cell.trim() !== "")
       );
 
-      if (reviews.length === 0) {
+      allReviewItems = reviews.map(row => {
+        const ratingText = row[1] || "";
+        const ratingMatch = ratingText.match(/[1-5]/);
+        const rating = ratingMatch ? Math.max(1, Math.min(5, Number(ratingMatch[0]))) : 5;
+        return { row, rating, photoIndex };
+      });
+
+      if (allReviewItems.length === 0) {
+        document.getElementById("reviews-filter").hidden = true;
+        document.getElementById("reviews-filter-count").hidden = true;
+        document.getElementById("empty-review-state").hidden = false;
+        document.getElementById("reviews-list").replaceChildren();
+        return;
+      }
+
+      document.getElementById("empty-review-state").hidden = true;
+      document.getElementById("reviews-filter").hidden = false;
+      drawFilteredReviews();
+    }
+
+    function drawFilteredReviews() {
+      const list = document.getElementById("reviews-list");
+      const empty = document.getElementById("empty-review-state");
+      const count = document.getElementById("reviews-filter-count");
+      const visibleReviews = activeStarFilter === 0
+        ? allReviewItems
+        : allReviewItems.filter(item => item.rating === activeStarFilter);
+
+      list.replaceChildren();
+      count.hidden = false;
+      count.textContent = currentLang === "it"
+        ? `Mostrate ${visibleReviews.length} di ${allReviewItems.length} recensioni`
+        : `Showing ${visibleReviews.length} of ${allReviewItems.length} reviews`;
+
+      if (visibleReviews.length === 0) {
         empty.hidden = false;
+        document.getElementById("empty-title").innerText = currentLang === "it"
+          ? "Nessuna recensione con questa valutazione"
+          : "No reviews with this rating";
+        document.getElementById("empty-text").innerText = currentLang === "it"
+          ? "Prova a selezionare un numero di stelle diverso."
+          : "Try selecting a different star rating.";
         return;
       }
 
       empty.hidden = true;
-
-      reviews.forEach(row => {
+      visibleReviews.forEach(item => {
+        const row = item.row;
         const [name, ratingText, reviewText] = row;
         const card = document.createElement("article");
         card.className = "review-card";
@@ -631,10 +706,7 @@
         const stars = document.createElement("div");
         stars.className = "review-card-stars";
         stars.setAttribute("aria-label", currentLang === "it" ? "Valutazione" : "Rating");
-
-        const ratingMatch = (ratingText || "").match(/[1-5]/);
-        const rating = ratingMatch ? Math.max(1, Math.min(5, Number(ratingMatch[0]))) : 5;
-        stars.textContent = "★".repeat(rating) + "☆".repeat(5 - rating);
+        stars.textContent = "★".repeat(item.rating) + "☆".repeat(5 - item.rating);
 
         const customer = document.createElement("h3");
         customer.className = "review-card-name";
@@ -643,10 +715,9 @@
         const comment = document.createElement("p");
         comment.className = "review-card-text";
         comment.textContent = (reviewText || "").trim();
-
         card.append(stars, customer, comment);
 
-        const photoCell = row[photoIndex] || "";
+        const photoCell = row[item.photoIndex] || "";
         const photoUrl = getReviewPhotoUrl(photoCell);
         if (photoUrl) {
           const photoButton = document.createElement("button");
@@ -655,26 +726,24 @@
           photoButton.setAttribute("aria-label", currentLang === "it"
             ? "Ingrandisci la foto della recensione"
             : "Enlarge review photo");
-
           const photo = document.createElement("img");
           photo.className = "review-photo-thumb";
           photo.src = photoUrl;
           photo.alt = currentLang === "it" ? "Foto caricata con la recensione" : "Photo uploaded with the review";
           photo.loading = "lazy";
-          photo.onerror = function() {
-            photoButton.remove();
-          };
-
-          photoButton.addEventListener("click", () =>
-            openPhotoLightbox(photoUrl, photo.alt)
-          );
+          photo.onerror = function() { photoButton.remove(); };
+          photoButton.addEventListener("click", () => openPhotoLightbox(photoUrl, photo.alt));
           photoButton.appendChild(photo);
           card.appendChild(photoButton);
         }
-
         list.appendChild(card);
       });
     }
+
+    document.getElementById("star-filter").addEventListener("change", function() {
+      activeStarFilter = Number(this.value) || 0;
+      drawFilteredReviews();
+    });
 
     async function loadReviews() {
       const loading = document.getElementById("reviews-loading");
@@ -705,6 +774,15 @@
       }
       document.querySelector(".lang-switcher").innerText = currentLang === "it" ? "EN" : "IT";
       document.documentElement.lang = currentLang;
+      document.getElementById("star-filter-label").innerText = currentLang === "it" ? "Filtra per stelle:" : "Filter by stars:";
+      const starOptions = document.querySelectorAll("#star-filter option");
+      starOptions[0].textContent = currentLang === "it" ? "Tutte le recensioni" : "All reviews";
+      starOptions[1].textContent = currentLang === "it" ? "★★★★★ – 5 stelle" : "★★★★★ – 5 stars";
+      starOptions[2].textContent = currentLang === "it" ? "★★★★ – 4 stelle" : "★★★★ – 4 stars";
+      starOptions[3].textContent = currentLang === "it" ? "★★★ – 3 stelle" : "★★★ – 3 stars";
+      starOptions[4].textContent = currentLang === "it" ? "★★ – 2 stelle" : "★★ – 2 stars";
+      starOptions[5].textContent = currentLang === "it" ? "★ – 1 stella" : "★ – 1 star";
+      if (allReviewItems.length) drawFilteredReviews();
     }
 
     function toggleMenu() {
