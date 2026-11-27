@@ -96,44 +96,6 @@ h1, h2, h3 { font-family: 'Baloo 2', sans-serif; }
   background: white;
 }
 
-/* Menu Esplora a tendina */
-.dropdown {
-  position: relative;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  right: 0;
-  z-index: 100;
-  min-width: 220px;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 5px 20px #0002;
-}
-
-.dropdown-content.show {
-  display: block;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 11px 15px;
-  color: #68427f;
-  background: #fff;
-  text-decoration: none;
-  font-size: .88rem;
-  font-weight: 600;
-}
-
-.dropdown-content a:hover,
-.dropdown-content a:focus-visible {
-  background: #f5f0fa;
-  outline: none;
-}
-
 main {
   max-width: 1150px;
   margin: 0 auto;
@@ -744,22 +706,9 @@ footer {
       onerror="this.onerror=null;this.src='FedePictures%20logo.png';">
   </a>
   <nav class="header-actions" aria-label="Navigazione">
+    <a class="header-button" href="carrello.html">CARRELLO <span class="cart-count" id="header-count">0</span></a>
     <a class="header-button" href="shop/index.html">SHOP</a>
-    <div class="dropdown">
-      <button class="header-button" id="explore-button" type="button"
-        aria-expanded="false" aria-controls="explore-menu">ESPLORA ▼</button>
-      <div class="dropdown-content" id="explore-menu">
-        <a href="index.html">Home</a>
-        <a href="ritratti.html">Ritratti</a>
-        <a href="disegni-digitali.html">Disegni al PC</a>
-        <a href="murales.html">Disegni sui muri</a>
-        <a href="segnalibri.html">Segnalibri</a>
-        <a href="palline.html">Palline di Natale</a>
-        <a href="magliette.html">Magliette e accessori</a>
-        <a href="recensioni.html">Recensioni</a>
-        <a href="contatti.html">Contattami</a>
-      </div>
-    </div>
+    <a class="header-button" href="index.html#esplora">ESPLORA</a>
   </nav>
 </header>
 
@@ -847,7 +796,7 @@ footer {
             <input type="radio" name="payment-method" value="card">
             <span>
               <strong>Paga con carta</strong>
-              <span class="choice-note">Paga in modo sicuro con carta tramite Stripe.</span>
+              <span class="choice-note">Paga con carta tramite PayPal, anche senza account quando l’opzione è disponibile.</span>
             </span>
           </label>
 
@@ -1109,10 +1058,7 @@ footer {
   }
 
   function updateHeader() {
-    const counter = $("header-count");
-    if (!counter) return;
-
-    counter.textContent = readCart().reduce(
+    $("header-count").textContent = readCart().reduce(
       (total, item) => total + (Number(item.quantity) || 0),
       0
     );
@@ -1769,16 +1715,7 @@ footer {
 
       const result = await postJson("/api/orders", payload);
 
-      if (method === "card") {
-        if (!result.checkoutUrl || !result.sessionId) {
-          throw new Error("Stripe non ha restituito il collegamento al pagamento.");
-        }
-        sessionStorage.setItem("fedepictures_pending_stripe_session", result.sessionId);
-        sessionStorage.setItem("fedepictures_pending_stripe_number", result.orderNumber || "");
-        window.location.assign(result.checkoutUrl);
-        return;
-      }
-
+      // PayPal gestisce sia il pagamento PayPal sia quello con carta.
       if (!result.approvalUrl || !result.id) {
         throw new Error("PayPal non ha restituito il collegamento al pagamento.");
       }
@@ -1864,7 +1801,7 @@ footer {
 
       } else if (method === "card") {
         $("payment-details").innerHTML =
-          "<strong>Pagamento con carta</strong><p>Premendo Continua si aprirà Stripe, dove potrai inserire i dati della carta in una pagina sicura.</p>";
+          "<strong>Pagamento con carta tramite PayPal</strong><p>Premendo Continua si aprirà la pagina sicura PayPal. Potrai pagare con carta, anche senza accedere a un account PayPal se l'opzione è disponibile.</p>";
 
       } else {
         $("payment-details").innerHTML =
@@ -1911,7 +1848,7 @@ footer {
 
       } else if (input.value === "card") {
         $("payment-details").innerHTML =
-          "<strong>Paga con carta</strong><p>Il pagamento sarà gestito da Stripe tramite una pagina sicura.</p>";
+          "<strong>Paga con carta</strong><p>Il pagamento sarà gestito tramite PayPal in una pagina sicura. Il pagamento senza account dipende dalla disponibilità dell'opzione PayPal.</p>";
 
       } else {
         $("payment-details").innerHTML =
@@ -1922,40 +1859,6 @@ footer {
       }
     });
   });
-
-  // Apertura/chiusura del menu Esplora.
-  const exploreButton = $("explore-button");
-  const exploreMenu = $("explore-menu");
-
-  if (exploreButton && exploreMenu) {
-    exploreButton.addEventListener("click", event => {
-      event.stopPropagation();
-      const isOpen = exploreMenu.classList.toggle("show");
-      exploreButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    });
-
-    exploreMenu.addEventListener("click", event => {
-      if (event.target.closest("a")) {
-        exploreMenu.classList.remove("show");
-        exploreButton.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    document.addEventListener("click", event => {
-      if (!event.target.closest(".dropdown")) {
-        exploreMenu.classList.remove("show");
-        exploreButton.setAttribute("aria-expanded", "false");
-      }
-    });
-
-    document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        exploreMenu.classList.remove("show");
-        exploreButton.setAttribute("aria-expanded", "false");
-        exploreButton.focus();
-      }
-    });
-  }
 
   renderCart();
 })();
