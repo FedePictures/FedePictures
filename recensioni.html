@@ -266,9 +266,20 @@
       white-space: pre-wrap;
     }
 
-    .review-photo-button {
-      display: inline-block;
+    .review-photos {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 12px;
       margin-top: 1em;
+      width: 100%;
+    }
+
+    .review-photo-button {
+      display: block;
+      flex: 0 0 112px;
+      width: 112px;
+      margin: 0;
       padding: 0;
       border: 0;
       border-radius: 12px;
@@ -411,6 +422,11 @@
 
       .reviews-hero { padding: 3.2em 1.2em; }
       .reviews-section { padding: 2.8em 1.2em; }
+      .reviews-list { grid-template-columns: minmax(0, 1fr); }
+      .review-card { min-width: 0; }
+      .review-photos { gap: 10px; }
+      .review-photo-button { flex-basis: 96px; width: 96px; }
+      .review-photo-thumb { width: 96px; height: 96px; }
     }
   </style>
 </head>
@@ -640,9 +656,9 @@
 
         if (id) {
           return {
-            thumb: "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w600",
+            thumb: "https://lh3.googleusercontent.com/d/" + encodeURIComponent(id) + "=w600",
             full: "https://drive.google.com/uc?export=view&id=" + encodeURIComponent(id),
-            fallback: "https://lh3.googleusercontent.com/d/" + encodeURIComponent(id)
+            fallback: "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w600"
           };
         }
 
@@ -799,7 +815,10 @@
         card.append(stars, customer, comment);
 
         const photoInfos = getReviewPhotoInfos(item.photoValue);
-        photoInfos.forEach((photoInfo, photoIndex) => {
+        if (photoInfos.length) {
+          const photosContainer = document.createElement("div");
+          photosContainer.className = "review-photos";
+          photoInfos.forEach((photoInfo, photoIndex) => {
           const photoButton = document.createElement("button");
           photoButton.type = "button";
           photoButton.className = "review-photo-button";
@@ -813,7 +832,11 @@
           photo.alt = currentLang === "it"
             ? `Foto ${photoIndex + 1} caricata con la recensione`
             : `Photo ${photoIndex + 1} uploaded with the review`;
-          photo.loading = "lazy";
+          // Caricamento immediato: alcuni browser mobile gestiscono male
+          // le immagini lazy inserite dinamicamente nel DOM.
+          photo.loading = "eager";
+          photo.decoding = "async";
+          photo.referrerPolicy = "no-referrer";
           photo.onerror = function() {
             if (photoInfo.fallback && photo.src !== photoInfo.fallback) {
               photo.onerror = null;
@@ -827,8 +850,10 @@
             openPhotoLightbox(photoInfo.full, photo.alt, photoInfo.fallback)
           );
           photoButton.appendChild(photo);
-          card.appendChild(photoButton);
-        });
+          photosContainer.appendChild(photoButton);
+          });
+          card.appendChild(photosContainer);
+        }
         list.appendChild(card);
       });
     }
